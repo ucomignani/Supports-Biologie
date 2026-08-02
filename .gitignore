@@ -216,3 +216,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+/.vs/ProjectSettings.json
+/.vs/PythonSettings.json
+/.vs/slnx.sqlite
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/CodeChunks.db
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/CodeChunks.db-shm
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/CodeChunks.db-wal
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/SemanticSymbols.db
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/SemanticSymbols.db-shm
+/.vs/Supports-Biologie/CopilotIndices/18.8.1096.64007/SemanticSymbols.db-wal
+/.vs/Supports-Biologie.slnx/FileContentIndex/082fb158-1e87-4f5a-9124-800ee39f53cb.vsidx
+/.vs/Supports-Biologie.slnx/FileContentIndex/3725e008-f350-4df4-bf87-90489907ae94.vsidx
+/.vs/Supports-Biologie.slnx/FileContentIndex/4d2032b6-f920-4098-9c7c-b2582a926ba2.vsidx
+/.vs/Supports-Biologie.slnx/FileContentIndex/a29d68b7-5c9d-4104-b4bd-001ed7a11cdc.vsidx
+/.vs/Supports-Biologie.slnx/FileContentIndex/caff0b4f-c4fe-4833-84bb-825148a60478.vsidx
+/.vs/Supports-Biologie.slnx/FileContentIndex/da29d740-2382-423f-9bb4-65f842c0c706.vsidx
+/.vs/Supports-Biologie.slnx/v18/.wsuo
+/.vs/Supports-Biologie.slnx/v18/DocumentLayout.backup.json
+/.vs/Supports-Biologie.slnx/v18/DocumentLayout.json
+/.vs/VSWorkspaceState.json
