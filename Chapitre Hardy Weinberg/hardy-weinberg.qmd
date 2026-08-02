@@ -4,6 +4,7 @@ subtitle: "Des frequences alleliques aux frequences genotypiques, et le test de 
 lang: fr
 date: today
 format:
+  # pdf: default
   html:
     toc: true
     toc-title: "Sommaire"

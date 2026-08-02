@@ -1,0 +1,195 @@
+---
+title: "Le metabarcoding, du prelevement a la table d'OTU"
+subtitle: "Chaine d'analyse pour l'evaluation de la biodiversite"
+author: ""
+date: today
+lang: fr
+format:
+  # pdf: default
+  # revealjs:
+  #   theme: simple
+  #   slide-number: true
+  #   progress: true
+  #   controls: true
+  #   transition: slide
+  #   width: 1200
+  #   height: 800
+  #   fig-align: center
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    code-link: true
+    theme: cosmo
+    fig-width: 8
+    fig-height: 4.5
+    df-print: kable
+execute:
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: "png"
+    fig.align: "center"
+---
+
+## De quoi parle-t-on
+
+Le **metabarcoding** identifie les organismes presents dans un milieu a partir de leur ADN, sans les observer ni les capturer.
+
+- On cible un **gene marqueur** (un code-barres genetique), court et present chez tous les taxons d'un groupe, mais variable d'une espece a l'autre.
+- On le sequence pour des milliers d'organismes a la fois, a partir d'un simple prelevement.
+
+::: {.callout-note}
+Le resultat final est une **table d'OTU** : le nombre de lectures de chaque unite taxonomique dans chaque echantillon. C'est le point de depart de l'analyse statistique.
+:::
+
+## Les genes marqueurs usuels
+
+Selon le groupe cible, on n'utilise pas le meme code-barres.
+
+| Groupe | Gene marqueur |
+|---|---|
+| Bacteries et archees | ARN ribosomique 16S |
+| Champignons | region ITS |
+| Eucaryotes (large) | ARN ribosomique 18S |
+| Animaux | COI (cytochrome oxydase I) |
+| Plantes | rbcL, matK, trnL |
+
+Le choix du marqueur fixe la resolution taxonomique et les taxons detectables.
+
+## La chaine d'analyse
+
+```{mermaid}
+flowchart TD
+  A["Prelevement<br/>(eau, sol, sediment)"] --> B["Extraction de l'ADN"]
+  B --> C["Amplification PCR<br/>du gene marqueur"]
+  C --> D["Sequencage<br/>haut debit"]
+  D --> E["Bioinformatique<br/>nettoyage, OTU / ASV"]
+  E --> F["Assignation<br/>taxonomique"]
+  F --> G["Table d'OTU"]
+  G --> H["Analyses de biodiversite<br/>richesse, diversite, rarefaction"]
+```
+
+## Etape 1 : le prelevement
+
+On collecte l'**ADN environnemental**, c'est-a-dire l'ADN libere dans le milieu par les organismes (cellules, mucus, dejections) ou contenu dans les organismes preleves.
+
+- Milieux courants : eau, sol, sediment, air, contenu digestif.
+- Non destructif : on peut detecter une espece sans jamais la voir.
+
+::: {.callout-warning}
+Biais possibles : un prelevement peu representatif, un ADN degrade, ou un melange d'ADN ancien et recent.
+:::
+
+## Etape 2 : l'extraction de l'ADN
+
+On isole l'ADN de l'echantillon, en le separant du reste de la matiere.
+
+- Etape chimique et mecanique (lyse des cellules, purification).
+
+::: {.callout-warning}
+Biais possible : le rendement d'extraction varie selon les taxons. Les organismes a paroi resistante (certaines bacteries, spores, champignons) liberent moins bien leur ADN, et sont sous-representes des le depart.
+:::
+
+## Etape 3 : l'amplification PCR
+
+On multiplie le gene marqueur en un grand nombre de copies, a l'aide d'**amorces** censees se fixer chez tous les taxons vises.
+
+- Sans cette etape, l'ADN cible serait trop rare pour etre sequence.
+
+::: {.callout-warning}
+Biais majeurs, a retenir :
+
+- **biais d'amorces** : les amorces se fixent inegalement selon les especes, dont certaines echappent a l'amplification ;
+- **biais de PCR** : certaines sequences s'amplifient plus vite que d'autres ;
+- formation de **chimeres** : des sequences hybrides artificielles.
+:::
+
+## Etape 4 : le sequencage
+
+Le sequenceur haut debit lit des millions de fragments, produisant les **lectures**.
+
+- Le nombre de lectures obtenues pour un echantillon est sa **profondeur de sequencage**.
+
+::: {.callout-warning}
+Deux consequences statistiques :
+
+- des **erreurs de sequencage** creent des variantes qui n'existent pas ;
+- la **profondeur varie** d'un echantillon a l'autre, pour des raisons purement techniques.
+:::
+
+## Etape 5 : la bioinformatique
+
+On transforme les lectures brutes en unites exploitables.
+
+- **Nettoyage** : elimination des lectures de mauvaise qualite.
+- **Debruitage ou regroupement** : les lectures quasi identiques deviennent une meme unite, l'OTU (regroupement par similarite) ou l'ASV (variant corrige des erreurs).
+- **Retrait des chimeres** et des artefacts.
+
+C'est ici que l'on tente de distinguer la vraie diversite des erreurs.
+
+## Etape 6 : l'assignation taxonomique
+
+Chaque OTU est compare a une **base de reference** de sequences connues, pour lui attribuer un nom.
+
+::: {.callout-warning}
+Biais possibles :
+
+- les bases de reference sont **incompletes** : beaucoup d'OTU restent non assignes ;
+- la resolution est parfois limitee au genre ou a la famille, pas a l'espece.
+:::
+
+## Etape 7 : la table d'OTU
+
+Le produit final : un tableau croisant les OTU et les echantillons, rempli de nombres de lectures.
+
+- C'est l'equivalent d'un releve par quadrats, especes contre stations.
+- Mais le total de chaque colonne, la profondeur, est technique et variable.
+
+::: {.callout-note}
+La suite, les analyses de biodiversite, fait l'objet du chapitre statistique dedie.
+:::
+
+## Ou entrent les biais
+
+| Etape | Biais principal | Effet |
+|---|---|---|
+| Extraction | rendement inegal | taxons a paroi sous-representes |
+| PCR | amorces, amplification | abondances faussees |
+| Sequencage | erreurs, profondeur | OTU parasites, effort variable |
+| Bioinformatique | seuils de regroupement | richesse sur- ou sous-estimee |
+| Assignation | bases incompletes | OTU non nommes |
+
+## Forces et limites
+
+**Forces**
+
+- detecte des taxons rares, cryptiques ou microscopiques ;
+- non destructif, rapide, tres large couverture taxonomique ;
+- fiable pour la **presence** des taxons, donc pour la richesse.
+
+**Limites**
+
+- l'**abondance** est peu fiable (biais d'amplification et de nombre de copies) ;
+- depend de la qualite des bases de reference ;
+- produit des donnees a profondeur variable et de nature compositionnelle.
+
+## Le relais vers la statistique
+
+La table d'OTU herite de deux proprietes qui commandent son analyse.
+
+- La **profondeur de sequencage** est un effort d'echantillonnage variable : il faut **rarefier** avant de comparer des richesses.
+- Les comptages sont **compositionnels** : on raisonne en rapports entre taxons, pas en proportions isolees.
+
+::: {.callout-note}
+Ces deux points sont traites, simulations a l'appui, dans le chapitre sur la statistique des donnees de metabarcoding.
+:::
+
+## A retenir
+
+- Le metabarcoding va du prelevement d'ADN environnemental a une table d'OTU, en passant par extraction, amplification, sequencage, bioinformatique et assignation.
+- Chaque etape introduit des biais : l'information de **presence** est robuste, l'information d'**abondance** ne l'est pas.
+- La table d'OTU est un tableau de comptages a profondeur variable et de nature compositionnelle, ce qui appelle raréfaction et raisonnement en rapports.

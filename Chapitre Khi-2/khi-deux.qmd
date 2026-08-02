@@ -4,6 +4,7 @@ subtitle: "Test de conformite, test d'independance, et degres de liberte"
 lang: fr
 date: today
 format:
+  # pdf: default
   html:
     toc: true
     toc-title: "Sommaire"

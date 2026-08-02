@@ -1,0 +1,188 @@
+---
+title: "La statistique des donnees de metabarcoding : profondeur, rarefaction et compositions"
+subtitle: "Evaluer la biodiversite a partir de lectures de sequencage"
+lang: fr
+date: today
+format:
+  # pdf: default
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    code-link: true
+    theme: cosmo
+    fig-width: 8
+    fig-height: 4.5
+    df-print: kable
+execute:
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: "png"
+    fig.align: "center"
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+theme_set(theme_minimal(base_size = 12))
+set.seed(2026)
+```
+
+::: {.callout-note}
+## Objectif du chapitre
+Le metabarcoding identifie les organismes presents dans un echantillon en sequençant leur ADN, sans les observer directement. Il produit un tableau de comptages tres proche de celui d'un releve par quadrats, mais avec des pieges statistiques qui lui sont propres. Ce chapitre montre pourquoi la profondeur de sequencage se comporte comme un effort d'echantillonnage variable, comment la raréfaction permet des comparaisons justes, et pourquoi les comptages de lectures, parce qu'ils sont des proportions, ne doivent pas etre analyses comme des abondances ordinaires.
+:::
+
+::: {.callout-tip}
+## Vocabulaire de depart
+- **Echantillon environnemental** : un prelevement (eau, sol, sediment) contenant l'ADN de nombreux organismes, appele ADN environnemental.
+- **Lecture** (read) : une sequence d'ADN produite par le sequenceur. Un echantillon en produit des milliers a des millions.
+- **OTU / ASV** : une unite regroupant les lectures quasi identiques, censee correspondre a une espece ou a un groupe d'especes. On parlera d'OTU par commodite.
+- **Profondeur de sequencage** : le nombre total de lectures obtenues pour un echantillon. Elle varie d'un echantillon a l'autre pour des raisons techniques.
+- **Table d'OTU** : le tableau croisant les OTU (lignes) et les echantillons (colonnes), dont les cases contiennent des nombres de lectures.
+- **Donnees compositionnelles** : des donnees dont le total est fixe, si bien que seules les proportions relatives ont un sens.
+- **Raréfaction** : sous-echantillonner les lectures pour ramener tous les echantillons a une meme profondeur.
+:::
+
+# La table d'OTU : le meme objet qu'un releve par quadrats
+
+Une analyse de metabarcoding aboutit a une table d'OTU : pour chaque echantillon, le nombre de lectures attribuees a chaque OTU. C'est, formellement, le meme objet que le tableau produit par un releve par quadrats, ou l'on comptait des individus par espece. On peut donc lui appliquer les memes mesures de biodiversite : richesse specifique, indices de diversite, courbes d'accumulation.
+
+Une difference change toutefois la donne. Dans un releve par quadrats, un comptage de 12 individus signifie douze organismes reels. Dans une table d'OTU, un comptage de 12 lectures ne mesure pas douze organismes : il depend du nombre total de lectures produites, qui est fixe par la machine et varie d'un echantillon a l'autre. Le total n'a pas de signification biologique. Cette particularite, la **profondeur de sequencage variable**, est a l'origine des deux difficultes principales du chapitre.
+
+# La profondeur de sequencage est un effort d'echantillonnage
+
+Plus on sequence profondement un echantillon, plus on detecte d'OTU, exactement comme on decouvre plus d'especes en posant plus de quadrats. La richesse observee depend donc de la profondeur, et sous-estime la richesse reelle tant que celle-ci n'est pas atteinte. C'est la meme dependance a l'effort que la courbe d'accumulation du chapitre sur les quadrats, mais l'effort se mesure ici en nombre de lectures.
+
+Simulons une communaute de 200 OTU aux abondances inegales, et observons la richesse detectee a differentes profondeurs.
+
+```{r}
+#| label: richesse-profondeur
+S     <- 200
+abond <- exp(rnorm(S, 0, 1.5)); abond <- abond / sum(abond)   # abondances relatives inegales
+
+richesse <- function(profondeur) {
+  lectures <- rmultinom(1, size = profondeur, prob = abond)[, 1]
+  sum(lectures > 0)
+}
+
+profondeurs <- c(200, 1000, 5000, 20000, 50000)
+tibble(`profondeur (lectures)` = profondeurs,
+       `OTU detectes` = sapply(profondeurs, function(d) round(mean(replicate(60, richesse(d))))))
+```
+
+La richesse detectee grimpe avec la profondeur et se rapproche lentement des 200 OTU reels. On peut tracer une **courbe de raréfaction** en sous-echantillonnant un echantillon profond a des profondeurs croissantes.
+
+```{r}
+#| label: courbe-rarefaction
+reads_profond <- rmultinom(1, size = 30000, prob = abond)[, 1]
+pool <- rep(seq_len(S), reads_profond)              # une lecture = un element du pool
+
+profs  <- seq(200, 30000, by = 600)
+courbe <- sapply(profs, function(d) length(unique(sample(pool, d))))
+```
+
+```{r}
+#| label: fig-rarefaction
+#| fig-cap: "Courbe de raréfaction : nombre d'OTU detectes en fonction du nombre de lectures retenues. La richesse observee reste sous la richesse reelle (ligne rouge) et sa pente indique si l'echantillon est suffisamment sequence."
+tibble(lectures = profs, otu = courbe) |>
+  ggplot(aes(lectures, otu)) +
+  geom_hline(yintercept = S, colour = "firebrick", linetype = 2) +
+  geom_line(colour = "#4682b4", linewidth = 1) +
+  labs(x = "nombre de lectures", y = "nombre d'OTU detectes")
+```
+
+# Comparer des richesses : la raréfaction
+
+Le probleme pratique surgit lorsqu'on compare deux echantillons sequences a des profondeurs differentes. L'echantillon le plus profond parait plus riche, non parce que sa biodiversite est plus grande, mais parce qu'il a ete davantage sequence. Comparer les richesses brutes reviendrait a comparer deux releves de terrain faits avec des nombres de quadrats differents.
+
+La solution est la **raréfaction** : on ramene tous les echantillons a une profondeur commune, en general celle du moins profond, en tirant au hasard ce nombre de lectures. Verifions qu'a profondeur egale, la richesse redevient comparable.
+
+```{r}
+#| label: rarefier
+richesse_rarefiee <- function(profondeur_totale, cible) {
+  lectures <- rmultinom(1, size = profondeur_totale, prob = abond)[, 1]
+  pool <- rep(seq_len(S), lectures)
+  length(unique(sample(pool, cible)))          # sous-echantillonnage sans remise
+}
+
+c(`echantillon peu profond (2000 lectures)`      = round(mean(replicate(300, richesse(2000)))),
+  `echantillon profond (20000 lectures), brut`   = round(mean(replicate(300, richesse(20000)))),
+  `echantillon profond, rarefie a 2000`          = round(mean(replicate(300, richesse_rarefiee(20000, 2000)))))
+```
+
+Une fois ramene a la profondeur du moins profond, l'echantillon profond retrouve une richesse comparable. La raréfaction retire l'avantage artificiel de la profondeur. Des methodes plus recentes standardisent plutot par la **couverture**, c'est-a-dire la fraction de la communaute effectivement echantillonnee, mais l'idee reste la meme : rendre l'effort comparable avant de comparer les biodiversites.
+
+# Des donnees compositionnelles : le piege de la somme constante
+
+La seconde difficulte tient a ce que les comptages de lectures sont des **proportions**. Comme le total est fixe par la machine, l'abondance en lectures d'un OTU ne renseigne que sur sa part relative, pas sur son abondance absolue. Cette contrainte de somme constante fausse les analyses ordinaires.
+
+L'exemple le plus parlant : un OTU dont l'abondance absolue ne change pas peut voir sa proportion s'effondrer simplement parce qu'un autre OTU prolifere. Simulons deux taxons d'abondance absolue constante, en presence d'un troisieme taxon dont l'abondance augmente.
+
+```{r}
+#| label: compositionnel
+x1 <- rep(100, 8)                                  # taxon 1 : abondance absolue constante
+x2 <- rep(100, 8)                                  # taxon 2 : abondance absolue constante
+x3 <- c(50, 100, 200, 400, 800, 1600, 3200, 6400)  # taxon de fond, en pleine expansion
+
+total <- x1 + x2 + x3
+tibble(
+  `abondance du fond (x3)`      = x3,
+  `proportion du taxon 1 (%)`   = round(100 * x1 / total, 1),
+  `log(x1 / x2)`                = round(log(x1 / x2), 2)
+)
+```
+
+La proportion du taxon 1 chute de 40 a moins de 2 pour cent, alors que son abondance absolue n'a pas bouge : c'est un artefact de la somme constante, qui pourrait faire conclure a tort a son declin. Le **rapport logarithmique** entre deux taxons, ici log(x1 / x2), reste au contraire rigoureusement constant, car il ne depend pas du total. Il rend compte fidelement de l'absence de changement.
+
+La meme contrainte engendre des correlations trompeuses. Des taxons dont les abondances absolues sont independantes apparaissent negativement correles lorsqu'on les mesure en proportions, puisque toute augmentation de l'un diminue mecaniquement la part des autres.
+
+```{r}
+#| label: correlation-spurious
+D <- 6; n_ech <- 3000
+X <- matrix(exp(rnorm(n_ech * D)), n_ech, D)       # abondances absolues INDEPENDANTES
+P <- X / rowSums(X)                                # proportions
+
+c(`correlation des abondances absolues (x1, x2)` = round(cor(X[, 1], X[, 2]), 2),
+  `correlation des proportions (p1, p2)`         = round(cor(P[, 1], P[, 2]), 2))
+```
+
+::: {.callout-important collapse="true"}
+## Que faire : raisonner en rapports logarithmiques
+L'analyse correcte de donnees compositionnelles ne travaille pas sur les proportions brutes, mais sur des **rapports logarithmiques** entre composantes, du type log(x_i / x_j), qui sont insensibles au total et au reste de la composition. C'est la base de l'analyse de donnees compositionnelles, avec des transformations comme le rapport logarithmique centre (CLR). Attention toutefois : ces transformations ne suppriment pas toute correlation trompeuse par paire, car leurs composantes restent liees par une contrainte de somme. Le principe robuste reste de comparer des rapports entre taxons, et non des proportions isolees.
+:::
+
+# Les lectures ne mesurent pas l'abondance absolue
+
+Au dela de la somme constante, plusieurs biais font que le nombre de lectures d'un OTU n'est pas proportionnel a l'abondance reelle de l'organisme. L'amplification par PCR favorise certaines sequences, les amorces se fixent inegalement selon les taxons, et le nombre de copies du gene marqueur varie d'une espece a l'autre. Un organisme abondant peut ainsi produire peu de lectures, et inversement.
+
+La consequence pratique est importante pour interpreter les resultats. Le metabarcoding est fiable pour la **presence** des taxons, donc pour la richesse et la composition qualitative. Il l'est beaucoup moins pour l'**abondance**, que les proportions de lectures ne refletent qu'imparfaitement. Estimer des abondances absolues exige un etalonnage specifique, par exemple l'ajout d'une quantite connue d'ADN temoin.
+
+# Faux positifs : les OTU parasites
+
+Un dernier biais joue en sens inverse du precedent. Les erreurs de sequencage et les contaminations creent des OTU rares qui n'existent pas dans l'echantillon, souvent representes par une seule lecture. Ces artefacts **gonflent** la richesse observee. La richesse est donc tiraillee entre deux forces : la profondeur limitee la tire vers le bas, en manquant les taxons rares reels, tandis que les erreurs la tirent vers le haut, en inventant des taxons. On attenue le second effet en filtrant les OTU trop rares et en appliquant des procedures de correction d'erreurs lors de la construction de la table.
+
+::: {.callout-note collapse="true"}
+## Les indices de diversite sont aussi sensibles a la profondeur
+La richesse n'est pas la seule mesure affectee par la profondeur. Les indices de diversite, comme l'indice de Shannon (H = - somme des p_i log p_i) ou l'indice de Simpson (1 - somme des p_i au carre), se calculent sur les proportions et dependent eux aussi de l'effort de sequencage, quoique moins fortement que la richesse. L'indice de Simpson, domine par les taxons abondants, est le plus stable ; la richesse, sensible aux taxons rares, est le plus fragile. La comparaison de ces indices entre echantillons demande donc, elle aussi, une profondeur comparable.
+:::
+
+# A retenir
+
+- Une table d'OTU est un tableau de comptages analogue a un releve par quadrats, mais dont le total, la profondeur de sequencage, est technique et variable.
+- La profondeur se comporte comme un effort d'echantillonnage : la richesse observee croit avec elle et sous-estime la richesse reelle, comme la courbe d'accumulation des quadrats.
+- Comparer des richesses exige une profondeur commune, obtenue par raréfaction ou par standardisation de la couverture.
+- Les comptages de lectures sont compositionnels : la somme constante fait chuter une proportion sans que l'abondance absolue change, et cree des correlations trompeuses. On raisonne en rapports logarithmiques entre taxons.
+- Les lectures renseignent bien la presence, donc la richesse, mais mal l'abondance, a cause des biais d'amplification, d'amorces et de nombre de copies.
+- La richesse observee est biaisee vers le bas par la profondeur limitee et vers le haut par les OTU parasites issus d'erreurs ; le filtrage attenue ce second effet.
+
+::: {.callout-note appearance="minimal"}
+Pour transformer ce chapitre en support de presentation, remplacez `format: html` par `format: revealjs` dans l'en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.
+:::
