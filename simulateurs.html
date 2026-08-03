@@ -308,27 +308,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l’affichage en direct.</p>
 <section id="capture-marquage-recapture" class="level2">
 <h2 class="anchored" data-anchor-id="capture-marquage-recapture">Capture-marquage-recapture</h2>
-<p><a href="Simulation_CMR.html">Simulation CMR</a></p>
+<p><a href="Simulation_CMR.html">Simulation CMR</a> <a href="Simulation_CMR.py">Telecharger Simulation_CMR.py</a></p>
 <p>Le simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur de Lincoln-Petersen (cf.&nbsp;défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</p>
-<p><a href="Simulation_CMR_Schnabel.html">Simulation CMR avec Schnabel</a></p>
+<p><a href="Simulation_CMR_Schnabel.html">Simulation CMR avec Schnabel</a> <a href="Simulation_CMR_Schnabel.py">Telecharger Simulation_CMR_Schnabel.py</a></p>
 <p>Dans le même état d’esprit, ce deuxième simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur multi-occasions de Schnabel. Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d’occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</p>
 <p>Chapitre associe : <a href="./cmr-hypotheses.html">Capture-marquage-recapture</a>.</p>
 </section>
 <section id="hardy-weinberg" class="level2">
 <h2 class="anchored" data-anchor-id="hardy-weinberg">Hardy-Weinberg</h2>
-<p><a href="Simulation_HW.html">Simulation HW</a></p>
+<p><a href="Simulation_HW.html">Simulation HW</a> <a href="Simulation_HW.py">Telecharger Simulation_HW.py</a></p>
 <p>Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l’effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l’effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.</p>
 <p>Chapitre associe : <a href="./hardy-weinberg.html">L’equilibre de Hardy-Weinberg</a>.</p>
 </section>
 <section id="methode-des-quadrats" class="level2">
 <h2 class="anchored" data-anchor-id="methode-des-quadrats">Methode des quadrats</h2>
-<p><a href="Simulation_quadrats.html">Simulation quadrats</a></p>
+<p><a href="Simulation_quadrats.html">Simulation quadrats</a> <a href="Simulation_quadrats.py">Telecharger Simulation_quadrats.py</a></p>
 <p>Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l’agrege en passant par l’aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l’estimation de densite avec son intervalle de confiance.</p>
 <p>Chapitre associe : <a href="./methode-des-quadrats.html">La methode des quadrats</a>.</p>
 </section>
 <section id="metabarcoding" class="level2">
 <h2 class="anchored" data-anchor-id="metabarcoding">Metabarcoding</h2>
-<p><a href="Simulation_metabarcoding.html">Simulation metabarcoding</a></p>
+<p><a href="Simulation_metabarcoding.html">Simulation metabarcoding</a> <a href="Simulation_metabarcoding.py">Telecharger Simulation_metabarcoding.py</a></p>
 <p>Le simulateur illustre la profondeur de sequencage comme effort d’echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d’amplification.</p>
 <p>Chapitre associe : <a href="./metabarcoding-statistique.html">Statistique du metabarcoding</a>.</p>
 
@@ -813,40 +813,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Capture-marquage-recapture</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation CMR</span><span class="co">](Simulation_CMR.html)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Le simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur de Lincoln-Petersen (cf. défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Telecharger Simulation_CMR.py</span><span class="co">](Simulation_CMR.py)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Le simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur de Lincoln-Petersen (cf. défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation CMR avec Schnabel</span><span class="co">](Simulation_CMR_Schnabel.html)</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Dans le même état d'esprit, ce deuxième simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur multi-occasions de Schnabel. Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d'occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation CMR avec Schnabel</span><span class="co">](Simulation_CMR_Schnabel.html)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Telecharger Simulation_CMR_Schnabel.py</span><span class="co">](Simulation_CMR_Schnabel.py)</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Capture-marquage-recapture</span><span class="co">](cmr-hypotheses.qmd)</span>.</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Dans le même état d'esprit, ce deuxième simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur multi-occasions de Schnabel. Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d'occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hardy-Weinberg</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Capture-marquage-recapture</span><span class="co">](cmr-hypotheses.qmd)</span>.</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation HW</span><span class="co">](Simulation_HW.html)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hardy-Weinberg</span></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l'effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l'effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">L'equilibre de Hardy-Weinberg</span><span class="co">](hardy-weinberg.qmd)</span>.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Methode des quadrats</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation quadrats</span><span class="co">](Simulation_quadrats.html)</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l'agrege en passant par l'aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l'estimation de densite avec son intervalle de confiance.</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">La methode des quadrats</span><span class="co">](methode-des-quadrats.qmd)</span>.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation HW</span><span class="co">](Simulation_HW.html)</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Telecharger Simulation_HW.py</span><span class="co">](Simulation_HW.py)</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l'effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l'effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">L'equilibre de Hardy-Weinberg</span><span class="co">](hardy-weinberg.qmd)</span>.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Methode des quadrats</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation quadrats</span><span class="co">](Simulation_quadrats.html)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Telecharger Simulation_quadrats.py</span><span class="co">](Simulation_quadrats.py)</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Metabarcoding</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l'agrege en passant par l'aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l'estimation de densite avec son intervalle de confiance.</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation metabarcoding</span><span class="co">](Simulation_metabarcoding.html)</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">La methode des quadrats</span><span class="co">](methode-des-quadrats.qmd)</span>.</span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>Le simulateur illustre la profondeur de sequencage comme effort d'echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d'amplification.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Metabarcoding</span></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Statistique du metabarcoding</span><span class="co">](metabarcoding-statistique.qmd)</span>.</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation metabarcoding</span><span class="co">](Simulation_metabarcoding.html)</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Telecharger Simulation_metabarcoding.py</span><span class="co">](Simulation_metabarcoding.py)</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>Le simulateur illustre la profondeur de sequencage comme effort d'echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d'amplification.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Statistique du metabarcoding</span><span class="co">](metabarcoding-statistique.qmd)</span>.</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
