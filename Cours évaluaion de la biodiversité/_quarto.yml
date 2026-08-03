@@ -1,0 +1,63 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - Simulation_CMR.py
+    - Simulation_HW.py
+    - Simulation_quadrats.py
+    - Simulation_metabarcoding.py
+
+website:
+  title: "Biostatistique et evaluation de la biodiversite"
+  description: "Cours : estimation, tests statistiques et methodes d'evaluation de la biodiversite, avec simulations en R et en Python."
+  page-navigation: true
+  navbar:
+    background: primary
+    left:
+      - href: index.qmd
+        text: "Accueil"
+      - href: simulateurs.qmd
+        text: "Simulateurs"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - href: index.qmd
+        text: "Accueil"
+      - section: "Fondements statistiques"
+        contents:
+          - text: "Estimateur biaise ou non : le n - 1"
+            href: estimateur-biais-n-1.qmd
+          - text: "Les intervalles de confiance"
+            href: intervalles-de-confiance.qmd
+          - text: "Le test du khi-deux"
+            href: khi-deux.qmd
+      - section: "Methodes d'evaluation de la biodiversite"
+        contents:
+          - text: "Capture-marquage-recapture"
+            href: cmr-hypotheses.qmd
+          - text: "L'equilibre de Hardy-Weinberg"
+            href: hardy-weinberg.qmd
+          - text: "La methode des quadrats"
+            href: methode-des-quadrats.qmd
+          - text: "Statistique du metabarcoding"
+            href: metabarcoding-statistique.qmd
+          - text: "Le pipeline metabarcoding (presentation)"
+            href: metabarcoding-pipeline.qmd
+      - section: "Ressources"
+        contents:
+          - href: simulateurs.qmd
+            text: "Simulateurs Python"
+          - href: bibliographie.qmd
+            text: "Bibliographie"
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-title: "Sommaire"
+    code-fold: show
+    code-tools: true
+    df-print: kable
