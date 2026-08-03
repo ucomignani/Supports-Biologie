@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulateur : capture-marquage-recapture</title>
+
+  <!-- PyScript : verifier la derniere version sur https://pyscript.net -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; color: #1a1a1a; }
+    h1 { color: #0b2545; font-size: 1.4rem; }
+    .intro { color: #444; font-size: 0.95rem; }
+    .controls { display: grid; grid-template-columns: 230px 1fr 70px; gap: 0.4rem 0.8rem; align-items: center; margin: 1rem 0; }
+    .controls label { font-size: 0.88rem; }
+    .controls output { font-family: monospace; text-align: right; }
+    input[type=range] { width: 100%; }
+    #plot { min-height: 500px; border: 1px solid #eee; border-radius: 6px; }
+    #plot img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    button { padding: 0.4rem 0.9rem; border-radius: 6px; border: 1px solid #c2d6ec; background: #dbe7f3; cursor: pointer; }
+    .loading { color: #888; padding: 2rem; text-align: center; }
+    @media (max-width: 640px) {
+      body { margin: 1rem auto; }
+      .controls { grid-template-columns: 1fr; gap: 0.1rem 0; }
+      .controls label { margin-top: 0.7rem; font-weight: 600; }
+      .controls input[type=range] { width: 100%; height: 1.6rem; }
+      .controls output { text-align: left; color: #555; margin-bottom: 0.3rem; }
+    }
+    .topnav { display: flex; gap: 0.6rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+    .navbtn { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 6px; border: 1px solid #c2d6ec; background: #eef4fb; color: #0b2545; text-decoration: none; font-size: 0.9rem; }
+    .navbtn:hover { background: #dbe7f3; }
+  </style>
+</head>
+<body>
+  <nav class="topnav">
+    <a class="navbtn" href="index.html" target="_top">&larr; Accueil</a>
+    <a class="navbtn" href="cmr-hypotheses.html" target="_top">Chapitre du cours &rarr;</a>
+  </nav>
+  <h1>Capture-marquage-recapture : distribution des estimateurs</h1>
+  <p class="intro">
+    En haut, les distributions d'echantillonnage superposees de l'estimateur a deux occasions
+    (Chapman) et de l'estimateur multi-occasions (Schnabel), avec le biais et l'ecart-type de
+    chacun. En bas, un echantillon d'intervalles de confiance individuels, en vert s'ils
+    contiennent la vraie valeur, en rouge sinon. Le premier chargement prend quelques secondes.
+  </p>
+
+  <div class="controls">
+    <label for="N">effectif reel (N)</label>
+    <input class="sim-slider" type="range" id="N" min="50" max="1000" step="10" value="500" />
+    <output id="N_val">500</output>
+
+    <label for="p">p (proba de capture)</label>
+    <input class="sim-slider" type="range" id="p" min="0.02" max="0.9" step="0.01" value="0.35" />
+    <output id="p_val">0.35</output>
+
+    <label for="het">heterogeneite</label>
+    <input class="sim-slider" type="range" id="het" min="0" max="0.9" step="0.05" value="0" />
+    <output id="het_val">0.00</output>
+
+    <label for="reponse">reponse au piege (1 = neutre)</label>
+    <input class="sim-slider" type="range" id="reponse" min="0.3" max="2.5" step="0.1" value="1" />
+    <output id="reponse_val">1.0</output>
+
+    <label for="perte">perte de marque</label>
+    <input class="sim-slider" type="range" id="perte" min="0" max="0.6" step="0.02" value="0" />
+    <output id="perte_val">0.00</output>
+
+    <label for="survie">survie des marques</label>
+    <input class="sim-slider" type="range" id="survie" min="0.3" max="1" step="0.02" value="1" />
+    <output id="survie_val">1.00</output>
+
+    <label for="n_rep">nombre d'etudes simulees</label>
+    <input class="sim-slider" type="range" id="n_rep" min="200" max="2000" step="100" value="800" />
+    <output id="n_rep_val">800</output>
+
+    <label for="k">occasions (Schnabel)</label>
+    <input class="sim-slider" type="range" id="k" min="2" max="12" step="1" value="5" />
+    <output id="k_val">5</output>
+
+    <label for="niveau">niveau de confiance</label>
+    <input class="sim-slider" type="range" id="niveau" min="0.8" max="0.99" step="0.01" value="0.95" />
+    <output id="niveau_val">0.95</output>
+  </div>
+
+  <p><button id="resample" type="button">Reechantillonner</button></p>
+
+  <div id="plot"><div class="loading">Chargement de Python (Pyodide, numpy, matplotlib)...</div></div>
+
+  <script type="py" config='{"packages":["numpy","matplotlib"]}'>
+import math
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pyscript import when, display, document
+
+graine = [12345]
+COUL_CHAP = "#4682b4"
+COUL_SCHN = "#e07b39"
+
+def _norm_ppf(p):
+    a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
+         1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
+    b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
+         6.680131188771972e+01, -1.328068155288572e+01]
+    c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
+         -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00]
+    d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,
+         3.754408661907416e+00]
+    plow, phigh = 0.02425, 1 - 0.02425
+    if p < plow:
+        q = math.sqrt(-2 * math.log(p))
+        return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+    elif p <= phigh:
+        q = p - 0.5; r = q * q
+        return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)
+    else:
+        q = math.sqrt(-2 * math.log(1 - p))
+        return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+
+def simule(N, p, het, reponse, perte, survie, n_rep, rng):
+    N = int(N)
+    if het > 0:
+        conc = (1.0 - het) / het
+        p_i = rng.beta(p * conc, (1.0 - p) * conc, size=(n_rep, N))
+    else:
+        p_i = np.full((n_rep, N), p)
+    marque = rng.random((n_rep, N)) < p_i
+    M = marque.sum(axis=1)
+    surv_draw = rng.random((n_rep, N)) < survie
+    present = np.where(marque, surv_draw, True)
+    perdu = rng.random((n_rep, N)) < perte
+    marque_visible = marque & present & ~perdu
+    p2 = np.where(marque, np.minimum(p_i * reponse, 1.0), p_i)
+    cap2 = (rng.random((n_rep, N)) < p2) & present
+    C = cap2.sum(axis=1)
+    R = (cap2 & marque_visible).sum(axis=1)
+    return M, C, R
+
+def simule_schnabel(N, p, het, reponse, perte, survie, n_rep, k, rng):
+    N = int(N); k = int(k)
+    if het > 0:
+        conc = (1.0 - het) / het
+        p_i = rng.beta(p * conc, (1.0 - p) * conc, size=(n_rep, N))
+    else:
+        p_i = np.full((n_rep, N), p)
+    a_une_marque = np.zeros((n_rep, N), dtype=bool)
+    present = np.ones((n_rep, N), dtype=bool)
+    marques_relachees = np.zeros(n_rep)
+    num = np.zeros(n_rep); den = np.zeros(n_rep)
+    for t in range(k):
+        p_t = np.where(a_une_marque, np.minimum(p_i * reponse, 1.0), p_i)
+        cap = (rng.random((n_rep, N)) < p_t) & present
+        num += cap.sum(axis=1) * marques_relachees
+        den += (cap & a_une_marque).sum(axis=1)
+        nouveaux = cap & ~a_une_marque
+        marques_relachees = marques_relachees + nouveaux.sum(axis=1)
+        a_une_marque = a_une_marque | cap
+        if t < k - 1:
+            surv = rng.random((n_rep, N)) < survie
+            present = np.where(a_une_marque, present & surv, present)
+            perdu = rng.random((n_rep, N)) < perte
+            a_une_marque = a_une_marque & ~perdu
+    with np.errstate(divide="ignore", invalid="ignore"):
+        schnabel = num / den
+    return schnabel, den
+
+def estimateurs(M, C, R):
+    with np.errstate(divide="ignore", invalid="ignore"):
+        LP = M * C / R
+    chapman = (M + 1) * (C + 1) / (R + 1) - 1
+    return LP, chapman
+
+def var_chapman(M, C, R):
+    return (M + 1) * (C + 1) * (M - R) * (C - R) / ((R + 1)**2 * (R + 2))
+
+def valeur(ident):
+    return float(document.querySelector("#" + ident).value)
+
+def maj_label(ident, texte):
+    document.querySelector("#" + ident + "_val").innerText = texte
+
+def dessiner(event=None):
+    N = int(valeur("N")); p = valeur("p"); het = valeur("het")
+    reponse = valeur("reponse"); perte = valeur("perte"); survie = valeur("survie")
+    n_rep = int(valeur("n_rep")); k = int(valeur("k")); niveau = valeur("niveau")
+
+    maj_label("N", str(N)); maj_label("p", f"{p:.2f}"); maj_label("het", f"{het:.2f}")
+    maj_label("reponse", f"{reponse:.1f}"); maj_label("perte", f"{perte:.2f}")
+    maj_label("survie", f"{survie:.2f}"); maj_label("n_rep", str(n_rep))
+    maj_label("k", str(k)); maj_label("niveau", f"{niveau:.2f}")
+
+    rng = np.random.default_rng(graine[0])
+    M, C, R = simule(N, p, het, reponse, perte, survie, n_rep, rng)
+    LP, chapman = estimateurs(M, C, R)
+    z = _norm_ppf(0.5 + niveau / 2.0)
+    se = np.sqrt(np.maximum(var_chapman(M, C, R), 0.0))
+    bas = chapman - z * se; haut = chapman + z * se
+    couvre = (bas <= N) & (N <= haut); couverture = float(np.mean(couvre))
+
+    schnabel, den = simule_schnabel(N, p, het, reponse, perte, survie, n_rep, k, rng)
+    schn_fini = schnabel[np.isfinite(schnabel)]
+    if schn_fini.size == 0:
+        schn_fini = np.array([float(N)])
+
+    part_R0 = float(np.mean(R == 0))
+    biais_chap = float(np.mean(chapman)) / N - 1.0; sd_chap = float(np.std(chapman))
+    biais_schn = float(np.mean(schn_fini)) / N - 1.0; sd_schn = float(np.std(schn_fini))
+    borne = max(1.6 * N, float(np.percentile(haut, 92)), float(np.percentile(schn_fini, 98)))
+
+    fig, (ax_hist, ax_ci) = plt.subplots(2, 1, figsize=(9.4, 8.4),
+                                         gridspec_kw={"height_ratios": [1, 0.75]})
+    bords = np.linspace(0, borne, 46)
+    ax_hist.hist(chapman, bins=bords, color=COUL_CHAP, edgecolor="white", alpha=0.6,
+                 label="2 occasions (Chapman)")
+    ax_hist.hist(schn_fini, bins=bords, color=COUL_SCHN, edgecolor="white", alpha=0.6,
+                 label=f"{k} occasions (Schnabel)")
+    ax_hist.axvline(N, color="firebrick", lw=2.2, label=f"N reel = {N}")
+    ax_hist.set_xlim(0, borne); ax_hist.set_ylabel("nombre d'etudes")
+    ax_hist.set_title("Distributions d'echantillonnage : deux occasions vs Schnabel")
+    ax_hist.legend(loc="upper right", fontsize=9)
+    info = (f"2 occ. (Chapman)  : biais {biais_chap*100:+.1f} %   ecart-type {sd_chap:.0f}\n"
+            f"{k} occ. (Schnabel): biais {biais_schn*100:+.1f} %   ecart-type {sd_schn:.0f}\n"
+            f"couverture IC (2 occ.) : {couverture*100:.1f} %  (cible {niveau*100:.0f} %)\n"
+            f"part d'etudes ou R = 0 (2 occ.) : {part_R0*100:.1f} %")
+    ax_hist.text(0.02, 0.97, info, transform=ax_hist.transAxes, va="top", ha="left",
+                 fontsize=9, family="monospace",
+                 bbox=dict(boxstyle="round", facecolor="#fbfbe8", edgecolor="#cccccc"))
+
+    K = min(45, n_rep)
+    ordre = np.argsort(chapman[:K])
+    yy = np.arange(K)
+    ch_s = chapman[:K][ordre]; bas_s = bas[:K][ordre]; haut_s = haut[:K][ordre]; cov_s = couvre[:K][ordre]
+    couleurs = np.where(cov_s, "#2e7d32", "#c62828")
+    ax_ci.hlines(yy, bas_s, haut_s, color=couleurs, lw=1.6, alpha=0.85)
+    ax_ci.plot(ch_s, yy, "o", ms=2.6, color="#222222")
+    ax_ci.axvline(N, color="firebrick", lw=2)
+    ax_ci.set_xlim(0, borne); ax_ci.set_ylim(-1, K); ax_ci.set_yticks([])
+    ax_ci.set_xlabel("effectif estime et intervalles de confiance (deux occasions)")
+    ax_ci.set_title(f"{K} etudes : intervalles a {niveau*100:.0f} %  (vert = contient N, rouge = le manque)",
+                    fontsize=11)
+
+    fig.tight_layout()
+    display(fig, target="plot", append=False)
+    plt.close(fig)
+
+@when("input", ".sim-slider")
+def _sur_curseur(event):
+    dessiner()
+
+@when("click", "#resample")
+def _sur_bouton(event):
+    graine[0] += 1
+    dessiner()
+
+dessiner()
+  </script>
+</body>
+</html>

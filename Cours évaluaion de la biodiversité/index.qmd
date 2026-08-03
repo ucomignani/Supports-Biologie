@@ -38,8 +38,6 @@ Quatre simulateurs en Python permettent d'explorer les concepts en manipulant le
 
 ## Ressources
 
-Une fiche d'une page rassemble les trois notions de moyenne (esperance, moyenne d'echantillon, vraie moyenne) et l'origine du $n - 1$ : [telecharger la fiche (PDF)](fiche_moyennes.pdf).
-
 La [bibliographie](bibliographie.qmd) rassemble les textes fondateurs et les manuels, organises par theme.
 
 ::: {.callout-note appearance="minimal"}

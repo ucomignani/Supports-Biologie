@@ -2,11 +2,16 @@ project:
   type: website
   output-dir: _site
   resources:
+    - Simulation_CMR.html
+    - Simulation_CMR_Schnabel.html
+    - Simulation_HW.html
+    - Simulation_quadrats.html
+    - Simulation_metabarcoding.html
     - Simulation_CMR.py
+    - Simulation_CMR_Schnabel.py
     - Simulation_HW.py
     - Simulation_quadrats.py
     - Simulation_metabarcoding.py
-
 website:
   title: "Biostatistique et evaluation de la biodiversite"
   description: "Cours : estimation, tests statistiques et methodes d'evaluation de la biodiversite, avec simulations en R et en Python."
