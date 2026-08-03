@@ -4,19 +4,7 @@
     "href": "simulateurs.html",
     "title": "Simulateurs interactifs (Python)",
     "section": "",
-    "text": "Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l’affichage en direct. Ils ne font pas partie du site rendu : on les lance depuis un terminal.",
-    "crumbs": [
-      "Accueil",
-      "Ressources",
-      "Simulateurs Python"
-    ]
-  },
-  {
-    "objectID": "simulateurs.html#installation-et-lancement",
-    "href": "simulateurs.html#installation-et-lancement",
-    "title": "Simulateurs interactifs (Python)",
-    "section": "Installation et lancement",
-    "text": "Installation et lancement\nLes simulateurs ne dependent que de deux bibliotheques, numpy et matplotlib.\npip install numpy matplotlib\npython3 Simulation_CMR.py          # capture-marquage-recapture\npython3 Simulation_HW.py           # Hardy-Weinberg\npython3 Simulation_quadrats.py     # methode des quadrats\npython3 Simulation_metabarcoding.py  # metabarcoding\nDeux boutons sont communs a tous : Reechantillonner tire un nouveau jeu de donnees, et Reinitialiser remet les curseurs a leurs valeurs par defaut. A graine fixee, deplacer un curseur deforme le meme jeu de donnees, ce qui rend les effets lisibles.",
+    "text": "Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l’affichage en direct.",
     "crumbs": [
       "Accueil",
       "Ressources",

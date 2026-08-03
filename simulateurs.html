@@ -276,8 +276,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Sommaire</h2>
    
   <ul>
-  <li><a href="#installation-et-lancement" id="toc-installation-et-lancement" class="nav-link active" data-scroll-target="#installation-et-lancement">Installation et lancement</a></li>
-  <li><a href="#capture-marquage-recapture" id="toc-capture-marquage-recapture" class="nav-link" data-scroll-target="#capture-marquage-recapture">Capture-marquage-recapture</a></li>
+  <li><a href="#capture-marquage-recapture" id="toc-capture-marquage-recapture" class="nav-link active" data-scroll-target="#capture-marquage-recapture">Capture-marquage-recapture</a></li>
   <li><a href="#hardy-weinberg" id="toc-hardy-weinberg" class="nav-link" data-scroll-target="#hardy-weinberg">Hardy-Weinberg</a></li>
   <li><a href="#methode-des-quadrats" id="toc-methode-des-quadrats" class="nav-link" data-scroll-target="#methode-des-quadrats">Methode des quadrats</a></li>
   <li><a href="#metabarcoding" id="toc-metabarcoding" class="nav-link" data-scroll-target="#metabarcoding">Metabarcoding</a></li>
@@ -306,17 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l’affichage en direct. Ils ne font pas partie du site rendu : on les lance depuis un terminal.</p>
-<section id="installation-et-lancement" class="level2">
-<h2 class="anchored" data-anchor-id="installation-et-lancement">Installation et lancement</h2>
-<p>Les simulateurs ne dependent que de deux bibliotheques, <code>numpy</code> et <code>matplotlib</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy matplotlib</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_CMR.py          <span class="co"># capture-marquage-recapture</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_HW.py           <span class="co"># Hardy-Weinberg</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_quadrats.py     <span class="co"># methode des quadrats</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_metabarcoding.py  <span class="co"># metabarcoding</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Deux boutons sont communs a tous : <strong>Reechantillonner</strong> tire un nouveau jeu de donnees, et <strong>Reinitialiser</strong> remet les curseurs a leurs valeurs par defaut. A graine fixee, deplacer un curseur deforme le meme jeu de donnees, ce qui rend les effets lisibles.</p>
-</section>
+<p>Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l’affichage en direct.</p>
 <section id="capture-marquage-recapture" class="level2">
 <h2 class="anchored" data-anchor-id="capture-marquage-recapture">Capture-marquage-recapture</h2>
 <p><a href="Simulation_CMR.html">Simulation CMR</a></p>
@@ -810,59 +799,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Simulateurs interactifs (Python)"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Ces quatre simulateurs sont des programmes Python autonomes. Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l'affichage en direct. Ils ne font pas partie du site rendu : on les lance depuis un terminal.</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installation et lancement</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>Les simulateurs ne dependent que de deux bibliotheques, <span class="in">`numpy`</span> et <span class="in">`matplotlib`</span>.</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy matplotlib</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_CMR.py          <span class="co"># capture-marquage-recapture</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_HW.py           <span class="co"># Hardy-Weinberg</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_quadrats.py     <span class="co"># methode des quadrats</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> Simulation_metabarcoding.py  <span class="co"># metabarcoding</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>Deux boutons sont communs a tous : **Reechantillonner** tire un nouveau jeu de donnees, et **Reinitialiser** remet les curseurs a leurs valeurs par defaut. A graine fixee, deplacer un curseur deforme le meme jeu de donnees, ce qui rend les effets lisibles.</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Capture-marquage-recapture</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation CMR</span><span class="co">](Simulation_CMR.html)</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>Le simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif et, en parallele, l'estimateur multi-occasions de Schnabel. Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d'occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Capture-marquage-recapture</span><span class="co">](cmr-hypotheses.qmd)</span>.</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hardy-Weinberg</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation HW</span><span class="co">](Simulation_HW.html)</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l'effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l'effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">L'equilibre de Hardy-Weinberg</span><span class="co">](hardy-weinberg.qmd)</span>.</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Methode des quadrats</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation quadrats</span><span class="co">](Simulation_quadrats.html)</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l'agrege en passant par l'aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l'estimation de densite avec son intervalle de confiance.</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">La methode des quadrats</span><span class="co">](methode-des-quadrats.qmd)</span>.</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Metabarcoding</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation metabarcoding</span><span class="co">](Simulation_metabarcoding.html)</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>Le simulateur illustre la profondeur de sequencage comme effort d'echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d'amplification.</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Statistique du metabarcoding</span><span class="co">](metabarcoding-statistique.qmd)</span>.</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Simulateurs interactifs (Python)"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Ces quatre simulateurs sont des programmes Python autonomes.</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l'affichage en direct.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Capture-marquage-recapture</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation CMR</span><span class="co">](Simulation_CMR.html)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Le simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif et, en parallele, l'estimateur multi-occasions de Schnabel. Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d'occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Capture-marquage-recapture</span><span class="co">](cmr-hypotheses.qmd)</span>.</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hardy-Weinberg</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation HW</span><span class="co">](Simulation_HW.html)</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l'effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l'effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">L'equilibre de Hardy-Weinberg</span><span class="co">](hardy-weinberg.qmd)</span>.</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Methode des quadrats</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation quadrats</span><span class="co">](Simulation_quadrats.html)</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l'agrege en passant par l'aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l'estimation de densite avec son intervalle de confiance.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">La methode des quadrats</span><span class="co">](methode-des-quadrats.qmd)</span>.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Metabarcoding</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Simulation metabarcoding</span><span class="co">](Simulation_metabarcoding.html)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Le simulateur illustre la profondeur de sequencage comme effort d'echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d'amplification.</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Chapitre associe : <span class="co">[</span><span class="ot">Statistique du metabarcoding</span><span class="co">](metabarcoding-statistique.qmd)</span>.</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
