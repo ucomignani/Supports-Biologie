@@ -16,7 +16,7 @@
     "href": "simulateurs.html#capture-marquage-recapture",
     "title": "Simulateurs interactifs (Python)",
     "section": "Capture-marquage-recapture",
-    "text": "Capture-marquage-recapture\nSimulation CMR Telecharger Simulation_CMR.py\nLe simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur de Lincoln-Petersen (cf. défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nSimulation CMR avec Schnabel Telecharger Simulation_CMR_Schnabel.py\nDans le même état d’esprit, ce deuxième simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur multi-occasions de Schnabel. Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d’occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nChapitre associe : Capture-marquage-recapture.",
+    "text": "Capture-marquage-recapture\nSimulation CMR\nTelecharger Simulation_CMR.py\nLe simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur de Lincoln-Petersen (cf. défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nSimulation CMR avec Schnabel\nTelecharger Simulation_CMR_Schnabel.py\nDans le même état d’esprit, ce deuxième simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif de Chapman et, en parallele, l’estimateur multi-occasions de Schnabel. Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d’occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nChapitre associe : Capture-marquage-recapture.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -28,7 +28,7 @@
     "href": "simulateurs.html#hardy-weinberg",
     "title": "Simulateurs interactifs (Python)",
     "section": "Hardy-Weinberg",
-    "text": "Hardy-Weinberg\nSimulation HW Telecharger Simulation_HW.py\nDeux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l’effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l’effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.\nChapitre associe : L’equilibre de Hardy-Weinberg.",
+    "text": "Hardy-Weinberg\nSimulation HW\nTelecharger Simulation_HW.py\nDeux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l’effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l’effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.\nChapitre associe : L’equilibre de Hardy-Weinberg.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -40,7 +40,7 @@
     "href": "simulateurs.html#methode-des-quadrats",
     "title": "Simulateurs interactifs (Python)",
     "section": "Methode des quadrats",
-    "text": "Methode des quadrats\nSimulation quadrats Telecharger Simulation_quadrats.py\nUne carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l’agrege en passant par l’aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l’estimation de densite avec son intervalle de confiance.\nChapitre associe : La methode des quadrats.",
+    "text": "Methode des quadrats\nSimulation quadrats\nTelecharger Simulation_quadrats.py\nUne carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l’agrege en passant par l’aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l’estimation de densite avec son intervalle de confiance.\nChapitre associe : La methode des quadrats.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -52,7 +52,7 @@
     "href": "simulateurs.html#metabarcoding",
     "title": "Simulateurs interactifs (Python)",
     "section": "Metabarcoding",
-    "text": "Metabarcoding\nSimulation metabarcoding Telecharger Simulation_metabarcoding.py\nLe simulateur illustre la profondeur de sequencage comme effort d’echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d’amplification.\nChapitre associe : Statistique du metabarcoding.",
+    "text": "Metabarcoding\nSimulation metabarcoding\nTelecharger Simulation_metabarcoding.py\nLe simulateur illustre la profondeur de sequencage comme effort d’echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d’amplification.\nChapitre associe : Statistique du metabarcoding.",
     "crumbs": [
       "Accueil",
       "Ressources",
