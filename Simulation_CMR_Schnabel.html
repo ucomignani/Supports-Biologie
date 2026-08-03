@@ -21,6 +21,13 @@
     #plot img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
     button { padding: 0.4rem 0.9rem; border-radius: 6px; border: 1px solid #c2d6ec; background: #dbe7f3; cursor: pointer; }
     .loading { color: #888; padding: 2rem; text-align: center; }
+    @media (max-width: 640px) {
+      body { margin: 1rem auto; }
+      .controls { grid-template-columns: 1fr; gap: 0.1rem 0; }
+      .controls label { margin-top: 0.7rem; font-weight: 600; }
+      .controls input[type=range] { width: 100%; height: 1.6rem; }
+      .controls output { text-align: left; color: #555; margin-bottom: 0.3rem; }
+    }
   </style>
 </head>
 <body>
