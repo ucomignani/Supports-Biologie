@@ -28,7 +28,7 @@
     "href": "simulateurs.html#capture-marquage-recapture",
     "title": "Simulateurs interactifs (Python)",
     "section": "Capture-marquage-recapture",
-    "text": "Capture-marquage-recapture\nTelecharger Simulation_CMR.py\nLe simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif et, en parallele, l’estimateur multi-occasions de Schnabel. Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d’occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nChapitre associe : Capture-marquage-recapture.",
+    "text": "Capture-marquage-recapture\nSimulation CMR\nLe simulateur montre la distribution d’echantillonnage de l’estimateur d’effectif et, en parallele, l’estimateur multi-occasions de Schnabel. Les curseurs reglent l’effectif reel, la probabilite de capture, l’heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d’occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu’ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.\nChapitre associe : Capture-marquage-recapture.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -40,7 +40,7 @@
     "href": "simulateurs.html#hardy-weinberg",
     "title": "Simulateurs interactifs (Python)",
     "section": "Hardy-Weinberg",
-    "text": "Hardy-Weinberg\nTelecharger Simulation_HW.py\nDeux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l’effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l’effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.\nChapitre associe : L’equilibre de Hardy-Weinberg.",
+    "text": "Hardy-Weinberg\nSimulation HW\nDeux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l’effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l’effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.\nChapitre associe : L’equilibre de Hardy-Weinberg.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -52,7 +52,7 @@
     "href": "simulateurs.html#methode-des-quadrats",
     "title": "Simulateurs interactifs (Python)",
     "section": "Methode des quadrats",
-    "text": "Methode des quadrats\nTelecharger Simulation_quadrats.py\nUne carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l’agrege en passant par l’aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l’estimation de densite avec son intervalle de confiance.\nChapitre associe : La methode des quadrats.",
+    "text": "Methode des quadrats\nSimulation quadrats\nUne carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l’agrege en passant par l’aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l’estimation de densite avec son intervalle de confiance.\nChapitre associe : La methode des quadrats.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -64,7 +64,7 @@
     "href": "simulateurs.html#metabarcoding",
     "title": "Simulateurs interactifs (Python)",
     "section": "Metabarcoding",
-    "text": "Metabarcoding\nTelecharger Simulation_metabarcoding.py\nLe simulateur illustre la profondeur de sequencage comme effort d’echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d’amplification.\nChapitre associe : Statistique du metabarcoding.",
+    "text": "Metabarcoding\nSimulation metabarcoding\nLe simulateur illustre la profondeur de sequencage comme effort d’echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d’amplification.\nChapitre associe : Statistique du metabarcoding.",
     "crumbs": [
       "Accueil",
       "Ressources",
@@ -150,7 +150,7 @@
     "href": "index.html#ressources",
     "title": "Biostatistique pour l’evaluation de la biodiversite",
     "section": "Ressources",
-    "text": "Ressources\nUne fiche d’une page rassemble les trois notions de moyenne (esperance, moyenne d’echantillon, vraie moyenne) et l’origine du \\(n - 1\\) : telecharger la fiche (PDF).\nLa bibliographie rassemble les textes fondateurs et les manuels, organises par theme.\n\n\n\n\n\n\nLes chapitres se lisent dans l’ordre propose, les fondements d’abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.",
+    "text": "Ressources\nLa bibliographie rassemble les textes fondateurs et les manuels, organises par theme.\n\n\n\n\n\n\nLes chapitres se lisent dans l’ordre propose, les fondements d’abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.",
     "crumbs": [
       "Accueil"
     ]

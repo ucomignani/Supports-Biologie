@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulateur : methode des quadrats</title>
+
+  <!-- PyScript : verifier la derniere version sur https://pyscript.net -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 980px; margin: 1.5rem auto; padding: 0 1rem; color: #1a1a1a; }
+    h1 { color: #0b2545; font-size: 1.4rem; }
+    .intro { color: #444; font-size: 0.95rem; }
+    .controls { display: grid; grid-template-columns: 240px 1fr 70px; gap: 0.5rem 0.8rem; align-items: center; margin: 1rem 0; }
+    .controls label { font-size: 0.9rem; }
+    .controls output { font-family: monospace; text-align: right; }
+    input[type=range] { width: 100%; }
+    #plot { min-height: 430px; border: 1px solid #eee; border-radius: 6px; }
+    #plot img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    button { padding: 0.4rem 0.9rem; border-radius: 6px; border: 1px solid #c2d6ec; background: #dbe7f3; cursor: pointer; }
+    .loading { color: #888; padding: 2rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Methode des quadrats : patron spatial, dispersion et densite</h1>
+  <p class="intro">
+    A gauche, le terrain : les individus sont places selon un patron reglable (du regulier
+    a l'agrege en passant par l'aleatoire), les quadrats tires au hasard sont colores selon
+    leur nombre d'individus. A droite, la distribution des comptages comparee a la loi de
+    Poisson, avec le rapport variance/moyenne, le test de dispersion et l'estimation de
+    densite. Le premier chargement telecharge Python et prend quelques secondes.
+  </p>
+
+  <div class="controls">
+    <label for="densite">densite (ind. / unite carree)</label>
+    <input class="sim-slider" type="range" id="densite" min="0.2" max="5" step="0.1" value="2" />
+    <output id="densite_val">2.0</output>
+
+    <label for="agregation">agregation (- regulier ... + agrege)</label>
+    <input class="sim-slider" type="range" id="agregation" min="-0.8" max="3" step="0.1" value="0" />
+    <output id="agregation_val">+0.0</output>
+
+    <label for="n_quad">nombre de quadrats</label>
+    <input class="sim-slider" type="range" id="n_quad" min="5" max="100" step="1" value="40" />
+    <output id="n_quad_val">40</output>
+
+    <label for="cote">cote du quadrat (unites)</label>
+    <input class="sim-slider" type="range" id="cote" min="0.4" max="2" step="0.1" value="1" />
+    <output id="cote_val">1.0</output>
+  </div>
+
+  <p><button id="resample" type="button">Reechantillonner</button></p>
+
+  <div id="plot"><div class="loading">Chargement de Python (Pyodide, numpy, matplotlib)...</div></div>
+
+  <script type="py" config='{"packages":["numpy","matplotlib"]}'>
+import math
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+from pyscript import when, display, document
+
+W = H = 10.0
+AIRE = W * H
+graine = [40404]
+
+# ---- quantile normal (Acklam) et quantile khi-deux (Wilson-Hilferty) ----
+def _norm_ppf(p):
+    a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
+         1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
+    b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
+         6.680131188771972e+01, -1.328068155288572e+01]
+    c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
+         -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00]
+    d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,
+         3.754408661907416e+00]
+    plow, phigh = 0.02425, 1 - 0.02425
+    if p < plow:
+        q = math.sqrt(-2 * math.log(p))
+        return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / \
+               ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+    elif p <= phigh:
+        q = p - 0.5; r = q * q
+        return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q / \
+               (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)
+    else:
+        q = math.sqrt(-2 * math.log(1 - p))
+        return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / \
+                ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+
+def chi2_quantile(p, k):
+    z = _norm_ppf(p)
+    return k * (1 - 2/(9*k) + z * math.sqrt(2/(9*k))) ** 3
+
+# ---- placement des individus et comptage ----
+def placer(N, a, rng):
+    if a >= 0:
+        n_parents = max(1, int(N / (2 + 8 * a)))
+        sigma = (0.5 * min(W, H)) / (1 + 6 * a)
+        px = rng.uniform(0, W, n_parents); py = rng.uniform(0, H, n_parents)
+        idx = rng.integers(0, n_parents, N)
+        x = np.clip(px[idx] + rng.normal(0, sigma, N), 0, W)
+        y = np.clip(py[idx] + rng.normal(0, sigma, N), 0, H)
+    else:
+        t = min(-a / 0.8, 1.0)
+        ncol = max(1, int(np.ceil(np.sqrt(N * W / H))))
+        nrow = max(1, int(np.ceil(N / ncol)))
+        gx = (np.arange(ncol) + 0.5) * W / ncol
+        gy = (np.arange(nrow) + 0.5) * H / nrow
+        GX, GY = np.meshgrid(gx, gy)
+        pts = np.column_stack([GX.ravel(), GY.ravel()])[:N]
+        jit = (0.9 * (1 - t) + 0.03) * min(W / ncol, H / nrow)
+        x = np.clip(pts[:, 0] + rng.normal(0, jit, len(pts)), 0, W)
+        y = np.clip(pts[:, 1] + rng.normal(0, jit, len(pts)), 0, H)
+    return x, y
+
+def compter(qx, qy, cote, px, py):
+    counts = np.empty(len(qx), dtype=int)
+    for i in range(len(qx)):
+        dedans = (px >= qx[i]) & (px < qx[i] + cote) & (py >= qy[i]) & (py < qy[i] + cote)
+        counts[i] = int(dedans.sum())
+    return counts
+
+def valeur(ident):
+    return float(document.querySelector("#" + ident).value)
+
+def maj_label(ident, texte):
+    document.querySelector("#" + ident + "_val").innerText = texte
+
+def dessiner(event=None):
+    densite = valeur("densite")
+    a = valeur("agregation")
+    n = int(valeur("n_quad"))
+    cote = valeur("cote")
+
+    maj_label("densite", f"{densite:.1f}")
+    maj_label("agregation", f"{a:+.1f}")
+    maj_label("n_quad", str(n))
+    maj_label("cote", f"{cote:.1f}")
+
+    rng = np.random.default_rng(graine[0])
+    N = max(1, int(round(densite * AIRE)))
+    px, py = placer(N, a, rng)
+    qx = rng.uniform(0, W - cote, n); qy = rng.uniform(0, H - cote, n)
+    c = compter(qx, qy, cote, px, py)
+
+    moy = c.mean()
+    var = c.var(ddof=1) if n > 1 else 0.0
+    ratio = var / moy if moy > 0 else float("nan")
+    I = (n - 1) * ratio if moy > 0 else float("nan")
+    k = n - 1
+    se = math.sqrt(var / n)
+    aire_q = cote * cote
+    D = moy / aire_q
+    z = _norm_ppf(0.975)
+    ic = ((moy - z * se) / aire_q, (moy + z * se) / aire_q)
+    bas, haut = chi2_quantile(0.025, k), chi2_quantile(0.975, k)
+    if I > haut:
+        verdict = "AGREGE (V > M)"
+    elif I < bas:
+        verdict = "REGULIER (V < M)"
+    else:
+        verdict = "ALEATOIRE (compatible)"
+
+    fig, (ax_map, ax_hist) = plt.subplots(1, 2, figsize=(11, 5.4))
+    fig.subplots_adjust(bottom=0.30, wspace=0.25)
+
+    cmap = plt.cm.Blues
+    vmax = max(1, int(c.max()))
+    for i in range(n):
+        ax_map.add_patch(Rectangle((qx[i], qy[i]), cote, cote,
+                                   facecolor=cmap(c[i] / vmax), alpha=0.55,
+                                   edgecolor="#333333", lw=0.7, zorder=3))
+    ax_map.scatter(px, py, s=6, color="#2e7d32", alpha=0.55, edgecolors="none")
+    ax_map.set_xlim(0, W); ax_map.set_ylim(0, H); ax_map.set_aspect("equal")
+    ax_map.set_xticks([]); ax_map.set_yticks([])
+    ax_map.set_title(f"Terrain : {N} individus, {n} quadrats")
+
+    kmax = int(c.max())
+    bins = np.arange(-0.5, kmax + 1.5, 1)
+    ax_hist.hist(c, bins=bins, color="#4682b4", alpha=0.75, edgecolor="white")
+    ks = np.arange(0, kmax + 1)
+    pois = np.array([math.exp(-moy) * moy ** kk / math.factorial(kk) for kk in ks]) * n
+    ax_hist.plot(ks, pois, "o-", color="#b52b2b", ms=4, lw=1.3,
+                 label="attendu si aleatoire (Poisson)")
+    ax_hist.set_xlabel("individus par quadrat")
+    ax_hist.set_ylabel("nombre de quadrats")
+    ax_hist.set_title("Distribution des comptages")
+    ax_hist.legend(fontsize=8.5)
+
+    info = (f"moyenne = {moy:.2f}    variance = {var:.2f}    rapport V/M = {ratio:.2f}\n"
+            f"indice de dispersion I = {I:.1f}  (ddl = {k})    test bilateral 5 % : "
+            f"[{bas:.1f} ; {haut:.1f}]  ->  {verdict}\n"
+            f"densite estimee = {D:.2f} ind./unite carree    "
+            f"IC 95 % (approx.) : [{ic[0]:.2f} ; {ic[1]:.2f}]")
+    fig.text(0.5, 0.10, info, ha="center", va="center", fontsize=9.5, family="monospace",
+             bbox=dict(boxstyle="round", facecolor="#fbfbe8", edgecolor="#cccccc"))
+
+    display(fig, target="plot", append=False)
+    plt.close(fig)
+
+@when("input", ".sim-slider")
+def _sur_curseur(event):
+    dessiner()
+
+@when("click", "#resample")
+def _sur_bouton(event):
+    graine[0] += 1
+    dessiner()
+
+dessiner()
+  </script>
+</body>
+</html>
