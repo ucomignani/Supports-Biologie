@@ -5,15 +5,34 @@ author: ""
 date: today
 lang: fr
 format:
-  revealjs:
-    theme: simple
-    slide-number: true
-    progress: true
-    controls: true
-    transition: slide
-    width: 1200
-    height: 800
-    fig-align: center
+  # pdf: default
+  # revealjs:
+  #   theme: simple
+  #   slide-number: true
+  #   progress: true
+  #   controls: true
+  #   transition: slide
+  #   width: 1200
+  #   height: 800
+  #   fig-align: center
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    code-link: true
+    theme: cosmo
+    fig-width: 8
+    fig-height: 4.5
+    df-print: kable
+execute:
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: "png"
+    fig.align: "center"
 ---
 
 ## De quoi parle-t-on
