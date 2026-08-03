@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>L’equilibre de Hardy-Weinberg : un modele de reference en genetique des populations – Biostatistique et evaluation de la biodiversite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./methode-des-quadrats.html" rel="next">
+<link href="./cmr-hypotheses.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5f91031bc365a86ba538a82a3533cd37.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Biostatistique et evaluation de la biodiversite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./simulateurs.html"> 
+<span class="menu-text">Simulateurs</span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cmr-hypotheses.html">Methodes d’evaluation de la biodiversite</a></li><li class="breadcrumb-item"><a href="./hardy-weinberg.html">L’equilibre de Hardy-Weinberg</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accueil</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fondements statistiques</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./estimateur-biais-n-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estimateur biaise ou non : le n - 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intervalles-de-confiance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Les intervalles de confiance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./khi-deux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le test du khi-deux</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methodes d’evaluation de la biodiversite</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cmr-hypotheses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capture-marquage-recapture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hardy-weinberg.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">L’equilibre de Hardy-Weinberg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./methode-des-quadrats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">La methode des quadrats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-statistique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistique du metabarcoding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le pipeline metabarcoding (presentation)</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ressources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simulateurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulateurs Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliographie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommaire</h2>
+   
+  <ul>
+<li><a href="#le-principe-de-hardy-weinberg" id="toc-le-principe-de-hardy-weinberg" class="nav-link active" data-scroll-target="#le-principe-de-hardy-weinberg"><span class="header-section-number">1</span> Le principe de Hardy-Weinberg</a></li>
+  <li><a href="#dou-viennent-p2-2pq-et-q2" id="toc-dou-viennent-p2-2pq-et-q2" class="nav-link" data-scroll-target="#dou-viennent-p2-2pq-et-q2"><span class="header-section-number">2</span> D’ou viennent <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span> et <span class="math inline">\(q^2\)</span></a></li>
+  <li><a href="#un-resultat-frappant-lequilibre-sinstalle-en-une-generation" id="toc-un-resultat-frappant-lequilibre-sinstalle-en-une-generation" class="nav-link" data-scroll-target="#un-resultat-frappant-lequilibre-sinstalle-en-une-generation"><span class="header-section-number">3</span> Un resultat frappant : l’equilibre s’installe en une generation</a></li>
+  <li><a href="#les-hypotheses-du-modele-ideal" id="toc-les-hypotheses-du-modele-ideal" class="nav-link" data-scroll-target="#les-hypotheses-du-modele-ideal"><span class="header-section-number">4</span> Les hypotheses du modele ideal</a></li>
+  <li><a href="#estimer-la-frequence-allelique-a-partir-des-donnees" id="toc-estimer-la-frequence-allelique-a-partir-des-donnees" class="nav-link" data-scroll-target="#estimer-la-frequence-allelique-a-partir-des-donnees"><span class="header-section-number">5</span> Estimer la frequence allelique a partir des donnees</a></li>
+  <li><a href="#tester-lequilibre-le-khi-deux-et-ses-degres-de-liberte" id="toc-tester-lequilibre-le-khi-deux-et-ses-degres-de-liberte" class="nav-link" data-scroll-target="#tester-lequilibre-le-khi-deux-et-ses-degres-de-liberte"><span class="header-section-number">6</span> Tester l’equilibre : le khi-deux et ses degres de liberte</a></li>
+  <li><a href="#une-violation-typique-la-consanguinite" id="toc-une-violation-typique-la-consanguinite" class="nav-link" data-scroll-target="#une-violation-typique-la-consanguinite"><span class="header-section-number">7</span> Une violation typique : la consanguinite</a></li>
+  <li><a href="#a-retenir" id="toc-a-retenir" class="nav-link" data-scroll-target="#a-retenir"><span class="header-section-number">8</span> A retenir</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cmr-hypotheses.html">Methodes d’evaluation de la biodiversite</a></li><li class="breadcrumb-item"><a href="./hardy-weinberg.html">L’equilibre de Hardy-Weinberg</a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">L’equilibre de Hardy-Weinberg : un modele de reference en genetique des populations</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Montrer tout le code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Cacher tout le code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Voir les sources</a></li></ul></div></div>
+<p class="subtitle lead">Des frequences alleliques aux frequences genotypiques, et le test de conformite</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Date de publication</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">3 août 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objectif du chapitre
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>L’equilibre de Hardy-Weinberg decrit ce que deviennent, de generation en generation, les proportions des genotypes dans une population ideale. Il fournit un point de reference : quand les proportions observees s’en ecartent, c’est le signe qu’une force evolutive est a l’oeuvre. Nous etablirons le principe, nous verrons pourquoi l’equilibre s’installe en une seule generation, puis nous construirons le test statistique qui permet de confronter des donnees reelles a ce modele.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Vocabulaire de depart
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>
+<strong>Locus</strong> : un emplacement precis sur un chromosome, correspondant a un gene. On etudie ici un seul locus.</li>
+<li>
+<strong>Allele</strong> : une variante possible du gene a ce locus. On considere deux alleles, notes A et a.</li>
+<li>
+<strong>Genotype</strong> : la paire d’alleles qu’un individu porte a ce locus. Avec deux alleles, trois genotypes sont possibles : AA, Aa et aa.</li>
+<li>
+<strong>Homozygote</strong> : individu portant deux alleles identiques (AA ou aa). <strong>Heterozygote</strong> : individu portant deux alleles differents (Aa).</li>
+<li>
+<strong>Frequence allelique</strong> : proportion d’un allele parmi tous les alleles presents dans la population. On note <span class="math inline">\(p\)</span> la frequence de A et <span class="math inline">\(q\)</span> celle de a, avec <span class="math inline">\(p + q = 1\)</span>.</li>
+<li>
+<strong>Frequence genotypique</strong> : proportion de chaque genotype parmi les individus.</li>
+<li>
+<strong>Panmixie</strong> : accouplement au hasard, sans preference liee au genotype.</li>
+</ul>
+</div>
+</div>
+<section id="le-principe-de-hardy-weinberg" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Le principe de Hardy-Weinberg</h1>
+<p>Dans une population ideale, deux affirmations tiennent d’une generation a la suivante.</p>
+<p>D’abord, les <strong>frequences alleliques restent constantes</strong> : la proportion <span class="math inline">\(p\)</span> de l’allele A ne change pas au fil des generations. Ensuite, les <strong>frequences genotypiques se deduisent des frequences alleliques</strong> par des formules simples :</p>
+<p><span class="math display">\[
+f(\text{AA}) = p^2, \qquad f(\text{Aa}) = 2pq, \qquad f(\text{aa}) = q^2 .
+\]</span></p>
+<p>Ces trois proportions forment bien un tout, car leur somme vaut 1 :</p>
+<p><span class="math display">\[
+p^2 + 2pq + q^2 = (p + q)^2 = 1 .
+\]</span></p>
+<p>L’etat decrit par ces formules s’appelle l’<strong>equilibre de Hardy-Weinberg</strong>. C’est un modele theorique, valable sous des hypotheses precises que nous detaillerons a la section 5.</p>
+</section><section id="dou-viennent-p2-2pq-et-q2" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> D’ou viennent <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span> et <span class="math inline">\(q^2\)</span>
+</h1>
+<p>La justification tient au mecanisme de la reproduction. Chaque individu transmet a sa descendance un seul de ses deux alleles, choisi au hasard : ce sont les <strong>gametes</strong> (cellules reproductrices). Sous accouplement au hasard, un descendant se forme en reunissant deux gametes tires independamment dans la population. La frequence de l’allele A parmi les gametes est justement <span class="math inline">\(p\)</span>.</p>
+<p>Un descendant recoit donc l’allele A de son premier gamete avec probabilite <span class="math inline">\(p\)</span>, et de son second avec probabilite <span class="math inline">\(p\)</span> egalement. La probabilite d’obtenir le genotype AA, c’est-a-dire A des deux cotes, est donc <span class="math inline">\(p \times p = p^2\)</span>. De meme, aa correspond a <span class="math inline">\(q \times q = q^2\)</span>. Le genotype Aa peut se former de deux facons, A puis a ou a puis A, chacune de probabilite <span class="math inline">\(pq\)</span>, d’ou un total de <span class="math inline">\(2pq\)</span>. Le facteur 2 vient de ces deux ordres possibles.</p>
+<p>Verifions par simulation. On forme une grande population en tirant, pour chaque individu, deux alleles au hasard avec la frequence <span class="math inline">\(p\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">0.6</span>            <span class="co"># frequence de l'allele A</span></span>
+<span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">p</span>          <span class="co"># frequence de l'allele a</span></span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100000</span>         <span class="co"># nombre d'individus</span></span>
+<span></span>
+<span><span class="co"># nombre d'alleles A recus par individu : 0 (aa), 1 (Aa) ou 2 (AA)</span></span>
+<span><span class="va">nA</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">N</span>, size <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
+<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">nA</span>, levels <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">0</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">att</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>AA <span class="op">=</span> <span class="va">p</span><span class="op">^</span><span class="fl">2</span>, Aa <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">p</span> <span class="op">*</span> <span class="va">q</span>, aa <span class="op">=</span> <span class="va">q</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span>observe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>      attendu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">att</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>           AA    Aa    aa
+observe 0.359 0.478 0.163
+attendu 0.360 0.480 0.160</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>genotype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>       observe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, attendu <span class="op">=</span> <span class="va">att</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">observe</span>, <span class="va">attendu</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"type"</span>, values_to <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">genotype</span>, <span class="va">frequence</span>, fill <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette_oa</span>, name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"genotype"</span>, y <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-proportions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-proportions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="hardy-weinberg_files/figure-html/fig-proportions-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-proportions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Frequences genotypiques observees dans la population simulee et frequences attendues sous Hardy-Weinberg. Elles coincident.
+</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="un-resultat-frappant-lequilibre-sinstalle-en-une-generation" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> Un resultat frappant : l’equilibre s’installe en une generation</h1>
+<p>Le point le plus surprenant du principe est sa rapidite. Quelles que soient les frequences genotypiques de depart, une seule generation d’accouplement au hasard suffit pour atteindre les proportions <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span>, <span class="math inline">\(q^2\)</span>, et la population y reste ensuite.</p>
+<p>Illustrons-le a partir d’une population volontairement tres eloignee de l’equilibre : 60 pour cent de AA, 40 pour cent de aa, et aucun heterozygote.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100000</span></span>
+<span><span class="va">geno0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"aa"</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.60</span>, <span class="fl">0.40</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># frequence allelique de A au depart : chaque AA porte deux A, chaque aa aucun</span></span>
+<span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">geno0</span> <span class="op">==</span> <span class="st">"AA"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">N</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">freq0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">geno0</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># une generation de panmixie : union au hasard de gametes de frequence p0</span></span>
+<span><span class="va">nA1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">N</span>, size <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="va">p0</span><span class="op">)</span></span>
+<span><span class="va">freq1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">nA1</span>, levels <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">0</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">p1</span>    <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nA1</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nA1</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">N</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`freq. A avant` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">p0</span>, <span class="fl">3</span><span class="op">)</span>, `freq. A apres` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">p1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>freq. A avant freq. A apres 
+        0.599         0.600 </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>genotype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>       `generation 0` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq0</span><span class="op">)</span>,</span>
+<span>       `generation 1` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">genotype</span>, names_to <span class="op">=</span> <span class="st">"generation"</span>, values_to <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">genotype</span>, <span class="va">frequence</span>, fill <span class="op">=</span> <span class="va">generation</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"generation 0"</span> <span class="op">=</span> <span class="st">"#b0b0b0"</span>, <span class="st">"generation 1"</span> <span class="op">=</span> <span class="st">"#4682b4"</span><span class="op">)</span>,</span>
+<span>                    name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"genotype"</span>, y <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-une-generation" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-une-generation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="hardy-weinberg_files/figure-html/fig-une-generation-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-une-generation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Frequences genotypiques avant et apres une seule generation d’accouplement au hasard. La population de depart n’a aucun heterozygote ; apres une generation, les proportions sont exactement celles de Hardy-Weinberg, et la frequence allelique n’a pas bouge.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>La population passe de zero a environ 48 pour cent d’heterozygotes en une generation, tandis que la frequence de l’allele A reste a 0,6. C’est la difference essentielle entre frequence allelique et frequence genotypique : l’accouplement au hasard reorganise les alleles en genotypes selon <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span>, <span class="math inline">\(q^2\)</span>, sans modifier la proportion des alleles eux-memes.</p>
+</section><section id="les-hypotheses-du-modele-ideal" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> Les hypotheses du modele ideal</h1>
+<p>L’equilibre de Hardy-Weinberg ne decrit pas une population reelle quelconque, mais une population <strong>ideale</strong> qui satisfait plusieurs conditions simultanement :</p>
+<ul>
+<li>accouplement au hasard, sans preference liee au genotype ;</li>
+<li>absence de selection, tous les genotypes ayant la meme survie et la meme fecondite ;</li>
+<li>absence de mutation qui transformerait un allele en un autre ;</li>
+<li>absence de migration entre populations ;</li>
+<li>taille de population tres grande, ce qui rend negligeable le hasard des tirages d’une generation a l’autre (la derive genetique).</li>
+</ul>
+<p>Ces conditions jouent ici le meme role que le cas ideal dans le chapitre sur la capture-recapture : elles definissent une reference. Quand les proportions observees s’accordent avec Hardy-Weinberg, aucune de ces forces ne se manifeste de facon detectable. Quand elles s’en ecartent, l’ecart oriente vers la cause. Le modele est donc moins une description qu’un <strong>instrument de diagnostic</strong>.</p>
+</section><section id="estimer-la-frequence-allelique-a-partir-des-donnees" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Estimer la frequence allelique a partir des donnees</h1>
+<p>En pratique, on ne connait pas <span class="math inline">\(p\)</span> : on l’estime a partir des genotypes observes. Il suffit de compter les alleles. Un individu AA porte deux alleles A, un individu Aa en porte un, un individu aa aucun. Sur un echantillon de <span class="math inline">\(N\)</span> individus, la frequence estimee de A est donc</p>
+<p><span class="math display">\[
+\hat p = \frac{2 \, n_{\text{AA}} + n_{\text{Aa}}}{2N},
+\]</span></p>
+<p>ou <span class="math inline">\(n_{\text{AA}}\)</span> et <span class="math inline">\(n_{\text{Aa}}\)</span> sont les effectifs observes des genotypes correspondants, et <span class="math inline">\(2N\)</span> le nombre total d’alleles dans l’echantillon. Ce point est a retenir pour la suite : la frequence allelique est <strong>estimee sur les donnees elles-memes</strong>, et cela aura une consequence directe sur le test.</p>
+</section><section id="tester-lequilibre-le-khi-deux-et-ses-degres-de-liberte" class="level1" data-number="6"><h1 data-number="6">
+<span class="header-section-number">6</span> Tester l’equilibre : le khi-deux et ses degres de liberte</h1>
+<p>Pour decider si une population reelle s’accorde avec Hardy-Weinberg, on compare les effectifs genotypiques observes aux effectifs attendus sous le modele. On calcule d’abord <span class="math inline">\(\hat p\)</span>, puis les effectifs attendus <span class="math inline">\(N \hat p^2\)</span>, <span class="math inline">\(N \, 2\hat p \hat q\)</span>, <span class="math inline">\(N \hat q^2\)</span>, et l’on mesure l’ecart par la statistique du khi-deux :</p>
+<p><span class="math display">\[
+\chi^2 = \sum_{\text{genotypes}} \frac{(\text{effectif observe} - \text{effectif attendu})^2}{\text{effectif attendu}} .
+\]</span></p>
+<p>Reste a savoir a quelle loi comparer cette statistique, c’est-a-dire combien de <strong>degres de liberte</strong> lui attribuer. Le principe est celui du chapitre sur l’estimation de la variance : on part du nombre de classes, on retranche une unite par contrainte, et une unite par parametre estime sur les donnees.</p>
+<p>Il y a trois classes genotypiques. On retranche 1 pour la contrainte que la somme des effectifs egale <span class="math inline">\(N\)</span>. On retranche encore 1 pour la frequence allelique <span class="math inline">\(\hat p\)</span>, estimee a partir de l’echantillon (la frequence <span class="math inline">\(\hat q = 1 - \hat p\)</span> n’est pas un parametre independant). Il reste donc</p>
+<p><span class="math display">\[
+\text{ddl} = 3 - 1 - 1 = 1 .
+\]</span></p>
+<p>C’est une erreur frequente que d’oublier ce second retrait et d’utiliser 2 degres de liberte. Verifions par simulation que la bonne valeur est bien 1. On tire de nombreux echantillons d’une population reellement a l’equilibre, et l’on regarde la distribution de la statistique.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">un_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">nA</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span>             <span class="co"># echantillon a l'equilibre</span></span>
+<span>  <span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nA</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nA</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nA</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>  <span class="co"># AA, Aa, aa</span></span>
+<span>  <span class="va">phat</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">obs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">obs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">n</span><span class="op">)</span>          <span class="co"># frequence allelique estimee</span></span>
+<span>  <span class="va">qhat</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">phat</span></span>
+<span>  <span class="va">att</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">phat</span><span class="op">^</span><span class="fl">2</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">phat</span> <span class="op">*</span> <span class="va">qhat</span>, <span class="va">qhat</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>    <span class="co"># effectifs attendus</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">obs</span> <span class="op">-</span> <span class="va">att</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="va">att</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">n</span>      <span class="op">&lt;-</span> <span class="fl">200</span></span>
+<span><span class="va">p_vrai</span> <span class="op">&lt;-</span> <span class="fl">0.6</span></span>
+<span><span class="va">stat</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">5000</span>, <span class="fu">un_test</span><span class="op">(</span><span class="va">n</span>, <span class="va">p_vrai</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`moyenne de la statistique` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">stat</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>   <span class="co"># 1 pour un khi-deux a 1 ddl</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>moyenne de la statistique 
+                     1.01 </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>stat <span class="op">=</span> <span class="va">stat</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">60</span>,</span>
+<span>                 fill <span class="op">=</span> <span class="st">"#4682b4"</span>, colour <span class="op">=</span> <span class="st">"white"</span>, alpha <span class="op">=</span> <span class="fl">0.65</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dchisq</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"firebrick"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dchisq</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"#e07b39"</span>,</span>
+<span>                linewidth <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">9</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"statistique du khi-deux"</span>, y <span class="op">=</span> <span class="st">"densite"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-khi2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-khi2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="hardy-weinberg_files/figure-html/fig-khi2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-khi2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Distribution de la statistique du test sur 5000 echantillons issus d’une population a l’equilibre. Elle epouse la loi du khi-deux a 1 degre de liberte (rouge), et non a 2 (orange, en tirets).
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>La consequence pratique se lit sur le taux de fausses alertes. Comme la population simulee est reellement a l’equilibre, un bon test ne devrait la declarer hors equilibre que dans 5 pour cent des cas au seuil de 5 pour cent. C’est bien ce que donne le nombre correct de degres de liberte.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`rejet avec ddl = 1 (correct)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">stat</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">qchisq</a></span><span class="op">(</span><span class="fl">0.95</span>, df <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  `rejet avec ddl = 2 (errone)`  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">stat</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">qchisq</a></span><span class="op">(</span><span class="fl">0.95</span>, df <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>rejet avec ddl = 1 (correct)  rejet avec ddl = 2 (errone) 
+                      0.0518                       0.0164 </code></pre>
+</div>
+</div>
+<p>Avec 1 degre de liberte, le taux de rejet est proche de 5 pour cent, la valeur visee. Avec 2 degres de liberte, il tombe autour de 1,4 pour cent : le test devient trop prudent, et laisse passer de vraies deviations qu’il aurait du detecter. Ce taux de fausses alertes est l’analogue du taux de couverture du chapitre sur les intervalles de confiance : choisir le mauvais nombre de degres de liberte, comme choisir la mauvaise valeur critique, fausse la garantie annoncee.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Cas a plus d’un parametre estime
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Avec trois alleles au lieu de deux, par exemple le systeme des groupes sanguins A, B, O, il y a six genotypes possibles et l’on estime deux frequences alleliques independantes (la troisieme s’en deduit). Le compte devient alors nombre de classes, moins 1 pour le total, moins 2 pour les deux frequences estimees. Le principe ne change pas : un degre de liberte retranche par parametre reellement estime sur les donnees.</p>
+</div>
+</div>
+</div>
+</section><section id="une-violation-typique-la-consanguinite" class="level1" data-number="7"><h1 data-number="7">
+<span class="header-section-number">7</span> Une violation typique : la consanguinite</h1>
+<p>Parmi les ecarts a Hardy-Weinberg, la consanguinite est l’un des plus classiques. Elle survient quand les individus s’accouplent avec des apparentes plus souvent que ne le voudrait le hasard. Ses deux alleles ont alors une chance accrue d’etre des copies d’un meme allele ancestral. On mesure ce phenomene par le <strong>coefficient de consanguinite</strong>, note <span class="math inline">\(F\)</span>, qui est la probabilite que les deux alleles d’un individu soient identiques par ascendance.</p>
+<p>Sous consanguinite, les frequences genotypiques deviennent</p>
+<p><span class="math display">\[
+f(\text{AA}) = p^2 + Fpq, \qquad f(\text{Aa}) = 2pq(1 - F), \qquad f(\text{aa}) = q^2 + Fpq .
+\]</span></p>
+<p>La signature est un <strong>deficit d’heterozygotes</strong> et un exces des deux homozygotes, la frequence allelique restant, elle, inchangee. Simulons-le.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="cn">F</span>  <span class="op">&lt;-</span> <span class="fl">0.20</span></span>
+<span><span class="va">N</span>  <span class="op">&lt;-</span> <span class="fl">200000</span></span>
+<span><span class="va">ibd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">&lt;</span> <span class="cn">F</span>                              <span class="co"># les deux alleles identiques par ascendance</span></span>
+<span><span class="va">a1</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">1</span>, <span class="va">p</span><span class="op">)</span>                            <span class="co"># premier allele : 1 = A, 0 = a</span></span>
+<span><span class="va">a2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">ibd</span>, <span class="va">a1</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">1</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span>          <span class="co"># second : copie du premier, ou tire au hasard</span></span>
+<span><span class="va">nA</span>  <span class="op">&lt;-</span> <span class="va">a1</span> <span class="op">+</span> <span class="va">a2</span></span>
+<span></span>
+<span><span class="va">obs</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">nA</span>, levels <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">0</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">att_hw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>AA <span class="op">=</span> <span class="va">p</span><span class="op">^</span><span class="fl">2</span>, Aa <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">p</span> <span class="op">*</span> <span class="va">q</span>, aa <span class="op">=</span> <span class="va">q</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>   <span class="co"># attendu sous Hardy-Weinberg (meme p)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span>observe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>      `attendu HW` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">att_hw</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>             AA    Aa    aa
+observe    0.41 0.383 0.207
+attendu HW 0.36 0.480 0.160</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>genotype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>       observe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, attendu <span class="op">=</span> <span class="va">att_hw</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">observe</span>, <span class="va">attendu</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"type"</span>, values_to <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">genotype</span>, <span class="va">frequence</span>, fill <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette_oa</span>, name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"genotype"</span>, y <span class="op">=</span> <span class="st">"frequence"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-consanguinite" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-consanguinite-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="hardy-weinberg_files/figure-html/fig-consanguinite-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-consanguinite-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Population consanguine (F = 0,20) comparee aux proportions de Hardy-Weinberg de meme frequence allelique. Les heterozygotes sont en deficit, les deux homozygotes en exces.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>La frequence de l’allele A vaut toujours 0,6 apres l’operation, mais la proportion d’heterozygotes est passee d’environ 48 a environ 38 pour cent. C’est exactement le genre de deviation que le test du khi-deux detecte, et que le modele de Hardy-Weinberg, en servant de reference, permet de reperer.</p>
+</section><section id="a-retenir" class="level1" data-number="8"><h1 data-number="8">
+<span class="header-section-number">8</span> A retenir</h1>
+<ul>
+<li>Sous accouplement au hasard et en l’absence de selection, mutation, migration et derive, les frequences alleliques restent constantes et les frequences genotypiques valent <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span> et <span class="math inline">\(q^2\)</span>.</li>
+<li>Cet equilibre s’atteint en une seule generation, quelles que soient les proportions genotypiques de depart, tant que la frequence allelique est fixee.</li>
+<li>Hardy-Weinberg est un modele de reference : un ecart aux proportions attendues signale qu’une hypothese est violee, et oriente vers la cause, par exemple un deficit d’heterozygotes en cas de consanguinite.</li>
+<li>La frequence allelique s’estime en comptant les alleles : <span class="math inline">\(\hat p = (2 n_{\text{AA}} + n_{\text{Aa}}) / (2N)\)</span>.</li>
+<li>Le test de conformite est un khi-deux a <strong>1</strong> degre de liberte : trois classes, moins un pour le total, moins un pour la frequence allelique estimee. Utiliser 2 degres de liberte fausse le taux de fausses alertes.</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Pour transformer ce chapitre en support de presentation, remplacez <code>format: html</code> par <code>format: revealjs</code> dans l’en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./cmr-hypotheses.html" class="pagination-link" aria-label="Capture-marquage-recapture">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Capture-marquage-recapture</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./methode-des-quadrats.html" class="pagination-link" aria-label="La methode des quadrats">
+        <span class="nav-page-text">La methode des quadrats</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "L'equilibre de Hardy-Weinberg : un modele de reference en genetique des populations"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Des frequences alleliques aux frequences genotypiques, et le test de conformite"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">  # pdf: default</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "Sommaire"</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">    fig-width: 8</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">    fig-height: 4.5</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: kable</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk:</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">    dev: "png"</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">    fig.align: "center"</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>))</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>palette_oa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">observe =</span> <span class="st">"#4682b4"</span>, <span class="at">attendu =</span> <span class="st">"#e07b39"</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objectif du chapitre</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>L'equilibre de Hardy-Weinberg decrit ce que deviennent, de generation en generation, les proportions des genotypes dans une population ideale. Il fournit un point de reference : quand les proportions observees s'en ecartent, c'est le signe qu'une force evolutive est a l'oeuvre. Nous etablirons le principe, nous verrons pourquoi l'equilibre s'installe en une seule generation, puis nous construirons le test statistique qui permet de confronter des donnees reelles a ce modele.</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vocabulaire de depart</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Locus** : un emplacement precis sur un chromosome, correspondant a un gene. On etudie ici un seul locus.</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Allele** : une variante possible du gene a ce locus. On considere deux alleles, notes A et a.</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Genotype** : la paire d'alleles qu'un individu porte a ce locus. Avec deux alleles, trois genotypes sont possibles : AA, Aa et aa.</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Homozygote** : individu portant deux alleles identiques (AA ou aa). **Heterozygote** : individu portant deux alleles differents (Aa).</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Frequence allelique** : proportion d'un allele parmi tous les alleles presents dans la population. On note $p$ la frequence de A et $q$ celle de a, avec $p + q = 1$.</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Frequence genotypique** : proportion de chaque genotype parmi les individus.</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Panmixie** : accouplement au hasard, sans preference liee au genotype.</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le principe de Hardy-Weinberg</span></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>Dans une population ideale, deux affirmations tiennent d'une generation a la suivante.</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>D'abord, les **frequences alleliques restent constantes** : la proportion $p$ de l'allele A ne change pas au fil des generations. Ensuite, les **frequences genotypiques se deduisent des frequences alleliques** par des formules simples :</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>f(\text{AA}) = p^2, \qquad f(\text{Aa}) = 2pq, \qquad f(\text{aa}) = q^2 .</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>Ces trois proportions forment bien un tout, car leur somme vaut 1 :</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>p^2 + 2pq + q^2 = (p + q)^2 = 1 .</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>L'etat decrit par ces formules s'appelle l'**equilibre de Hardy-Weinberg**. C'est un modele theorique, valable sous des hypotheses precises que nous detaillerons a la section 5.</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="fu"># D'ou viennent $p^2$, $2pq$ et $q^2$</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>La justification tient au mecanisme de la reproduction. Chaque individu transmet a sa descendance un seul de ses deux alleles, choisi au hasard : ce sont les **gametes** (cellules reproductrices). Sous accouplement au hasard, un descendant se forme en reunissant deux gametes tires independamment dans la population. La frequence de l'allele A parmi les gametes est justement $p$.</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>Un descendant recoit donc l'allele A de son premier gamete avec probabilite $p$, et de son second avec probabilite $p$ egalement. La probabilite d'obtenir le genotype AA, c'est-a-dire A des deux cotes, est donc $p \times p = p^2$. De meme, aa correspond a $q \times q = q^2$. Le genotype Aa peut se former de deux facons, A puis a ou a puis A, chacune de probabilite $pq$, d'ou un total de $2pq$. Le facteur 2 vient de ces deux ordres possibles.</span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>Verifions par simulation. On forme une grande population en tirant, pour chaque individu, deux alleles au hasard avec la frequence $p$.</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: proportions-hw</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.6</span>            <span class="co"># frequence de l'allele A</span></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p          <span class="co"># frequence de l'allele a</span></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span>         <span class="co"># nombre d'individus</span></span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a><span class="co"># nombre d'alleles A recus par individu : 0 (aa), 1 (Aa) ou 2 (AA)</span></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>nA  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> p)</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="fu">factor</span>(nA, <span class="at">levels =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))))</span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>att <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">AA =</span> p<span class="sc">^</span><span class="dv">2</span>, <span class="at">Aa =</span> <span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> q, <span class="at">aa =</span> q<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">observe =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(obs), <span class="dv">3</span>),</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>      <span class="at">attendu =</span> <span class="fu">round</span>(att, <span class="dv">3</span>)) <span class="sc">|&gt;</span> <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))</span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-proportions</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Frequences genotypiques observees dans la population simulee et frequences attendues sous Hardy-Weinberg. Elles coincident."</span></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">genotype =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>)),</span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>       <span class="at">observe =</span> <span class="fu">as.numeric</span>(obs), <span class="at">attendu =</span> att) <span class="sc">|&gt;</span></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(observe, attendu), <span class="at">names_to =</span> <span class="st">"type"</span>, <span class="at">values_to =</span> <span class="st">"frequence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(genotype, frequence, <span class="at">fill =</span> type)) <span class="sc">+</span></span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette_oa, <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"genotype"</span>, <span class="at">y =</span> <span class="st">"frequence"</span>)</span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="fu"># Un resultat frappant : l'equilibre s'installe en une generation</span></span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>Le point le plus surprenant du principe est sa rapidite. Quelles que soient les frequences genotypiques de depart, une seule generation d'accouplement au hasard suffit pour atteindre les proportions $p^2$, $2pq$, $q^2$, et la population y reste ensuite.</span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>Illustrons-le a partir d'une population volontairement tres eloignee de l'equilibre : 60 pour cent de AA, 40 pour cent de aa, et aucun heterozygote.</span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: une-generation</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>geno0 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"aa"</span>), N, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.40</span>))</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="co"># frequence allelique de A au depart : chaque AA porte deux A, chaque aa aucun</span></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(geno0 <span class="sc">==</span> <span class="st">"AA"</span>)) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> N)</span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>freq0 <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="fu">factor</span>(geno0, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))))</span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a><span class="co"># une generation de panmixie : union au hasard de gametes de frequence p0</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>nA1   <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> p0)</span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>freq1 <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="fu">factor</span>(nA1, <span class="at">levels =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))))</span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>p1    <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(nA1 <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">sum</span>(nA1 <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> N)</span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">`</span><span class="at">freq. A avant</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(p0, <span class="dv">3</span>), <span class="st">`</span><span class="at">freq. A apres</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(p1, <span class="dv">3</span>))</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-une-generation</span></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Frequences genotypiques avant et apres une seule generation d'accouplement au hasard. La population de depart n'a aucun heterozygote ; apres une generation, les proportions sont exactement celles de Hardy-Weinberg, et la frequence allelique n'a pas bouge."</span></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">genotype =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>)),</span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a>       <span class="st">`</span><span class="at">generation 0</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(freq0),</span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>       <span class="st">`</span><span class="at">generation 1</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(freq1)) <span class="sc">|&gt;</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>genotype, <span class="at">names_to =</span> <span class="st">"generation"</span>, <span class="at">values_to =</span> <span class="st">"frequence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(genotype, frequence, <span class="at">fill =</span> generation)) <span class="sc">+</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"generation 0"</span> <span class="ot">=</span> <span class="st">"#b0b0b0"</span>, <span class="st">"generation 1"</span> <span class="ot">=</span> <span class="st">"#4682b4"</span>),</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"genotype"</span>, <span class="at">y =</span> <span class="st">"frequence"</span>)</span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>La population passe de zero a environ 48 pour cent d'heterozygotes en une generation, tandis que la frequence de l'allele A reste a 0,6. C'est la difference essentielle entre frequence allelique et frequence genotypique : l'accouplement au hasard reorganise les alleles en genotypes selon $p^2$, $2pq$, $q^2$, sans modifier la proportion des alleles eux-memes.</span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="fu"># Les hypotheses du modele ideal</span></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a>L'equilibre de Hardy-Weinberg ne decrit pas une population reelle quelconque, mais une population **ideale** qui satisfait plusieurs conditions simultanement :</span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>accouplement au hasard, sans preference liee au genotype ;</span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>absence de selection, tous les genotypes ayant la meme survie et la meme fecondite ;</span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>absence de mutation qui transformerait un allele en un autre ;</span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>absence de migration entre populations ;</span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>taille de population tres grande, ce qui rend negligeable le hasard des tirages d'une generation a l'autre (la derive genetique).</span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a>Ces conditions jouent ici le meme role que le cas ideal dans le chapitre sur la capture-recapture : elles definissent une reference. Quand les proportions observees s'accordent avec Hardy-Weinberg, aucune de ces forces ne se manifeste de facon detectable. Quand elles s'en ecartent, l'ecart oriente vers la cause. Le modele est donc moins une description qu'un **instrument de diagnostic**.</span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a><span class="fu"># Estimer la frequence allelique a partir des donnees</span></span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>En pratique, on ne connait pas $p$ : on l'estime a partir des genotypes observes. Il suffit de compter les alleles. Un individu AA porte deux alleles A, un individu Aa en porte un, un individu aa aucun. Sur un echantillon de $N$ individus, la frequence estimee de A est donc</span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>\hat p = \frac{2 \, n_{\text{AA}} + n_{\text{Aa}}}{2N},</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a>ou $n_{\text{AA}}$ et $n_{\text{Aa}}$ sont les effectifs observes des genotypes correspondants, et $2N$ le nombre total d'alleles dans l'echantillon. Ce point est a retenir pour la suite : la frequence allelique est **estimee sur les donnees elles-memes**, et cela aura une consequence directe sur le test.</span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tester l'equilibre : le khi-deux et ses degres de liberte</span></span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>Pour decider si une population reelle s'accorde avec Hardy-Weinberg, on compare les effectifs genotypiques observes aux effectifs attendus sous le modele. On calcule d'abord $\hat p$, puis les effectifs attendus $N \hat p^2$, $N \, 2\hat p \hat q$, $N \hat q^2$, et l'on mesure l'ecart par la statistique du khi-deux :</span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>\chi^2 = \sum_{\text{genotypes}} \frac{(\text{effectif observe} - \text{effectif attendu})^2}{\text{effectif attendu}} .</span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>Reste a savoir a quelle loi comparer cette statistique, c'est-a-dire combien de **degres de liberte** lui attribuer. Le principe est celui du chapitre sur l'estimation de la variance : on part du nombre de classes, on retranche une unite par contrainte, et une unite par parametre estime sur les donnees.</span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a>Il y a trois classes genotypiques. On retranche 1 pour la contrainte que la somme des effectifs egale $N$. On retranche encore 1 pour la frequence allelique $\hat p$, estimee a partir de l'echantillon (la frequence $\hat q = 1 - \hat p$ n'est pas un parametre independant). Il reste donc</span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>\text{ddl} = 3 - 1 - 1 = 1 .</span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a>C'est une erreur frequente que d'oublier ce second retrait et d'utiliser 2 degres de liberte. Verifions par simulation que la bonne valeur est bien 1. On tire de nombreux echantillons d'une population reellement a l'equilibre, et l'on regarde la distribution de la statistique.</span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: test-khi2</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>un_test <span class="ot">&lt;-</span> <span class="cf">function</span>(n, p) {</span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a>  nA  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> p)             <span class="co"># echantillon a l'equilibre</span></span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sum</span>(nA <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(nA <span class="sc">==</span> <span class="dv">1</span>), <span class="fu">sum</span>(nA <span class="sc">==</span> <span class="dv">0</span>))  <span class="co"># AA, Aa, aa</span></span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> obs[<span class="dv">1</span>] <span class="sc">+</span> obs[<span class="dv">2</span>]) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)          <span class="co"># frequence allelique estimee</span></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>  qhat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> phat</span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>  att <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="fu">c</span>(phat<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span> <span class="sc">*</span> phat <span class="sc">*</span> qhat, qhat<span class="sc">^</span><span class="dv">2</span>)    <span class="co"># effectifs attendus</span></span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((obs <span class="sc">-</span> att)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> att)</span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a>p_vrai <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a>stat   <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, <span class="fu">un_test</span>(n, p_vrai))</span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">`</span><span class="at">moyenne de la statistique</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">mean</span>(stat), <span class="dv">2</span>))   <span class="co"># 1 pour un khi-deux a 1 ddl</span></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-khi2</span></span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution de la statistique du test sur 5000 echantillons issus d'une population a l'equilibre. Elle epouse la loi du khi-deux a 1 degre de liberte (rouge), et non a 2 (orange, en tirets)."</span></span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">stat =</span> stat) <span class="sc">|&gt;</span></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(stat)) <span class="sc">+</span></span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">60</span>,</span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#4682b4"</span>, <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.65</span>) <span class="sc">+</span></span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dchisq, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">1</span>), <span class="at">colour =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dchisq, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">2</span>), <span class="at">colour =</span> <span class="st">"#e07b39"</span>,</span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.2</span>)) <span class="sc">+</span></span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"statistique du khi-deux"</span>, <span class="at">y =</span> <span class="st">"densite"</span>)</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a>La consequence pratique se lit sur le taux de fausses alertes. Comme la population simulee est reellement a l'equilibre, un bon test ne devrait la declarer hors equilibre que dans 5 pour cent des cas au seuil de 5 pour cent. C'est bien ce que donne le nombre correct de degres de liberte.</span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: taux-rejet</span></span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">`</span><span class="at">rejet avec ddl = 1 (correct)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(stat <span class="sc">&gt;</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">1</span>)),</span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">rejet avec ddl = 2 (errone)</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">mean</span>(stat <span class="sc">&gt;</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">2</span>)))</span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a>Avec 1 degre de liberte, le taux de rejet est proche de 5 pour cent, la valeur visee. Avec 2 degres de liberte, il tombe autour de 1,4 pour cent : le test devient trop prudent, et laisse passer de vraies deviations qu'il aurait du detecter. Ce taux de fausses alertes est l'analogue du taux de couverture du chapitre sur les intervalles de confiance : choisir le mauvais nombre de degres de liberte, comme choisir la mauvaise valeur critique, fausse la garantie annoncee.</span>
+<span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cas a plus d'un parametre estime</span></span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a>Avec trois alleles au lieu de deux, par exemple le systeme des groupes sanguins A, B, O, il y a six genotypes possibles et l'on estime deux frequences alleliques independantes (la troisieme s'en deduit). Le compte devient alors nombre de classes, moins 1 pour le total, moins 2 pour les deux frequences estimees. Le principe ne change pas : un degre de liberte retranche par parametre reellement estime sur les donnees.</span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a><span class="fu"># Une violation typique : la consanguinite</span></span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a>Parmi les ecarts a Hardy-Weinberg, la consanguinite est l'un des plus classiques. Elle survient quand les individus s'accouplent avec des apparentes plus souvent que ne le voudrait le hasard. Ses deux alleles ont alors une chance accrue d'etre des copies d'un meme allele ancestral. On mesure ce phenomene par le **coefficient de consanguinite**, note $F$, qui est la probabilite que les deux alleles d'un individu soient identiques par ascendance.</span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a>Sous consanguinite, les frequences genotypiques deviennent</span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a>f(\text{AA}) = p^2 + Fpq, \qquad f(\text{Aa}) = 2pq(1 - F), \qquad f(\text{aa}) = q^2 + Fpq .</span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a>La signature est un **deficit d'heterozygotes** et un exces des deux homozygotes, la frequence allelique restant, elle, inchangee. Simulons-le.</span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: consanguinite</span></span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a>F  <span class="ot">&lt;-</span> <span class="fl">0.20</span></span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a>N  <span class="ot">&lt;-</span> <span class="dv">200000</span></span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a>ibd <span class="ot">&lt;-</span> <span class="fu">runif</span>(N) <span class="sc">&lt;</span> F                              <span class="co"># les deux alleles identiques par ascendance</span></span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a>a1  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, p)                            <span class="co"># premier allele : 1 = A, 0 = a</span></span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a>a2  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(ibd, a1, <span class="fu">rbinom</span>(N, <span class="dv">1</span>, p))          <span class="co"># second : copie du premier, ou tire au hasard</span></span>
+<span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a>nA  <span class="ot">&lt;-</span> a1 <span class="sc">+</span> a2</span>
+<span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-275"><a href="#cb15-275" aria-hidden="true" tabindex="-1"></a>obs    <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="fu">factor</span>(nA, <span class="at">levels =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))))</span>
+<span id="cb15-276"><a href="#cb15-276" aria-hidden="true" tabindex="-1"></a>att_hw <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">AA =</span> p<span class="sc">^</span><span class="dv">2</span>, <span class="at">Aa =</span> <span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> q, <span class="at">aa =</span> q<span class="sc">^</span><span class="dv">2</span>)   <span class="co"># attendu sous Hardy-Weinberg (meme p)</span></span>
+<span id="cb15-277"><a href="#cb15-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-278"><a href="#cb15-278" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">observe =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(obs), <span class="dv">3</span>),</span>
+<span id="cb15-279"><a href="#cb15-279" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">attendu HW</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(att_hw, <span class="dv">3</span>)) <span class="sc">|&gt;</span> <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>))</span>
+<span id="cb15-280"><a href="#cb15-280" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-281"><a href="#cb15-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-284"><a href="#cb15-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-285"><a href="#cb15-285" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-consanguinite</span></span>
+<span id="cb15-286"><a href="#cb15-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Population consanguine (F = 0,20) comparee aux proportions de Hardy-Weinberg de meme frequence allelique. Les heterozygotes sont en deficit, les deux homozygotes en exces."</span></span>
+<span id="cb15-287"><a href="#cb15-287" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">genotype =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"Aa"</span>, <span class="st">"aa"</span>)),</span>
+<span id="cb15-288"><a href="#cb15-288" aria-hidden="true" tabindex="-1"></a>       <span class="at">observe =</span> <span class="fu">as.numeric</span>(obs), <span class="at">attendu =</span> att_hw) <span class="sc">|&gt;</span></span>
+<span id="cb15-289"><a href="#cb15-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(observe, attendu), <span class="at">names_to =</span> <span class="st">"type"</span>, <span class="at">values_to =</span> <span class="st">"frequence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-290"><a href="#cb15-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(genotype, frequence, <span class="at">fill =</span> type)) <span class="sc">+</span></span>
+<span id="cb15-291"><a href="#cb15-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb15-292"><a href="#cb15-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette_oa, <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb15-293"><a href="#cb15-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"genotype"</span>, <span class="at">y =</span> <span class="st">"frequence"</span>)</span>
+<span id="cb15-294"><a href="#cb15-294" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-295"><a href="#cb15-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-296"><a href="#cb15-296" aria-hidden="true" tabindex="-1"></a>La frequence de l'allele A vaut toujours 0,6 apres l'operation, mais la proportion d'heterozygotes est passee d'environ 48 a environ 38 pour cent. C'est exactement le genre de deviation que le test du khi-deux detecte, et que le modele de Hardy-Weinberg, en servant de reference, permet de reperer.</span>
+<span id="cb15-297"><a href="#cb15-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-298"><a href="#cb15-298" aria-hidden="true" tabindex="-1"></a><span class="fu"># A retenir</span></span>
+<span id="cb15-299"><a href="#cb15-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-300"><a href="#cb15-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sous accouplement au hasard et en l'absence de selection, mutation, migration et derive, les frequences alleliques restent constantes et les frequences genotypiques valent $p^2$, $2pq$ et $q^2$.</span>
+<span id="cb15-301"><a href="#cb15-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cet equilibre s'atteint en une seule generation, quelles que soient les proportions genotypiques de depart, tant que la frequence allelique est fixee.</span>
+<span id="cb15-302"><a href="#cb15-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hardy-Weinberg est un modele de reference : un ecart aux proportions attendues signale qu'une hypothese est violee, et oriente vers la cause, par exemple un deficit d'heterozygotes en cas de consanguinite.</span>
+<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La frequence allelique s'estime en comptant les alleles : $\hat p = (2 n_{\text{AA}} + n_{\text{Aa}}) / (2N)$.</span>
+<span id="cb15-304"><a href="#cb15-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Le test de conformite est un khi-deux a **1** degre de liberte : trois classes, moins un pour le total, moins un pour la frequence allelique estimee. Utiliser 2 degres de liberte fausse le taux de fausses alertes.</span>
+<span id="cb15-305"><a href="#cb15-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-306"><a href="#cb15-306" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
+<span id="cb15-307"><a href="#cb15-307" aria-hidden="true" tabindex="-1"></a>Pour transformer ce chapitre en support de presentation, remplacez <span class="in">`format: html`</span> par <span class="in">`format: revealjs`</span> dans l'en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.</span>
+<span id="cb15-308"><a href="#cb15-308" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

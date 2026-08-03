@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Les intervalles de confiance : mesurer l’incertitude d’une estimation – Biostatistique et evaluation de la biodiversite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./khi-deux.html" rel="next">
+<link href="./estimateur-biais-n-1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5f91031bc365a86ba538a82a3533cd37.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Biostatistique et evaluation de la biodiversite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./simulateurs.html"> 
+<span class="menu-text">Simulateurs</span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estimateur-biais-n-1.html">Fondements statistiques</a></li><li class="breadcrumb-item"><a href="./intervalles-de-confiance.html">Les intervalles de confiance</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accueil</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fondements statistiques</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./estimateur-biais-n-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estimateur biaise ou non : le n - 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intervalles-de-confiance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Les intervalles de confiance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./khi-deux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le test du khi-deux</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methodes d’evaluation de la biodiversite</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cmr-hypotheses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capture-marquage-recapture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hardy-weinberg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L’equilibre de Hardy-Weinberg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./methode-des-quadrats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">La methode des quadrats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-statistique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistique du metabarcoding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le pipeline metabarcoding (presentation)</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ressources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simulateurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulateurs Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliographie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommaire</h2>
+   
+  <ul>
+<li><a href="#le-probleme-une-estimation-ponctuelle-est-muette-sur-sa-precision" id="toc-le-probleme-une-estimation-ponctuelle-est-muette-sur-sa-precision" class="nav-link active" data-scroll-target="#le-probleme-une-estimation-ponctuelle-est-muette-sur-sa-precision"><span class="header-section-number">1</span> Le probleme : une estimation ponctuelle est muette sur sa precision</a></li>
+  <li><a href="#construire-un-intervalle-de-confiance" id="toc-construire-un-intervalle-de-confiance" class="nav-link" data-scroll-target="#construire-un-intervalle-de-confiance"><span class="header-section-number">2</span> Construire un intervalle de confiance</a></li>
+  <li><a href="#la-danse-des-intervalles-ce-que-garantit-la-methode" id="toc-la-danse-des-intervalles-ce-que-garantit-la-methode" class="nav-link" data-scroll-target="#la-danse-des-intervalles-ce-que-garantit-la-methode"><span class="header-section-number">3</span> La danse des intervalles : ce que garantit la methode</a></li>
+  <li><a href="#linterpretation-correcte-et-lerreur-a-eviter" id="toc-linterpretation-correcte-et-lerreur-a-eviter" class="nav-link" data-scroll-target="#linterpretation-correcte-et-lerreur-a-eviter"><span class="header-section-number">4</span> L’interpretation correcte, et l’erreur a eviter</a></li>
+  <li><a href="#ce-qui-determine-la-largeur" id="toc-ce-qui-determine-la-largeur" class="nav-link" data-scroll-target="#ce-qui-determine-la-largeur"><span class="header-section-number">5</span> Ce qui determine la largeur</a></li>
+  <li><a href="#quand-lecart-type-est-inconnu-la-loi-de-student" id="toc-quand-lecart-type-est-inconnu-la-loi-de-student" class="nav-link" data-scroll-target="#quand-lecart-type-est-inconnu-la-loi-de-student"><span class="header-section-number">6</span> Quand l’ecart-type est inconnu : la loi de Student</a></li>
+  <li><a href="#la-validite-repose-sur-des-hypotheses" id="toc-la-validite-repose-sur-des-hypotheses" class="nav-link" data-scroll-target="#la-validite-repose-sur-des-hypotheses"><span class="header-section-number">7</span> La validite repose sur des hypotheses</a></li>
+  <li><a href="#a-retenir" id="toc-a-retenir" class="nav-link" data-scroll-target="#a-retenir"><span class="header-section-number">8</span> A retenir</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estimateur-biais-n-1.html">Fondements statistiques</a></li><li class="breadcrumb-item"><a href="./intervalles-de-confiance.html">Les intervalles de confiance</a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Les intervalles de confiance : mesurer l’incertitude d’une estimation</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Montrer tout le code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Cacher tout le code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Voir les sources</a></li></ul></div></div>
+<p class="subtitle lead">Construction, interpretation, et ce dont depend leur validite</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Date de publication</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">3 août 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objectif du chapitre
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Une estimation calculee sur un echantillon, comme une moyenne, est presque toujours differente de la vraie valeur de la population. L’intervalle de confiance sert a exprimer cette incertitude : au lieu d’une valeur unique, on fournit une fourchette accompagnee d’une garantie. Nous verrons comment on la construit, ce qu’elle garantit exactement (et ce qu’elle ne garantit pas), ce qui determine sa largeur, et pourquoi sa validite depend d’hypotheses qu’il faut savoir reconnaitre.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Vocabulaire de depart
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>
+<strong>Population</strong> : l’ensemble complet des individus etudies. On ne l’observe jamais en entier.</li>
+<li>
+<strong>Echantillon</strong> : le sous-ensemble effectivement mesure. Sa taille est notee <span class="math inline">\(n\)</span>.</li>
+<li>
+<strong>Parametre</strong> : une caracteristique de la population, fixe mais inconnue, par exemple sa moyenne <span class="math inline">\(\mu\)</span> ou son ecart-type <span class="math inline">\(\sigma\)</span>.</li>
+<li>
+<strong>Estimateur</strong> : une formule appliquee a l’echantillon pour approcher un parametre. La moyenne de l’echantillon, notee <span class="math inline">\(\bar x\)</span>, estime <span class="math inline">\(\mu\)</span>.</li>
+<li>
+<strong>Estimation ponctuelle</strong> : une seule valeur avancee pour le parametre (par exemple <span class="math inline">\(\bar x = 19{,}4\)</span>).</li>
+<li>
+<strong>Estimation par intervalle</strong> : une fourchette de valeurs, l’intervalle de confiance, assortie d’un niveau de garantie.</li>
+<li>
+<strong>Ecart-type</strong> : mesure de la dispersion des donnees autour de leur moyenne.</li>
+<li>
+<strong>Erreur-type</strong> : mesure de la dispersion de l’estimateur d’un echantillon a l’autre. C’est une notion distincte de l’ecart-type, definie a la section 3.</li>
+</ul>
+</div>
+</div>
+<section id="le-probleme-une-estimation-ponctuelle-est-muette-sur-sa-precision" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Le probleme : une estimation ponctuelle est muette sur sa precision</h1>
+<p>Supposons que l’on veuille connaitre la taille moyenne <span class="math inline">\(\mu\)</span> d’une population. On mesure <span class="math inline">\(n\)</span> individus et l’on calcule la moyenne de l’echantillon <span class="math inline">\(\bar x\)</span>. Cette valeur est une <strong>estimation ponctuelle</strong> de <span class="math inline">\(\mu\)</span>.</p>
+<p>Le probleme est qu’elle ne dit rien sur sa propre fiabilite. Une moyenne de 19,4 obtenue sur 5 individus et la meme moyenne obtenue sur 5000 individus s’ecrivent de facon identique, alors que la seconde est bien plus digne de confiance. L’estimation ponctuelle ne distingue pas ces deux situations. L’intervalle de confiance repond precisement a ce manque : il traduit en une fourchette l’incertitude attachee a l’estimation.</p>
+</section><section id="construire-un-intervalle-de-confiance" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> Construire un intervalle de confiance</h1>
+<p>La plupart des intervalles de confiance suivent le meme schema. On part de l’estimation ponctuelle et on l’entoure d’une marge, de part et d’autre :</p>
+<p><span class="math display">\[
+\text{estimation} \;\pm\; \underbrace{c}_{\text{valeur critique}} \times \underbrace{\text{erreur-type}}_{\text{incertitude de l'estimation}} .
+\]</span></p>
+<p>Deux ingredients apparaissent, qu’il faut definir.</p>
+<p>L’<strong>erreur-type</strong> est l’ecart-type de la distribution d’echantillonnage de l’estimateur, c’est-a-dire une mesure de sa variabilite si l’on repetait l’etude. Il ne faut pas la confondre avec l’ecart-type des donnees : ce dernier mesure a quel point les individus different entre eux, tandis que l’erreur-type mesure a quel point l’estimation calculee changerait d’un echantillon a l’autre. Pour la moyenne, l’erreur-type vaut l’ecart-type divise par la racine carree de la taille de l’echantillon :</p>
+<p><span class="math display">\[
+\text{erreur-type de } \bar x \;=\; \frac{s}{\sqrt{n}},
+\]</span></p>
+<p>ou <span class="math inline">\(s\)</span> est l’ecart-type calcule sur l’echantillon. Cette division par <span class="math inline">\(\sqrt{n}\)</span> exprime que la moyenne de plusieurs mesures est plus stable qu’une mesure isolee.</p>
+<p>La <strong>valeur critique</strong> <span class="math inline">\(c\)</span> est un multiplicateur qui fixe la largeur de la fourchette en fonction du niveau de garantie souhaite. Pour une garantie de 95 pour cent et une distribution approximativement normale, elle vaut environ 1,96. Plus la garantie demandee est elevee, plus cette valeur est grande, et plus l’intervalle est large.</p>
+<p>Calculons un intervalle sur un echantillon unique de <span class="math inline">\(n = 30\)</span> individus.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">echantillon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>   <span class="co"># 30 mesures tirees de la population</span></span>
+<span></span>
+<span><span class="va">xbar</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">echantillon</span><span class="op">)</span>           <span class="co"># estimation ponctuelle</span></span>
+<span><span class="va">s</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">echantillon</span><span class="op">)</span>             <span class="co"># ecart-type des donnees</span></span>
+<span><span class="va">se</span>    <span class="op">&lt;-</span> <span class="va">s</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>                 <span class="co"># erreur-type de la moyenne</span></span>
+<span><span class="va">crit</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>       <span class="co"># valeur critique a 95 % (loi de Student, cf. section 7)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>borne_basse <span class="op">=</span> <span class="va">xbar</span> <span class="op">-</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span>,</span>
+<span>  estimation  <span class="op">=</span> <span class="va">xbar</span>,</span>
+<span>  borne_haute <span class="op">=</span> <span class="va">xbar</span> <span class="op">+</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>borne_basse  estimation borne_haute 
+   17.59234    19.63786    21.68338 </code></pre>
+</div>
+</div>
+<p>Cet intervalle est une realisation parmi une infinite possible : un autre echantillon aurait donne un autre intervalle. Pour comprendre ce que garantit la methode, il faut donc raisonner sur l’ensemble des echantillons possibles.</p>
+</section><section id="la-danse-des-intervalles-ce-que-garantit-la-methode" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> La danse des intervalles : ce que garantit la methode</h1>
+<p>Repetons l’operation un grand nombre de fois. Pour chaque echantillon, on construit son intervalle de confiance a 95 pour cent, puis on regarde s’il contient la vraie moyenne <span class="math inline">\(\mu\)</span>, que nous connaissons ici puisque nous simulons.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span>     <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">n_rep</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">ech</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">n_rep</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span>  <span class="co"># une colonne = un echantillon</span></span>
+<span></span>
+<span><span class="va">xbar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">ech</span><span class="op">)</span></span>
+<span><span class="va">se</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">ech</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">bas</span>  <span class="op">&lt;-</span> <span class="va">xbar</span> <span class="op">-</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span></span>
+<span><span class="va">haut</span> <span class="op">&lt;-</span> <span class="va">xbar</span> <span class="op">+</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span></span>
+<span></span>
+<span><span class="va">couvre</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">bas</span> <span class="op">&lt;=</span> <span class="va">mu</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">mu</span> <span class="op">&lt;=</span> <span class="va">haut</span><span class="op">)</span>   <span class="co"># l'intervalle contient-il la vraie valeur ?</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">couvre</span><span class="op">)</span>                           <span class="co"># proportion d'intervalles qui la contiennent</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9507</code></pre>
+</div>
+</div>
+<p>Cette proportion, appelee <strong>taux de couverture</strong>, est proche de 95 pour cent. Visualisons une centaine de ces intervalles, en vert ceux qui contiennent <span class="math inline">\(\mu\)</span>, en rouge ceux qui la manquent.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="fu">tibble</span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">K</span>, bas <span class="op">=</span> <span class="va">bas</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">K</span><span class="op">]</span>, haut <span class="op">=</span> <span class="va">haut</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">K</span><span class="op">]</span>,</span>
+<span>       xbar <span class="op">=</span> <span class="va">xbar</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">K</span><span class="op">]</span>, couvre <span class="op">=</span> <span class="va">couvre</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">K</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_segment</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">bas</span>, xend <span class="op">=</span> <span class="va">haut</span>, yend <span class="op">=</span> <span class="va">i</span>, colour <span class="op">=</span> <span class="va">couvre</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">xbar</span>, colour <span class="op">=</span> <span class="va">couvre</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">mu</span>, colour <span class="op">=</span> <span class="st">"firebrick"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_colour_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`TRUE` <span class="op">=</span> <span class="st">"#2e7d32"</span>, `FALSE` <span class="op">=</span> <span class="st">"#c62828"</span><span class="op">)</span>,</span>
+<span>                      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`TRUE` <span class="op">=</span> <span class="st">"contient la vraie valeur"</span>,</span>
+<span>                                 `FALSE` <span class="op">=</span> <span class="st">"la manque"</span><span class="op">)</span>, name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"valeur estimee de la moyenne"</span>, y <span class="op">=</span> <span class="st">"etude"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-danse" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-danse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="intervalles-de-confiance_files/figure-html/fig-danse-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-danse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Cent intervalles de confiance a 95 %, chacun construit sur un echantillon different. La ligne rouge est la vraie moyenne. Environ cinq intervalles sur cent la manquent : ce sont les intervalles rouges.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>C’est le sens exact de la garantie. Le <strong>niveau de confiance</strong>, ici 95 pour cent, est une propriete de la <strong>methode</strong> : si on l’applique a un grand nombre d’echantillons, la fourchette produite contient la vraie valeur dans environ 95 pour cent des cas. Ce niveau est choisi a l’avance ; le taux de couverture est ce qui se produit reellement. Quand les hypotheses sont respectees, les deux coincident.</p>
+</section><section id="linterpretation-correcte-et-lerreur-a-eviter" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> L’interpretation correcte, et l’erreur a eviter</h1>
+<p>Une confusion tres repandue merite d’etre traitee de front.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avertissement</span>L’erreur classique
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Il est incorrect de dire, a propos d’un intervalle deja calcule comme <span class="math inline">\([18{,}1 ; 20{,}7]\)</span> : <em>il y a 95 pour cent de chances que la vraie moyenne soit dans cet intervalle</em>. Une fois l’intervalle calcule, la vraie moyenne <span class="math inline">\(\mu\)</span> est un nombre fixe : soit elle appartient a cet intervalle, soit elle n’y appartient pas. Il n’y a plus de hasard a quantifier. Les 95 pour cent ne decrivent pas cet intervalle-ci, mais la procedure qui l’a produit.</p>
+</div>
+</div>
+<p>La formulation correcte porte sur la repetition : <em>si l’on repetait l’etude un grand nombre de fois, environ 95 pour cent des intervalles construits de cette maniere contiendraient la vraie valeur</em>. En pratique, on agit comme si l’intervalle obtenu contenait le parametre, en s’appuyant sur le fait que la methode reussit dans 95 pour cent des cas. La confiance porte sur le procede, pas sur une fourchette isolee.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pour les curieux : une autre ecole
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Le cadre presente ici est dit frequentiste : la probabilite y decrit la frequence d’un evenement sur des repetitions, et l’on ne peut donc pas attribuer de probabilite a un intervalle deja fixe. Une autre approche, dite bayesienne, construit un objet different, l’intervalle de credibilite, pour lequel l’enonce direct (la probabilite que le parametre soit dans l’intervalle vaut 95 pour cent) devient legitime, au prix d’hypotheses supplementaires. Les deux repondent a des questions distinctes et ne doivent pas etre confondus.</p>
+</div>
+</div>
+</div>
+</section><section id="ce-qui-determine-la-largeur" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Ce qui determine la largeur</h1>
+<p>Trois facteurs, et trois seulement, gouvernent la largeur d’un intervalle de confiance pour la moyenne.</p>
+<p>Le premier est la <strong>dispersion des donnees</strong> : plus les individus different entre eux (grand <span class="math inline">\(\sigma\)</span>), plus l’intervalle est large, car l’estimation est moins precise.</p>
+<p>Le deuxieme est la <strong>taille de l’echantillon</strong>. La largeur diminue comme l’inverse de la racine carree de <span class="math inline">\(n\)</span> : quadrupler l’effectif ne divise la largeur que par deux. C’est le rendement decroissant de l’effort d’echantillonnage.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tailles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">80</span>, <span class="fl">160</span>, <span class="fl">320</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">demi_largeur</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">tailles</span>, <span class="kw">function</span><span class="op">(</span><span class="va">nn</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">nn</span> <span class="op">*</span> <span class="fl">3000</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">nn</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">nn</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">e</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">nn</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>n <span class="op">=</span> <span class="va">tailles</span>, demi_largeur <span class="op">=</span> <span class="va">demi_largeur</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">n</span>, <span class="va">demi_largeur</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span><span class="op">)</span> <span class="op">*</span> <span class="va">sigma</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
+<span>                colour <span class="op">=</span> <span class="st">"firebrick"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2.5</span>, colour <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"taille de l'echantillon n"</span>, y <span class="op">=</span> <span class="st">"demi-largeur de l'intervalle"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-largeur-n" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-largeur-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="intervalles-de-confiance_files/figure-html/fig-largeur-n-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-largeur-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Demi-largeur moyenne de l’intervalle a 95 % selon la taille de l’echantillon. Les points sont simules, la courbe rouge est la reference proportionnelle a 1 sur racine de n.&nbsp;Il faut multiplier l’effort par quatre pour reduire de moitie l’incertitude.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Le troisieme est le <strong>niveau de confiance</strong>. Exiger une garantie plus forte oblige a elargir la fourchette : on ne peut pas etre a la fois plus sur et plus precis a effort constant. C’est un arbitrage.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="fl">3000</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">se_moyen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">e</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">niveaux</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.80</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span><span class="op">)</span></span>
+<span><span class="fu">tibble</span><span class="op">(</span></span>
+<span>  `niveau de confiance` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"%.0f %%"</span>, <span class="va">niveaux</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>  `valeur critique`     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.5</span> <span class="op">+</span> <span class="va">niveaux</span> <span class="op">/</span> <span class="fl">2</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  `demi-largeur`        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.5</span> <span class="op">+</span> <span class="va">niveaux</span> <span class="op">/</span> <span class="fl">2</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">se_moyen</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">niveau de confiance</th>
+<th style="text-align: right;">valeur critique</th>
+<th style="text-align: right;">demi-largeur</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">80 %</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">1.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">90 %</td>
+<td style="text-align: right;">1.70</td>
+<td style="text-align: right;">1.55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">95 %</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: right;">1.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">99 %</td>
+<td style="text-align: right;">2.76</td>
+<td style="text-align: right;">2.51</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="quand-lecart-type-est-inconnu-la-loi-de-student" class="level1" data-number="6"><h1 data-number="6">
+<span class="header-section-number">6</span> Quand l’ecart-type est inconnu : la loi de Student</h1>
+<p>Un detail a des consequences reelles. La valeur critique de 1,96 vaut lorsque l’ecart-type <span class="math inline">\(\sigma\)</span> de la population est connu. En pratique il ne l’est jamais : on l’estime par l’ecart-type de l’echantillon <span class="math inline">\(s\)</span>, lui-meme entache d’incertitude. Ignorer cette incertitude supplementaire produit des intervalles trop etroits, donc une couverture inferieure a la garantie annoncee.</p>
+<p>La correction consiste a remplacer la loi normale par la <strong>loi de Student</strong>, dont les valeurs critiques sont un peu plus grandes, d’autant plus que l’echantillon est petit. Cette loi est parametree par un nombre de <strong>degres de liberte</strong> egal a <span class="math inline">\(n - 1\)</span>, le meme <span class="math inline">\(n - 1\)</span> que celui de l’ecart-type de l’echantillon (voir le chapitre sur l’estimation de la variance). Comparons, sur de petits echantillons, la couverture reelle des deux choix.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span>   <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">ech</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">n_rep</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">xbar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">ech</span><span class="op">)</span></span>
+<span><span class="va">se</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">ech</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">couv_z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">xbar</span> <span class="op">-</span> <span class="va">mu</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span><span class="op">)</span> <span class="op">*</span> <span class="va">se</span><span class="op">)</span>         <span class="co"># valeur critique 1,96</span></span>
+<span><span class="va">couv_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">xbar</span> <span class="op">-</span> <span class="va">mu</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">se</span><span class="op">)</span> <span class="co"># loi de Student</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`intervalle avec 1,96 (normale)` <span class="op">=</span> <span class="va">couv_z</span>,</span>
+<span>  `intervalle avec Student`        <span class="op">=</span> <span class="va">couv_t</span>,</span>
+<span>  `garantie visee`                 <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>intervalle avec 1,96 (normale)        intervalle avec Student 
+                        0.8765                         0.9481 
+                garantie visee 
+                        0.9500 </code></pre>
+</div>
+</div>
+<p>A <span class="math inline">\(n = 5\)</span>, l’intervalle fonde sur 1,96 ne couvre la vraie valeur que dans environ 88 pour cent des etudes, bien en dessous des 95 pour cent annonces, tandis que l’intervalle de Student retablit la garantie. L’ecart s’attenue quand l’echantillon grandit, les deux lois devenant presque identiques au dela de quelques dizaines d’observations.</p>
+</section><section id="la-validite-repose-sur-des-hypotheses" class="level1" data-number="7"><h1 data-number="7">
+<span class="header-section-number">7</span> La validite repose sur des hypotheses</h1>
+<p>La garantie de 95 pour cent n’est pas automatique. Elle suppose que la distribution d’echantillonnage de l’estimateur est approximativement normale et symetrique, et que l’estimateur ne comporte pas de biais systematique. Quand ces conditions ne tiennent pas, le taux de couverture reel s’ecarte du niveau annonce.</p>
+<p>Prenons des donnees fortement asymetriques, tirees d’une loi exponentielle, dont la moyenne vraie vaut 1, avec un petit echantillon. La distribution de la moyenne y reste dissymetrique, et l’intervalle symetrique en paye le prix.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span>   <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">ech</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">n_rep</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span>   <span class="co"># moyenne vraie = 1</span></span>
+<span><span class="va">xbar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">ech</span><span class="op">)</span></span>
+<span><span class="va">se</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">ech</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">bas</span>  <span class="op">&lt;-</span> <span class="va">xbar</span> <span class="op">-</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span></span>
+<span><span class="va">haut</span> <span class="op">&lt;-</span> <span class="va">xbar</span> <span class="op">+</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">se</span></span>
+<span></span>
+<span><span class="va">vrai</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>couverture           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bas</span> <span class="op">&lt;=</span> <span class="va">vrai</span> <span class="op">&amp;</span> <span class="va">vrai</span> <span class="op">&lt;=</span> <span class="va">haut</span><span class="op">)</span>,</span>
+<span>  `manque par le haut` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">vrai</span> <span class="op">&gt;</span> <span class="va">haut</span><span class="op">)</span>,</span>
+<span>  `manque par le bas`  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">vrai</span> <span class="op">&lt;</span> <span class="va">bas</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>        couverture manque par le haut  manque par le bas 
+            0.8991             0.0974             0.0035 </code></pre>
+</div>
+</div>
+<p>La couverture tombe autour de 90 pour cent, et surtout les echecs sont tres asymetriques : l’intervalle manque la vraie valeur presque toujours du meme cote. Une couverture globale degradee et desequilibree est le signe que l’hypothese de forme est violee. Le remede usuel est d’augmenter la taille de l’echantillon, car la distribution de la moyenne se rapproche alors d’une normale, ou d’employer des methodes adaptees aux petits echantillons asymetriques.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Le biais est encore plus destructeur que l’asymetrie
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>L’asymetrie degrade la couverture ; un biais systematique la detruit. Un intervalle est centre sur l’estimation, et sa demi-largeur ne mesure que la variabilite d’echantillonnage, jamais le biais. Si l’estimateur vise a cote de la cible, l’intervalle suit ce decalage et manque la vraie valeur dans la quasi-totalite des etudes, quand bien meme il serait etroit. C’est ce que montre le chapitre sur la capture-recapture : sous violation d’une hypothese, l’estimateur devient biaise et le taux de couverture s’effondre vers zero. Un intervalle etroit temoigne d’une bonne fidelite, c’est-a-dire d’une faible variance, et non d’une bonne justesse, c’est-a-dire d’un faible biais.</p>
+</div>
+</div>
+</div>
+</section><section id="a-retenir" class="level1" data-number="8"><h1 data-number="8">
+<span class="header-section-number">8</span> A retenir</h1>
+<ul>
+<li>Un intervalle de confiance entoure une estimation ponctuelle d’une marge egale a une <strong>valeur critique</strong> multipliee par l’<strong>erreur-type</strong>, cette derniere mesurant la variabilite de l’estimateur et non la dispersion des donnees.</li>
+<li>Le <strong>niveau de confiance</strong> est une propriete de la methode : sur des etudes repetees, une fraction egale a ce niveau des intervalles contient la vraie valeur. Pour un intervalle deja calcule, il n’y a plus de probabilite a lui attribuer : la vraie valeur y est, ou n’y est pas.</li>
+<li>La largeur augmente avec la dispersion des donnees et avec le niveau de confiance exige, et diminue comme l’inverse de la racine de la taille de l’echantillon.</li>
+<li>Lorsque l’ecart-type est estime, la <strong>loi de Student</strong> (a <span class="math inline">\(n - 1\)</span> degres de liberte) corrige la sous-couverture des petits echantillons.</li>
+<li>La garantie repose sur des hypotheses. L’asymetrie degrade la couverture, le biais la detruit : un intervalle mesure la variabilite, pas l’ecart systematique a la vraie valeur.</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Pour transformer ce chapitre en support de presentation, remplacez <code>format: html</code> par <code>format: revealjs</code> dans l’en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./estimateur-biais-n-1.html" class="pagination-link" aria-label="Estimateur biaise ou non : le n - 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Estimateur biaise ou non : le n - 1</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./khi-deux.html" class="pagination-link" aria-label="Le test du khi-deux">
+        <span class="nav-page-text">Le test du khi-deux</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Les intervalles de confiance : mesurer l'incertitude d'une estimation"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Construction, interpretation, et ce dont depend leur validite"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "Sommaire"</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">    fig-width: 8</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">    fig-height: 4.5</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: kable</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk:</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">    dev: "png"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">    fig.align: "center"</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>))</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>mu    <span class="ot">&lt;-</span> <span class="dv">20</span>   <span class="co"># moyenne "vraie" de la population (inconnue en pratique)</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">5</span>    <span class="co"># ecart-type "vrai"</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objectif du chapitre</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>Une estimation calculee sur un echantillon, comme une moyenne, est presque toujours differente de la vraie valeur de la population. L'intervalle de confiance sert a exprimer cette incertitude : au lieu d'une valeur unique, on fournit une fourchette accompagnee d'une garantie. Nous verrons comment on la construit, ce qu'elle garantit exactement (et ce qu'elle ne garantit pas), ce qui determine sa largeur, et pourquoi sa validite depend d'hypotheses qu'il faut savoir reconnaitre.</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vocabulaire de depart</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Population** : l'ensemble complet des individus etudies. On ne l'observe jamais en entier.</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Echantillon** : le sous-ensemble effectivement mesure. Sa taille est notee $n$.</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parametre** : une caracteristique de la population, fixe mais inconnue, par exemple sa moyenne $\mu$ ou son ecart-type $\sigma$.</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Estimateur** : une formule appliquee a l'echantillon pour approcher un parametre. La moyenne de l'echantillon, notee $\bar x$, estime $\mu$.</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Estimation ponctuelle** : une seule valeur avancee pour le parametre (par exemple $\bar x = 19{,}4$).</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Estimation par intervalle** : une fourchette de valeurs, l'intervalle de confiance, assortie d'un niveau de garantie.</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ecart-type** : mesure de la dispersion des donnees autour de leur moyenne.</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Erreur-type** : mesure de la dispersion de l'estimateur d'un echantillon a l'autre. C'est une notion distincte de l'ecart-type, definie a la section 3.</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le probleme : une estimation ponctuelle est muette sur sa precision</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>Supposons que l'on veuille connaitre la taille moyenne $\mu$ d'une population. On mesure $n$ individus et l'on calcule la moyenne de l'echantillon $\bar x$. Cette valeur est une **estimation ponctuelle** de $\mu$.</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>Le probleme est qu'elle ne dit rien sur sa propre fiabilite. Une moyenne de 19,4 obtenue sur 5 individus et la meme moyenne obtenue sur 5000 individus s'ecrivent de facon identique, alors que la seconde est bien plus digne de confiance. L'estimation ponctuelle ne distingue pas ces deux situations. L'intervalle de confiance repond precisement a ce manque : il traduit en une fourchette l'incertitude attachee a l'estimation.</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="fu"># Construire un intervalle de confiance</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>La plupart des intervalles de confiance suivent le meme schema. On part de l'estimation ponctuelle et on l'entoure d'une marge, de part et d'autre :</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>\text{estimation} \;\pm\; \underbrace{c}_{\text{valeur critique}} \times \underbrace{\text{erreur-type}}_{\text{incertitude de l'estimation}} .</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>Deux ingredients apparaissent, qu'il faut definir.</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>L'**erreur-type** est l'ecart-type de la distribution d'echantillonnage de l'estimateur, c'est-a-dire une mesure de sa variabilite si l'on repetait l'etude. Il ne faut pas la confondre avec l'ecart-type des donnees : ce dernier mesure a quel point les individus different entre eux, tandis que l'erreur-type mesure a quel point l'estimation calculee changerait d'un echantillon a l'autre. Pour la moyenne, l'erreur-type vaut l'ecart-type divise par la racine carree de la taille de l'echantillon :</span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>\text{erreur-type de } \bar x \;=\; \frac{s}{\sqrt{n}},</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>ou $s$ est l'ecart-type calcule sur l'echantillon. Cette division par $\sqrt{n}$ exprime que la moyenne de plusieurs mesures est plus stable qu'une mesure isolee.</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>La **valeur critique** $c$ est un multiplicateur qui fixe la largeur de la fourchette en fonction du niveau de garantie souhaite. Pour une garantie de 95 pour cent et une distribution approximativement normale, elle vaut environ 1,96. Plus la garantie demandee est elevee, plus cette valeur est grande, et plus l'intervalle est large.</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>Calculons un intervalle sur un echantillon unique de $n = 30$ individus.</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: un-intervalle</span></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>echantillon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu, sigma)   <span class="co"># 30 mesures tirees de la population</span></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="fu">mean</span>(echantillon)           <span class="co"># estimation ponctuelle</span></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>s     <span class="ot">&lt;-</span> <span class="fu">sd</span>(echantillon)             <span class="co"># ecart-type des donnees</span></span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>se    <span class="ot">&lt;-</span> s <span class="sc">/</span> <span class="fu">sqrt</span>(n)                 <span class="co"># erreur-type de la moyenne</span></span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>crit  <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)       <span class="co"># valeur critique a 95 % (loi de Student, cf. section 7)</span></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">borne_basse =</span> xbar <span class="sc">-</span> crit <span class="sc">*</span> se,</span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimation  =</span> xbar,</span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">borne_haute =</span> xbar <span class="sc">+</span> crit <span class="sc">*</span> se)</span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>Cet intervalle est une realisation parmi une infinite possible : un autre echantillon aurait donne un autre intervalle. Pour comprendre ce que garantit la methode, il faut donc raisonner sur l'ensemble des echantillons possibles.</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a><span class="fu"># La danse des intervalles : ce que garantit la methode</span></span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a>Repetons l'operation un grand nombre de fois. Pour chaque echantillon, on construit son intervalle de confiance a 95 pour cent, puis on regarde s'il contient la vraie moyenne $\mu$, que nous connaissons ici puisque nous simulons.</span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: couverture</span></span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>n_rep <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>ech   <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> n_rep, mu, sigma), <span class="at">nrow =</span> n)  <span class="co"># une colonne = un echantillon</span></span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(ech)</span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">apply</span>(ech, <span class="dv">2</span>, sd) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a>crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a>bas  <span class="ot">&lt;-</span> xbar <span class="sc">-</span> crit <span class="sc">*</span> se</span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a>haut <span class="ot">&lt;-</span> xbar <span class="sc">+</span> crit <span class="sc">*</span> se</span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a>couvre <span class="ot">&lt;-</span> (bas <span class="sc">&lt;=</span> mu) <span class="sc">&amp;</span> (mu <span class="sc">&lt;=</span> haut)   <span class="co"># l'intervalle contient-il la vraie valeur ?</span></span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(couvre)                           <span class="co"># proportion d'intervalles qui la contiennent</span></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a>Cette proportion, appelee **taux de couverture**, est proche de 95 pour cent. Visualisons une centaine de ces intervalles, en vert ceux qui contiennent $\mu$, en rouge ceux qui la manquent.</span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-danse</span></span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Cent intervalles de confiance a 95 %, chacun construit sur un echantillon different. La ligne rouge est la vraie moyenne. Environ cinq intervalles sur cent la manquent : ce sont les intervalles rouges."</span></span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span>K, <span class="at">bas =</span> bas[<span class="dv">1</span><span class="sc">:</span>K], <span class="at">haut =</span> haut[<span class="dv">1</span><span class="sc">:</span>K],</span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a>       <span class="at">xbar =</span> xbar[<span class="dv">1</span><span class="sc">:</span>K], <span class="at">couvre =</span> couvre[<span class="dv">1</span><span class="sc">:</span>K]) <span class="sc">|&gt;</span></span>
+<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> i)) <span class="sc">+</span></span>
+<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> bas, <span class="at">xend =</span> haut, <span class="at">yend =</span> i, <span class="at">colour =</span> couvre), <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> xbar, <span class="at">colour =</span> couvre), <span class="at">size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu, <span class="at">colour =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#2e7d32"</span>, <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#c62828"</span>),</span>
+<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"contient la vraie valeur"</span>,</span>
+<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"la manque"</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"valeur estimee de la moyenne"</span>, <span class="at">y =</span> <span class="st">"etude"</span>) <span class="sc">+</span></span>
+<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a>C'est le sens exact de la garantie. Le **niveau de confiance**, ici 95 pour cent, est une propriete de la **methode** : si on l'applique a un grand nombre d'echantillons, la fourchette produite contient la vraie valeur dans environ 95 pour cent des cas. Ce niveau est choisi a l'avance ; le taux de couverture est ce qui se produit reellement. Quand les hypotheses sont respectees, les deux coincident.</span>
+<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a><span class="fu"># L'interpretation correcte, et l'erreur a eviter</span></span>
+<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a>Une confusion tres repandue merite d'etre traitee de front.</span>
+<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'erreur classique</span></span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>Il est incorrect de dire, a propos d'un intervalle deja calcule comme $<span class="co">[</span><span class="ot">18{,}1 ; 20{,}7</span><span class="co">]</span>$ : *il y a 95 pour cent de chances que la vraie moyenne soit dans cet intervalle*. Une fois l'intervalle calcule, la vraie moyenne $\mu$ est un nombre fixe : soit elle appartient a cet intervalle, soit elle n'y appartient pas. Il n'y a plus de hasard a quantifier. Les 95 pour cent ne decrivent pas cet intervalle-ci, mais la procedure qui l'a produit.</span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a>La formulation correcte porte sur la repetition : *si l'on repetait l'etude un grand nombre de fois, environ 95 pour cent des intervalles construits de cette maniere contiendraient la vraie valeur*. En pratique, on agit comme si l'intervalle obtenu contenait le parametre, en s'appuyant sur le fait que la methode reussit dans 95 pour cent des cas. La confiance porte sur le procede, pas sur une fourchette isolee.</span>
+<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pour les curieux : une autre ecole</span></span>
+<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a>Le cadre presente ici est dit frequentiste : la probabilite y decrit la frequence d'un evenement sur des repetitions, et l'on ne peut donc pas attribuer de probabilite a un intervalle deja fixe. Une autre approche, dite bayesienne, construit un objet different, l'intervalle de credibilite, pour lequel l'enonce direct (la probabilite que le parametre soit dans l'intervalle vaut 95 pour cent) devient legitime, au prix d'hypotheses supplementaires. Les deux repondent a des questions distinctes et ne doivent pas etre confondus.</span>
+<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a><span class="fu"># Ce qui determine la largeur</span></span>
+<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a>Trois facteurs, et trois seulement, gouvernent la largeur d'un intervalle de confiance pour la moyenne.</span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a>Le premier est la **dispersion des donnees** : plus les individus different entre eux (grand $\sigma$), plus l'intervalle est large, car l'estimation est moins precise.</span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>Le deuxieme est la **taille de l'echantillon**. La largeur diminue comme l'inverse de la racine carree de $n$ : quadrupler l'effectif ne divise la largeur que par deux. C'est le rendement decroissant de l'effort d'echantillonnage.</span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: largeur-selon-n</span></span>
+<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a>tailles <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>, <span class="dv">160</span>, <span class="dv">320</span>)</span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a>demi_largeur <span class="ot">&lt;-</span> <span class="fu">sapply</span>(tailles, <span class="cf">function</span>(nn) {</span>
+<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a>  e <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nn <span class="sc">*</span> <span class="dv">3000</span>, mu, sigma), <span class="at">nrow =</span> nn)</span>
+<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> nn <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">apply</span>(e, <span class="dv">2</span>, sd) <span class="sc">/</span> <span class="fu">sqrt</span>(nn))</span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-largeur-n</span></span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Demi-largeur moyenne de l'intervalle a 95 % selon la taille de l'echantillon. Les points sont simules, la courbe rouge est la reference proportionnelle a 1 sur racine de n. Il faut multiplier l'effort par quatre pour reduire de moitie l'incertitude."</span></span>
+<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">n =</span> tailles, <span class="at">demi_largeur =</span> demi_largeur) <span class="sc">|&gt;</span></span>
+<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, demi_largeur)) <span class="sc">+</span></span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(n) <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>                <span class="at">colour =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"taille de l'echantillon n"</span>, <span class="at">y =</span> <span class="st">"demi-largeur de l'intervalle"</span>)</span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>Le troisieme est le **niveau de confiance**. Exiger une garantie plus forte oblige a elargir la fourchette : on ne peut pas etre a la fois plus sur et plus precis a effort constant. C'est un arbitrage.</span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: largeur-selon-niveau</span></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> <span class="dv">3000</span>, mu, sigma), <span class="at">nrow =</span> n)</span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a>se_moyen <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(e, <span class="dv">2</span>, sd) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a>niveaux <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)</span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">niveau de confiance</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.0f %%"</span>, niveaux <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">valeur critique</span><span class="st">`</span>     <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">qt</span>(<span class="fl">0.5</span> <span class="sc">+</span> niveaux <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">2</span>),</span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">demi-largeur</span><span class="st">`</span>        <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">qt</span>(<span class="fl">0.5</span> <span class="sc">+</span> niveaux <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se_moyen, <span class="dv">2</span>)</span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a><span class="fu"># Quand l'ecart-type est inconnu : la loi de Student</span></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>Un detail a des consequences reelles. La valeur critique de 1,96 vaut lorsque l'ecart-type $\sigma$ de la population est connu. En pratique il ne l'est jamais : on l'estime par l'ecart-type de l'echantillon $s$, lui-meme entache d'incertitude. Ignorer cette incertitude supplementaire produit des intervalles trop etroits, donc une couverture inferieure a la garantie annoncee.</span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>La correction consiste a remplacer la loi normale par la **loi de Student**, dont les valeurs critiques sont un peu plus grandes, d'autant plus que l'echantillon est petit. Cette loi est parametree par un nombre de **degres de liberte** egal a $n - 1$, le meme $n - 1$ que celui de l'ecart-type de l'echantillon (voir le chapitre sur l'estimation de la variance). Comparons, sur de petits echantillons, la couverture reelle des deux choix.</span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: z-contre-t</span></span>
+<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> n_rep, mu, sigma), <span class="at">nrow =</span> n)</span>
+<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(ech)</span>
+<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">apply</span>(ech, <span class="dv">2</span>, sd) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a>couv_z <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(xbar <span class="sc">-</span> mu) <span class="sc">&lt;=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se)         <span class="co"># valeur critique 1,96</span></span>
+<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a>couv_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(xbar <span class="sc">-</span> mu) <span class="sc">&lt;=</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se) <span class="co"># loi de Student</span></span>
+<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">`</span><span class="at">intervalle avec 1,96 (normale)</span><span class="st">`</span> <span class="ot">=</span> couv_z,</span>
+<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">intervalle avec Student</span><span class="st">`</span>        <span class="ot">=</span> couv_t,</span>
+<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">garantie visee</span><span class="st">`</span>                 <span class="ot">=</span> <span class="fl">0.95</span>)</span>
+<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>A $n = 5$, l'intervalle fonde sur 1,96 ne couvre la vraie valeur que dans environ 88 pour cent des etudes, bien en dessous des 95 pour cent annonces, tandis que l'intervalle de Student retablit la garantie. L'ecart s'attenue quand l'echantillon grandit, les deux lois devenant presque identiques au dela de quelques dizaines d'observations.</span>
+<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a><span class="fu"># La validite repose sur des hypotheses</span></span>
+<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a>La garantie de 95 pour cent n'est pas automatique. Elle suppose que la distribution d'echantillonnage de l'estimateur est approximativement normale et symetrique, et que l'estimateur ne comporte pas de biais systematique. Quand ces conditions ne tiennent pas, le taux de couverture reel s'ecarte du niveau annonce.</span>
+<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a>Prenons des donnees fortement asymetriques, tirees d'une loi exponentielle, dont la moyenne vraie vaut 1, avec un petit echantillon. La distribution de la moyenne y reste dissymetrique, et l'intervalle symetrique en paye le prix.</span>
+<span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: hypothese-normalite</span></span>
+<span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rexp</span>(n <span class="sc">*</span> n_rep, <span class="at">rate =</span> <span class="dv">1</span>), <span class="at">nrow =</span> n)   <span class="co"># moyenne vraie = 1</span></span>
+<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(ech)</span>
+<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">apply</span>(ech, <span class="dv">2</span>, sd) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a>crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>bas  <span class="ot">&lt;-</span> xbar <span class="sc">-</span> crit <span class="sc">*</span> se</span>
+<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>haut <span class="ot">&lt;-</span> xbar <span class="sc">+</span> crit <span class="sc">*</span> se</span>
+<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a>vrai <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">couverture           =</span> <span class="fu">mean</span>(bas <span class="sc">&lt;=</span> vrai <span class="sc">&amp;</span> vrai <span class="sc">&lt;=</span> haut),</span>
+<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">manque par le haut</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(vrai <span class="sc">&gt;</span> haut),</span>
+<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">manque par le bas</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">mean</span>(vrai <span class="sc">&lt;</span> bas))</span>
+<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a>La couverture tombe autour de 90 pour cent, et surtout les echecs sont tres asymetriques : l'intervalle manque la vraie valeur presque toujours du meme cote. Une couverture globale degradee et desequilibree est le signe que l'hypothese de forme est violee. Le remede usuel est d'augmenter la taille de l'echantillon, car la distribution de la moyenne se rapproche alors d'une normale, ou d'employer des methodes adaptees aux petits echantillons asymetriques.</span>
+<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le biais est encore plus destructeur que l'asymetrie</span></span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a>L'asymetrie degrade la couverture ; un biais systematique la detruit. Un intervalle est centre sur l'estimation, et sa demi-largeur ne mesure que la variabilite d'echantillonnage, jamais le biais. Si l'estimateur vise a cote de la cible, l'intervalle suit ce decalage et manque la vraie valeur dans la quasi-totalite des etudes, quand bien meme il serait etroit. C'est ce que montre le chapitre sur la capture-recapture : sous violation d'une hypothese, l'estimateur devient biaise et le taux de couverture s'effondre vers zero. Un intervalle etroit temoigne d'une bonne fidelite, c'est-a-dire d'une faible variance, et non d'une bonne justesse, c'est-a-dire d'un faible biais.</span>
+<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a><span class="fu"># A retenir</span></span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Un intervalle de confiance entoure une estimation ponctuelle d'une marge egale a une **valeur critique** multipliee par l'**erreur-type**, cette derniere mesurant la variabilite de l'estimateur et non la dispersion des donnees.</span>
+<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Le **niveau de confiance** est une propriete de la methode : sur des etudes repetees, une fraction egale a ce niveau des intervalles contient la vraie valeur. Pour un intervalle deja calcule, il n'y a plus de probabilite a lui attribuer : la vraie valeur y est, ou n'y est pas.</span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La largeur augmente avec la dispersion des donnees et avec le niveau de confiance exige, et diminue comme l'inverse de la racine de la taille de l'echantillon.</span>
+<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lorsque l'ecart-type est estime, la **loi de Student** (a $n - 1$ degres de liberte) corrige la sous-couverture des petits echantillons.</span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La garantie repose sur des hypotheses. L'asymetrie degrade la couverture, le biais la detruit : un intervalle mesure la variabilite, pas l'ecart systematique a la vraie valeur.</span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a>Pour transformer ce chapitre en support de presentation, remplacez <span class="in">`format: html`</span> par <span class="in">`format: revealjs`</span> dans l'en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.</span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
