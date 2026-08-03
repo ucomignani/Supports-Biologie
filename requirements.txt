@@ -1,0 +1,4 @@
+# Dependances des simulateurs interactifs (Simulation_*.py)
+# Installation : pip install -r requirements.txt
+numpy>=1.22
+matplotlib>=3.6
