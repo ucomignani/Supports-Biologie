@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Aligner des séquences et reconstruire des arbres – Biostatistique et evaluation de la biodiversite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./bibliographie.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5f91031bc365a86ba538a82a3533cd37.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Biostatistique et evaluation de la biodiversite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./simulateurs.html"> 
+<span class="menu-text">Simulateurs</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Suppléments</a></li><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Alignement et phylogénies</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accueil</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fondements statistiques</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./estimateur-biais-n-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estimateur biaise ou non : le n - 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intervalles-de-confiance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Les intervalles de confiance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./khi-deux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le test du khi-deux</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methodes d’evaluation de la biodiversite</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cmr-hypotheses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capture-marquage-recapture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hardy-weinberg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L’equilibre de Hardy-Weinberg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./methode-des-quadrats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">La methode des quadrats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-statistique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistique du metabarcoding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metabarcoding-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le pipeline metabarcoding (presentation)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ressources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simulateurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulateurs Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliographie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Suppléments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./alignement-phylogenie.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Alignement et phylogénies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sommaire</h2>
+   
+  <ul>
+  <li><a href="#le-point-de-départ-des-chromatogrammes-aux-séquences" id="toc-le-point-de-départ-des-chromatogrammes-aux-séquences" class="nav-link active" data-scroll-target="#le-point-de-départ-des-chromatogrammes-aux-séquences"><span class="header-section-number">1</span> Le point de départ : des chromatogrammes aux séquences</a></li>
+  <li><a href="#quest-ce-quun-alignement-et-pourquoi" id="toc-quest-ce-quun-alignement-et-pourquoi" class="nav-link" data-scroll-target="#quest-ce-quun-alignement-et-pourquoi"><span class="header-section-number">2</span> Qu’est-ce qu’un alignement, et pourquoi</a></li>
+  <li><a href="#comment-on-aligne-scores-et-algorithmes" id="toc-comment-on-aligne-scores-et-algorithmes" class="nav-link" data-scroll-target="#comment-on-aligne-scores-et-algorithmes"><span class="header-section-number">3</span> Comment on aligne : scores et algorithmes</a>
+  <ul class="collapse">
+  <li><a href="#le-score-dun-alignement" id="toc-le-score-dun-alignement" class="nav-link" data-scroll-target="#le-score-dun-alignement"><span class="header-section-number">3.1</span> Le score d’un alignement</a></li>
+  <li><a href="#lalignement-optimal-par-paires" id="toc-lalignement-optimal-par-paires" class="nav-link" data-scroll-target="#lalignement-optimal-par-paires"><span class="header-section-number">3.2</span> L’alignement optimal par paires</a></li>
+  </ul></li>
+  <li><a href="#lalignement-multiple-msa" id="toc-lalignement-multiple-msa" class="nav-link" data-scroll-target="#lalignement-multiple-msa"><span class="header-section-number">4</span> L’alignement multiple (MSA)</a>
+  <ul class="collapse">
+  <li><a href="#mafft-en-pratique" id="toc-mafft-en-pratique" class="nav-link" data-scroll-target="#mafft-en-pratique"><span class="header-section-number">4.1</span> MAFFT en pratique</a></li>
+  <li><a href="#le-cas-des-régions-hypervariables" id="toc-le-cas-des-régions-hypervariables" class="nav-link" data-scroll-target="#le-cas-des-régions-hypervariables"><span class="header-section-number">4.2</span> Le cas des régions hypervariables</a></li>
+  </ul></li>
+  <li><a href="#de-lalignement-à-larbre" id="toc-de-lalignement-à-larbre" class="nav-link" data-scroll-target="#de-lalignement-à-larbre"><span class="header-section-number">5</span> De l’alignement à l’arbre</a>
+  <ul class="collapse">
+  <li><a href="#méthodes-de-distance" id="toc-méthodes-de-distance" class="nav-link" data-scroll-target="#méthodes-de-distance"><span class="header-section-number">5.1</span> Méthodes de distance</a></li>
+  <li><a href="#méthodes-basées-sur-les-caractères" id="toc-méthodes-basées-sur-les-caractères" class="nav-link" data-scroll-target="#méthodes-basées-sur-les-caractères"><span class="header-section-number">5.2</span> Méthodes basées sur les caractères</a></li>
+  <li><a href="#les-modèles-dévolution-des-séquences" id="toc-les-modèles-dévolution-des-séquences" class="nav-link" data-scroll-target="#les-modèles-dévolution-des-séquences"><span class="header-section-number">5.3</span> Les modèles d’évolution des séquences</a></li>
+  <li><a href="#dater-les-arbres-lhorloge-moléculaire" id="toc-dater-les-arbres-lhorloge-moléculaire" class="nav-link" data-scroll-target="#dater-les-arbres-lhorloge-moléculaire"><span class="header-section-number">5.4</span> Dater les arbres : l’horloge moléculaire</a></li>
+  </ul></li>
+  <li><a href="#la-confiance-dans-larbre" id="toc-la-confiance-dans-larbre" class="nav-link" data-scroll-target="#la-confiance-dans-larbre"><span class="header-section-number">6</span> La confiance dans l’arbre</a></li>
+  <li><a href="#la-chaîne-complète" id="toc-la-chaîne-complète" class="nav-link" data-scroll-target="#la-chaîne-complète"><span class="header-section-number">7</span> La chaîne complète</a>
+  <ul class="collapse">
+  <li><a href="#panorama-des-logiciels" id="toc-panorama-des-logiciels" class="nav-link" data-scroll-target="#panorama-des-logiciels"><span class="header-section-number">7.1</span> Panorama des logiciels</a></li>
+  </ul></li>
+  <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">8</span> Bonnes pratiques</a></li>
+  <li><a href="#à-retenir" id="toc-à-retenir" class="nav-link" data-scroll-target="#à-retenir"><span class="header-section-number">9</span> À retenir</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Suppléments</a></li><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Alignement et phylogénies</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Aligner des séquences et reconstruire des arbres</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">De la sortie du séquenceur à l’arbre phylogénétique, une chaîne pratique</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Date de publication</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">6 août 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objectif du chapitre
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>À la réception des séquences d’un laboratoire, il reste tout un travail avant d’obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l’arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Vocabulaire de départ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Marqueur</strong> (ou code-barres) : une région d’ADN standard servant à comparer des organismes. Chez les champignons, la région <strong>ITS</strong> est le marqueur de référence.</li>
+<li><strong>Chromatogramme</strong> : la trace du séquenceur Sanger, une suite de pics colorés d’où l’on lit les bases.</li>
+<li><strong>Homologie</strong> : ressemblance due à une origine commune. Aligner suppose que les positions comparées sont homologues.</li>
+<li><strong>Alignement</strong> : mise en correspondance, colonne par colonne, de positions homologues, en insérant des <strong>trous (gaps)</strong> pour les insertions et délétions.</li>
+<li><strong>Matrice de substitution</strong> : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</li>
+<li><strong>Modèle d’évolution</strong> : une description probabiliste de la façon dont les séquences changent au cours du temps.</li>
+<li><strong>Support</strong> : une mesure de confiance dans une branche de l’arbre (bootstrap, probabilité postérieure).</li>
+</ul>
+</div>
+</div>
+<section id="le-point-de-départ-des-chromatogrammes-aux-séquences" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Le point de départ : des chromatogrammes aux séquences</h1>
+<p>Le séquençage Sanger renvoie des <strong>chromatogrammes</strong>. La première étape est l’<strong>édition</strong> :</p>
+<ul>
+<li>lire les pics et corriger les bases douteuses, souvent codées par les symboles d’ambiguïté (par exemple R pour A ou G, Y pour C ou T) ;</li>
+<li>vérifier l’<strong>orientation des brins</strong> : la lecture inverse (reverse) doit être passée en complément inverse pour s’accorder à la lecture directe (forward) ;</li>
+<li>combiner les lectures forward et reverse en une <strong>séquence consensus</strong>, plus fiable, surtout aux extrémités où la qualité chute.</li>
+</ul>
+<p>Des logiciels d’édition courants : <strong>MEGA</strong> et <strong>BioEdit</strong> (libre), ainsi que Geneious, Chromas ou 4Peaks. On récupère ensuite des <strong>séquences de référence</strong> : par <strong>BLAST</strong> sur <strong>GenBank</strong> (NCBI) pour trouver les plus proches, et via <strong>UNITE</strong> pour les champignons. Ces bases ne sont que citées ici.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Vérifier avant d’aligner
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Deux erreurs classiques faussent tout l’aval : un brin non retourné (la séquence semble n’aligner avec rien) et une séquence contaminée ou chimérique (mélange de deux organismes). Un coup d’œil au chromatogramme et un BLAST de contrôle évitent bien des surprises.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="quest-ce-quun-alignement-et-pourquoi" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Qu’est-ce qu’un alignement, et pourquoi</h1>
+<p>Aligner, c’est disposer les séquences les unes sous les autres de sorte que chaque <strong>colonne</strong> rassemble des positions <strong>homologues</strong>. Là où une séquence a subi une insertion ou une délétion, on introduit un <strong>gap</strong>, noté par un tiret.</p>
+<pre><code>Seq A   A C G T - A C G
+Seq B   A C G T T A C G
+Seq C   A C - T T A C G</code></pre>
+<p>Un bon alignement révèle les positions <strong>conservées</strong> (les mêmes partout), les positions <strong>variables</strong> (qui portent le signal phylogénétique), et les <strong>indels</strong>. C’est la matière première de tout ce qui suit : distances, arbres, recherche de motifs.</p>
+<p>On distingue l’<strong>alignement par paires</strong> (deux séquences) de l’<strong>alignement multiple</strong> (plusieurs séquences à la fois), qui est le cas utile en phylogénie.</p>
+</section>
+<section id="comment-on-aligne-scores-et-algorithmes" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Comment on aligne : scores et algorithmes</h1>
+<section id="le-score-dun-alignement" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="le-score-dun-alignement"><span class="header-section-number">3.1</span> Le score d’un alignement</h2>
+<p>Un alignement est noté par un <strong>score</strong> : on récompense les correspondances, on pénalise les changements et les gaps. Pour l’ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des <strong>matrices</strong> comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d’autres.</p>
+<p>Les <strong>pénalités de gap</strong> distinguent en général l’<strong>ouverture</strong> d’un gap de son <strong>extension</strong> : ouvrir un trou coûte cher, l’allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.</p>
+</section>
+<section id="lalignement-optimal-par-paires" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="lalignement-optimal-par-paires"><span class="header-section-number">3.2</span> L’alignement optimal par paires</h2>
+<p>Pour deux séquences, on sait trouver l’alignement de <strong>score maximal</strong> par <strong>programmation dynamique</strong> : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.</p>
+<ul>
+<li><strong>Needleman-Wunsch</strong> : alignement <strong>global</strong>, d’un bout à l’autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).</li>
+<li><strong>Smith-Waterman</strong> : alignement <strong>local</strong>, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c’est l’esprit de BLAST).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>L’idée de la matrice de programmation dynamique
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On place une séquence en lignes, l’autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l’alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="lalignement-multiple-msa" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> L’alignement multiple (MSA)</h1>
+<p>Aligner <strong>plusieurs</strong> séquences à la fois de façon optimale est un problème trop lourd en pratique : on recourt à des <strong>heuristiques</strong>.</p>
+<ul>
+<li><strong>Méthodes progressives</strong> : on aligne d’abord les paires les plus proches, guidé par un arbre approximatif, puis on ajoute les autres. C’est le principe de la famille <strong>Clustal</strong> (ClustalW, Clustal Omega).</li>
+<li><strong>Méthodes itératives et à consistance</strong>, plus précises : <strong>MAFFT</strong>, <strong>MUSCLE</strong>, <strong>T-Coffee</strong>, <strong>PRANK</strong>. Elles reviennent sur l’alignement pour l’améliorer.</li>
+</ul>
+<section id="mafft-en-pratique" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="mafft-en-pratique"><span class="header-section-number">4.1</span> MAFFT en pratique</h2>
+<p><strong>MAFFT</strong> (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :</p>
+<ul>
+<li><code>FFT-NS-2</code> : rapide, pour de grands jeux ou un premier jet ;</li>
+<li><code>L-INS-i</code> : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alignement précis d'un fichier de séquences ITS</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mafft</span> <span class="at">--localpair</span> <span class="at">--maxiterate</span> 1000 sequences.fasta <span class="op">&gt;</span> alignement.fasta</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># équivalent au preset L-INS-i</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="le-cas-des-régions-hypervariables" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="le-cas-des-régions-hypervariables"><span class="header-section-number">4.2</span> Le cas des régions hypervariables</h2>
+<p>Chez les champignons, l’<strong>ITS</strong> contient des régions très variables, riches en indels, où l’homologie position par position devient incertaine. Deux conséquences :</p>
+<ul>
+<li>l’alignement automatique y est peu fiable, et une <strong>retouche manuelle</strong> dans <strong>BioEdit</strong> ou <strong>MEGA</strong> reste utile ;</li>
+<li>on <strong>nettoie</strong> souvent l’alignement avant l’arbre, en retirant les colonnes ambiguës, avec <strong>trimAl</strong> ou Gblocks (libres).</li>
+</ul>
+<p>Pour un gène <strong>codant</strong>, on aligne de préférence en tenant compte des <strong>codons</strong> (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.</p>
+</section>
+</section>
+<section id="de-lalignement-à-larbre" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> De l’alignement à l’arbre</h1>
+<p>Un alignement est une <strong>matrice de caractères</strong> : chaque colonne est un caractère, chaque séquence un individu. L’<strong>arbre</strong> résume les relations de parenté qu’on en déduit. Deux grandes familles de méthodes coexistent.</p>
+<section id="méthodes-de-distance" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="méthodes-de-distance"><span class="header-section-number">5.1</span> Méthodes de distance</h2>
+<p>On résume d’abord chaque paire de séquences par une <strong>distance</strong>, puis on construit l’arbre à partir de la matrice de distances.</p>
+<ul>
+<li><strong>UPGMA</strong> : simple, mais suppose une horloge (taux d’évolution constant), hypothèse souvent fausse.</li>
+<li><strong>Neighbor-Joining (NJ)</strong> : rapide et robuste, très utilisé pour un premier arbre. Disponible dans <strong>MEGA</strong>.</li>
+</ul>
+</section>
+<section id="méthodes-basées-sur-les-caractères" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="méthodes-basées-sur-les-caractères"><span class="header-section-number">5.2</span> Méthodes basées sur les caractères</h2>
+<p>Elles exploitent directement chaque colonne de l’alignement.</p>
+<ul>
+<li><strong>Parcimonie (MP)</strong> : cherche l’arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.</li>
+<li><strong>Maximum de vraisemblance (ML)</strong> : cherche l’arbre qui rend les données les plus probables sous un <strong>modèle</strong> d’évolution. C’est le standard actuel. Logiciels libres rapides : <strong>IQ-TREE</strong>, <strong>RAxML</strong> (et son successeur RAxML-NG), <strong>PhyML</strong> ; <strong>MEGA</strong> fait aussi du ML.</li>
+<li><strong>Inférence bayésienne (BI)</strong> : échantillonne les arbres selon leur <strong>probabilité a posteriori</strong>, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : <strong>MrBayes</strong>, <strong>BEAST</strong> et <strong>BEAST 2</strong>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Le lien avec la statistique
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La vraisemblance et l’approche bayésienne sont les mêmes idées qu’en statistique : un <strong>modèle</strong>, des <strong>paramètres</strong> estimés, et pour le bayésien un <strong>a priori</strong> mis à jour par les données via une chaîne MCMC. Un arbre est ici l’un des paramètres à estimer.</p>
+</div>
+</div>
+</section>
+<section id="les-modèles-dévolution-des-séquences" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="les-modèles-dévolution-des-séquences"><span class="header-section-number">5.3</span> Les modèles d’évolution des séquences</h2>
+<p>Estimer un arbre par ML ou BI suppose un <strong>modèle</strong> décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :</p>
+<ul>
+<li><strong>JC69</strong> : toutes les substitutions équiprobables ;</li>
+<li><strong>K80 (Kimura)</strong> : distingue transitions et transversions ;</li>
+<li><strong>HKY</strong>, <strong>GTR</strong> : fréquences de bases inégales et taux de substitution distincts ;</li>
+<li>extensions <strong>+G</strong> (variabilité des vitesses entre sites, loi Gamma) et <strong>+I</strong> (sites invariables).</li>
+</ul>
+<p>On <strong>sélectionne</strong> le modèle le mieux adapté avec <strong>ModelTest-NG</strong> ou jModelTest, ou directement via <strong>ModelFinder</strong> intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l’estimation.</p>
+</section>
+<section id="dater-les-arbres-lhorloge-moléculaire" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="dater-les-arbres-lhorloge-moléculaire"><span class="header-section-number">5.4</span> Dater les arbres : l’horloge moléculaire</h2>
+<p><strong>BEAST</strong> va plus loin que la simple topologie : sous une <strong>horloge moléculaire</strong> (stricte ou relâchée) et des points de calibration, il estime des <strong>temps de divergence</strong> et produit des <strong>chronogrammes</strong>. C’est l’outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.</p>
+</section>
+</section>
+<section id="la-confiance-dans-larbre" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> La confiance dans l’arbre</h1>
+<p>Un arbre n’est qu’une <strong>estimation</strong> : il faut mesurer la solidité de chaque branche.</p>
+<ul>
+<li><strong>Bootstrap</strong> (distance, MP, ML) : on <strong>rééchantillonne</strong> les colonnes de l’alignement avec remise, on refait un arbre à chaque fois, et le <strong>pourcentage</strong> de fois où une branche réapparaît mesure son support. C’est exactement le rééchantillonnage vu en statistique, appliqué aux colonnes.</li>
+<li><strong>Probabilités a posteriori</strong> (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Support n’est pas vérité
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Un fort support signale une branche <strong>reproductible</strong> au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les <strong>longues branches</strong> qui s’attirent artificiellement (long-branch attraction), un <strong>échantillonnage</strong> trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="la-chaîne-complète" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> La chaîne complète</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  A["Chromatogrammes&lt;br/&gt;(forward, reverse)"] --&gt; B["Édition et consensus&lt;br/&gt;MEGA, BioEdit"]
+  B --&gt; C["Références&lt;br/&gt;GenBank (BLAST), UNITE"]
+  C --&gt; D["Alignement multiple&lt;br/&gt;MAFFT, MUSCLE, MEGA"]
+  D --&gt; E["Nettoyage des colonnes&lt;br/&gt;trimAl, Gblocks"]
+  E --&gt; F["Choix du modèle&lt;br/&gt;ModelTest-NG, ModelFinder"]
+  F --&gt; G["Inférence de l'arbre"]
+  G --&gt; H["Maximum de vraisemblance&lt;br/&gt;IQ-TREE, RAxML, MEGA"]
+  G --&gt; I["Bayésien&lt;br/&gt;MrBayes, BEAST"]
+  H --&gt; J["Support : bootstrap"]
+  I --&gt; K["Support : prob. postérieures"]
+  J --&gt; L["Visualisation&lt;br/&gt;FigTree, iTOL, MEGA"]
+  K --&gt; L
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="panorama-des-logiciels" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="panorama-des-logiciels"><span class="header-section-number">7.1</span> Panorama des logiciels</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Logiciel</th>
+<th>Libre</th>
+<th>Rôle</th>
+<th>Points forts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MEGA</td>
+<td>non (gratuit)</td>
+<td>édition, alignement, distances, ML</td>
+<td>tout-en-un, interface accessible</td>
+</tr>
+<tr class="even">
+<td>BioEdit</td>
+<td>oui</td>
+<td>édition, alignement manuel</td>
+<td>retouche fine des alignements</td>
+</tr>
+<tr class="odd">
+<td>MAFFT</td>
+<td>oui</td>
+<td>alignement multiple</td>
+<td>rapide et précis, stratégies au choix</td>
+</tr>
+<tr class="even">
+<td>MUSCLE</td>
+<td>oui</td>
+<td>alignement multiple</td>
+<td>bon compromis, version 5 réécrite</td>
+</tr>
+<tr class="odd">
+<td>Clustal Omega</td>
+<td>oui</td>
+<td>alignement multiple</td>
+<td>grands jeux de séquences</td>
+</tr>
+<tr class="even">
+<td>trimAl / Gblocks</td>
+<td>oui</td>
+<td>nettoyage de l’alignement</td>
+<td>retire les colonnes ambiguës</td>
+</tr>
+<tr class="odd">
+<td>ModelTest-NG / jModelTest</td>
+<td>oui</td>
+<td>choix du modèle</td>
+<td>comparaison objective des modèles</td>
+</tr>
+<tr class="even">
+<td>IQ-TREE</td>
+<td>oui</td>
+<td>arbre ML</td>
+<td>rapide, ModelFinder et bootstrap intégrés</td>
+</tr>
+<tr class="odd">
+<td>RAxML / RAxML-NG</td>
+<td>oui</td>
+<td>arbre ML</td>
+<td>référence pour grands jeux</td>
+</tr>
+<tr class="even">
+<td>PhyML</td>
+<td>oui</td>
+<td>arbre ML</td>
+<td>classique, accessible</td>
+</tr>
+<tr class="odd">
+<td>MrBayes</td>
+<td>oui</td>
+<td>arbre bayésien</td>
+<td>standard de l’inférence bayésienne</td>
+</tr>
+<tr class="even">
+<td>BEAST / BEAST 2</td>
+<td>oui</td>
+<td>arbre bayésien daté</td>
+<td>horloge moléculaire, datations</td>
+</tr>
+<tr class="odd">
+<td>Tracer</td>
+<td>oui</td>
+<td>diagnostic MCMC</td>
+<td>vérifie la convergence de BEAST</td>
+</tr>
+<tr class="even">
+<td>FigTree / iTOL</td>
+<td>oui</td>
+<td>visualisation</td>
+<td>mise en forme et annotation des arbres</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="bonnes-pratiques" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Bonnes pratiques</h1>
+<ul>
+<li>Contrôler l’<strong>orientation des brins</strong>, la <strong>qualité</strong> des lectures et les <strong>ambiguïtés</strong> avant d’aligner.</li>
+<li>N’aligner que ce qui est <strong>alignable</strong> : traiter à part, ou retirer, les régions hypervariables douteuses.</li>
+<li>Adapter la méthode à la <strong>question</strong> : un Neighbor-Joining rapide suffit pour situer une récolte, une analyse ML ou bayésienne soignée s’impose pour une phylogénie publiable.</li>
+<li>Croiser les méthodes et <strong>rapporter les paramètres</strong> : logiciels, versions, modèle, stratégie d’alignement, réglages du bootstrap ou de la MCMC. C’est la condition de la reproductibilité.</li>
+</ul>
+</section>
+<section id="à-retenir" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> À retenir</h1>
+<ul>
+<li>La chaîne va des chromatogrammes édités à l’arbre annoté, en passant par l’alignement, le nettoyage, le choix du modèle et la mesure du support.</li>
+<li>Aligner, c’est poser en correspondance des positions <strong>homologues</strong> ; l’alignement par paires est optimal par programmation dynamique, l’alignement multiple repose sur des heuristiques comme <strong>MAFFT</strong>.</li>
+<li>L’arbre s’infère par distance (NJ), parcimonie, <strong>maximum de vraisemblance</strong> (IQ-TREE, RAxML, MEGA) ou <strong>inférence bayésienne</strong> (MrBayes, <strong>BEAST</strong> pour les datations), sous un <strong>modèle</strong> d’évolution qu’il faut sélectionner.</li>
+<li>La confiance se mesure par <strong>bootstrap</strong> ou <strong>probabilités a posteriori</strong>, qui disent la reproductibilité, pas la vérité.</li>
+<li>Les outils libres couvrent toute la chaîne : BioEdit, MAFFT, trimAl, IQ-TREE, MrBayes, BEAST, FigTree.</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Pour transformer ce chapitre en support de présentation, remplacez <code>format: html</code> par <code>format: revealjs</code> dans l’en-tête, et scindez le contenu aux titres de premier et de deuxième niveau.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ucomignani\.github\.io\/Supports-Biologie\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./bibliographie.html" class="pagination-link" aria-label="Bibliographie">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Bibliographie</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Aligner des séquences et reconstruire des arbres"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "De la sortie du séquenceur à l'arbre phylogénétique, une chaîne pratique"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "Sommaire"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: kable</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objectif du chapitre</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>À la réception des séquences d'un laboratoire, il reste tout un travail avant d'obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l'arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vocabulaire de départ</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Marqueur** (ou code-barres) : une région d'ADN standard servant à comparer des organismes. Chez les champignons, la région **ITS** est le marqueur de référence.</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chromatogramme** : la trace du séquenceur Sanger, une suite de pics colorés d'où l'on lit les bases.</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Homologie** : ressemblance due à une origine commune. Aligner suppose que les positions comparées sont homologues.</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le point de départ : des chromatogrammes aux séquences</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>Le séquençage Sanger renvoie des **chromatogrammes**. La première étape est l'**édition** :</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>lire les pics et corriger les bases douteuses, souvent codées par les symboles d'ambiguïté (par exemple R pour A ou G, Y pour C ou T) ;</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>vérifier l'**orientation des brins** : la lecture inverse (reverse) doit être passée en complément inverse pour s'accorder à la lecture directe (forward) ;</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>combiner les lectures forward et reverse en une **séquence consensus**, plus fiable, surtout aux extrémités où la qualité chute.</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>Des logiciels d'édition courants : **MEGA** et **BioEdit** (libre), ainsi que Geneious, Chromas ou 4Peaks. On récupère ensuite des **séquences de référence** : par **BLAST** sur **GenBank** (NCBI) pour trouver les plus proches, et via **UNITE** pour les champignons. Ces bases ne sont que citées ici.</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vérifier avant d'aligner</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>Deux erreurs classiques faussent tout l'aval : un brin non retourné (la séquence semble n'aligner avec rien) et une séquence contaminée ou chimérique (mélange de deux organismes). Un coup d'œil au chromatogramme et un BLAST de contrôle évitent bien des surprises.</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu"># Qu'est-ce qu'un alignement, et pourquoi</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>Aligner, c'est disposer les séquences les unes sous les autres de sorte que chaque **colonne** rassemble des positions **homologues**. Là où une séquence a subi une insertion ou une délétion, on introduit un **gap**, noté par un tiret.</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="in">Seq A   A C G T - A C G</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="in">Seq B   A C G T T A C G</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="in">Seq C   A C - T T A C G</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>Un bon alignement révèle les positions **conservées** (les mêmes partout), les positions **variables** (qui portent le signal phylogénétique), et les **indels**. C'est la matière première de tout ce qui suit : distances, arbres, recherche de motifs.</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>On distingue l'**alignement par paires** (deux séquences) de l'**alignement multiple** (plusieurs séquences à la fois), qui est le cas utile en phylogénie.</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comment on aligne : scores et algorithmes</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le score d'un alignement</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>Un alignement est noté par un **score** : on récompense les correspondances, on pénalise les changements et les gaps. Pour l'ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des **matrices** comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d'autres.</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>Les **pénalités de gap** distinguent en général l'**ouverture** d'un gap de son **extension** : ouvrir un trou coûte cher, l'allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'alignement optimal par paires</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>Pour deux séquences, on sait trouver l'alignement de **score maximal** par **programmation dynamique** : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Needleman-Wunsch** : alignement **global**, d'un bout à l'autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Smith-Waterman** : alignement **local**, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c'est l'esprit de BLAST).</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'idée de la matrice de programmation dynamique</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>On place une séquence en lignes, l'autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l'alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># L'alignement multiple (MSA)</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>Aligner **plusieurs** séquences à la fois de façon optimale est un problème trop lourd en pratique : on recourt à des **heuristiques**.</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes progressives** : on aligne d'abord les paires les plus proches, guidé par un arbre approximatif, puis on ajoute les autres. C'est le principe de la famille **Clustal** (ClustalW, Clustal Omega).</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes itératives et à consistance**, plus précises : **MAFFT**, **MUSCLE**, **T-Coffee**, **PRANK**. Elles reviennent sur l'alignement pour l'améliorer.</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## MAFFT en pratique</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>**MAFFT** (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`FFT-NS-2`</span> : rapide, pour de grands jeux ou un premier jet ;</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`L-INS-i`</span> : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="co"># alignement précis d'un fichier de séquences ITS</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="ex">mafft</span> <span class="at">--localpair</span> <span class="at">--maxiterate</span> 1000 sequences.fasta <span class="op">&gt;</span> alignement.fasta</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="co"># équivalent au preset L-INS-i</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le cas des régions hypervariables</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>Chez les champignons, l'**ITS** contient des régions très variables, riches en indels, où l'homologie position par position devient incertaine. Deux conséquences :</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>l'alignement automatique y est peu fiable, et une **retouche manuelle** dans **BioEdit** ou **MEGA** reste utile ;</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>on **nettoie** souvent l'alignement avant l'arbre, en retirant les colonnes ambiguës, avec **trimAl** ou Gblocks (libres).</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>Pour un gène **codant**, on aligne de préférence en tenant compte des **codons** (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="fu"># De l'alignement à l'arbre</span></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>Un alignement est une **matrice de caractères** : chaque colonne est un caractère, chaque séquence un individu. L'**arbre** résume les relations de parenté qu'on en déduit. Deux grandes familles de méthodes coexistent.</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes de distance</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>On résume d'abord chaque paire de séquences par une **distance**, puis on construit l'arbre à partir de la matrice de distances.</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**UPGMA** : simple, mais suppose une horloge (taux d'évolution constant), hypothèse souvent fausse.</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Neighbor-Joining (NJ)** : rapide et robuste, très utilisé pour un premier arbre. Disponible dans **MEGA**.</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes basées sur les caractères</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>Elles exploitent directement chaque colonne de l'alignement.</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parcimonie (MP)** : cherche l'arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Maximum de vraisemblance (ML)** : cherche l'arbre qui rend les données les plus probables sous un **modèle** d'évolution. C'est le standard actuel. Logiciels libres rapides : **IQ-TREE**, **RAxML** (et son successeur RAxML-NG), **PhyML** ; **MEGA** fait aussi du ML.</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inférence bayésienne (BI)** : échantillonne les arbres selon leur **probabilité a posteriori**, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : **MrBayes**, **BEAST** et **BEAST 2**.</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le lien avec la statistique</span></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>La vraisemblance et l'approche bayésienne sont les mêmes idées qu'en statistique : un **modèle**, des **paramètres** estimés, et pour le bayésien un **a priori** mis à jour par les données via une chaîne MCMC. Un arbre est ici l'un des paramètres à estimer.</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Les modèles d'évolution des séquences</span></span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>Estimer un arbre par ML ou BI suppose un **modèle** décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JC69** : toutes les substitutions équiprobables ;</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K80 (Kimura)** : distingue transitions et transversions ;</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HKY**, **GTR** : fréquences de bases inégales et taux de substitution distincts ;</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extensions **+G** (variabilité des vitesses entre sites, loi Gamma) et **+I** (sites invariables).</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>On **sélectionne** le modèle le mieux adapté avec **ModelTest-NG** ou jModelTest, ou directement via **ModelFinder** intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l'estimation.</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dater les arbres : l'horloge moléculaire</span></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>**BEAST** va plus loin que la simple topologie : sous une **horloge moléculaire** (stricte ou relâchée) et des points de calibration, il estime des **temps de divergence** et produit des **chronogrammes**. C'est l'outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="fu"># La confiance dans l'arbre</span></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>Un arbre n'est qu'une **estimation** : il faut mesurer la solidité de chaque branche.</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bootstrap** (distance, MP, ML) : on **rééchantillonne** les colonnes de l'alignement avec remise, on refait un arbre à chaque fois, et le **pourcentage** de fois où une branche réapparaît mesure son support. C'est exactement le rééchantillonnage vu en statistique, appliqué aux colonnes.</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Probabilités a posteriori** (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Support n'est pas vérité</span></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>Un fort support signale une branche **reproductible** au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les **longues branches** qui s'attirent artificiellement (long-branch attraction), un **échantillonnage** trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="fu"># La chaîne complète</span></span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  A[<span class="ot">"</span><span class="st">Chromatogrammes&lt;br/&gt;(forward, reverse)</span><span class="ot">"</span>] --&gt; B[<span class="ot">"</span><span class="st">Édition et consensus&lt;br/&gt;MEGA, BioEdit</span><span class="ot">"</span>]</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>  B --&gt; C[<span class="ot">"</span><span class="st">Références&lt;br/&gt;GenBank (BLAST), UNITE</span><span class="ot">"</span>]</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>  C --&gt; D[<span class="ot">"</span><span class="st">Alignement multiple&lt;br/&gt;MAFFT, MUSCLE, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>  D --&gt; E[<span class="ot">"</span><span class="st">Nettoyage des colonnes&lt;br/&gt;trimAl, Gblocks</span><span class="ot">"</span>]</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>  E --&gt; F[<span class="ot">"</span><span class="st">Choix du modèle&lt;br/&gt;ModelTest-NG, ModelFinder</span><span class="ot">"</span>]</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>  F --&gt; G[<span class="ot">"</span><span class="st">Inférence de l'arbre</span><span class="ot">"</span>]</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>  G --&gt; H[<span class="ot">"</span><span class="st">Maximum de vraisemblance&lt;br/&gt;IQ-TREE, RAxML, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>  G --&gt; I[<span class="ot">"</span><span class="st">Bayésien&lt;br/&gt;MrBayes, BEAST</span><span class="ot">"</span>]</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>  H --&gt; J[<span class="ot">"</span><span class="st">Support : bootstrap</span><span class="ot">"</span>]</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>  I --&gt; K[<span class="ot">"</span><span class="st">Support : prob. postérieures</span><span class="ot">"</span>]</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>  J --&gt; L[<span class="ot">"</span><span class="st">Visualisation&lt;br/&gt;FigTree, iTOL, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>  K --&gt; L</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Panorama des logiciels</span></span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Logiciel <span class="pp">|</span> Libre <span class="pp">|</span> Rôle <span class="pp">|</span> Points forts <span class="pp">|</span></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MEGA <span class="pp">|</span> non (gratuit) <span class="pp">|</span> édition, alignement, distances, ML <span class="pp">|</span> tout-en-un, interface accessible <span class="pp">|</span></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BioEdit <span class="pp">|</span> oui <span class="pp">|</span> édition, alignement manuel <span class="pp">|</span> retouche fine des alignements <span class="pp">|</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MAFFT <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> rapide et précis, stratégies au choix <span class="pp">|</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MUSCLE <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> bon compromis, version 5 réécrite <span class="pp">|</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clustal Omega <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> grands jeux de séquences <span class="pp">|</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> trimAl / Gblocks <span class="pp">|</span> oui <span class="pp">|</span> nettoyage de l'alignement <span class="pp">|</span> retire les colonnes ambiguës <span class="pp">|</span></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ModelTest-NG / jModelTest <span class="pp">|</span> oui <span class="pp">|</span> choix du modèle <span class="pp">|</span> comparaison objective des modèles <span class="pp">|</span></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> IQ-TREE <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> rapide, ModelFinder et bootstrap intégrés <span class="pp">|</span></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> RAxML / RAxML-NG <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> référence pour grands jeux <span class="pp">|</span></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PhyML <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> classique, accessible <span class="pp">|</span></span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MrBayes <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien <span class="pp">|</span> standard de l'inférence bayésienne <span class="pp">|</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BEAST / BEAST 2 <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien daté <span class="pp">|</span> horloge moléculaire, datations <span class="pp">|</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tracer <span class="pp">|</span> oui <span class="pp">|</span> diagnostic MCMC <span class="pp">|</span> vérifie la convergence de BEAST <span class="pp">|</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FigTree / iTOL <span class="pp">|</span> oui <span class="pp">|</span> visualisation <span class="pp">|</span> mise en forme et annotation des arbres <span class="pp">|</span></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bonnes pratiques</span></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Contrôler l'**orientation des brins**, la **qualité** des lectures et les **ambiguïtés** avant d'aligner.</span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>N'aligner que ce qui est **alignable** : traiter à part, ou retirer, les régions hypervariables douteuses.</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Adapter la méthode à la **question** : un Neighbor-Joining rapide suffit pour situer une récolte, une analyse ML ou bayésienne soignée s'impose pour une phylogénie publiable.</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Croiser les méthodes et **rapporter les paramètres** : logiciels, versions, modèle, stratégie d'alignement, réglages du bootstrap ou de la MCMC. C'est la condition de la reproductibilité.</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="fu"># À retenir</span></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La chaîne va des chromatogrammes édités à l'arbre annoté, en passant par l'alignement, le nettoyage, le choix du modèle et la mesure du support.</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Aligner, c'est poser en correspondance des positions **homologues** ; l'alignement par paires est optimal par programmation dynamique, l'alignement multiple repose sur des heuristiques comme **MAFFT**.</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>L'arbre s'infère par distance (NJ), parcimonie, **maximum de vraisemblance** (IQ-TREE, RAxML, MEGA) ou **inférence bayésienne** (MrBayes, **BEAST** pour les datations), sous un **modèle** d'évolution qu'il faut sélectionner.</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La confiance se mesure par **bootstrap** ou **probabilités a posteriori**, qui disent la reproductibilité, pas la vérité.</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les outils libres couvrent toute la chaîne : BioEdit, MAFFT, trimAl, IQ-TREE, MrBayes, BEAST, FigTree.</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>Pour transformer ce chapitre en support de présentation, remplacez <span class="in">`format: html`</span> par <span class="in">`format: revealjs`</span> dans l'en-tête, et scindez le contenu aux titres de premier et de deuxième niveau.</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

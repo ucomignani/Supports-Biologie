@@ -138,7 +138,17 @@
     "href": "index.html#ressources",
     "title": "Biostatistique pour l’evaluation de la biodiversite",
     "section": "Ressources",
-    "text": "Ressources\nLa bibliographie rassemble les textes fondateurs et les manuels, organises par theme.\n\n\n\n\n\n\nLes chapitres se lisent dans l’ordre propose, les fondements d’abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.",
+    "text": "Ressources\nLa bibliographie rassemble les textes fondateurs et les manuels, organises par theme.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#suppléments",
+    "href": "index.html#suppléments",
+    "title": "Biostatistique pour l’evaluation de la biodiversite",
+    "section": "Suppléments",
+    "text": "Suppléments\nAlignement et phylogénies rassemble les textes fondateurs et les manuels, organises par theme.\n\n\n\n\n\n\nLes chapitres se lisent dans l’ordre propose, les fondements d’abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.",
     "crumbs": [
       "Accueil"
     ]
@@ -249,6 +259,126 @@
       "Accueil",
       "Ressources",
       "Bibliographie"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html",
+    "href": "alignement-phylogenie.html",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "",
+    "text": "NoteObjectif du chapitre\n\n\n\nÀ la réception des séquences d’un laboratoire, il reste tout un travail avant d’obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l’arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#le-score-dun-alignement",
+    "href": "alignement-phylogenie.html#le-score-dun-alignement",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "3.1 Le score d’un alignement",
+    "text": "3.1 Le score d’un alignement\nUn alignement est noté par un score : on récompense les correspondances, on pénalise les changements et les gaps. Pour l’ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des matrices comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d’autres.\nLes pénalités de gap distinguent en général l’ouverture d’un gap de son extension : ouvrir un trou coûte cher, l’allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#lalignement-optimal-par-paires",
+    "href": "alignement-phylogenie.html#lalignement-optimal-par-paires",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "3.2 L’alignement optimal par paires",
+    "text": "3.2 L’alignement optimal par paires\nPour deux séquences, on sait trouver l’alignement de score maximal par programmation dynamique : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.\n\nNeedleman-Wunsch : alignement global, d’un bout à l’autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).\nSmith-Waterman : alignement local, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c’est l’esprit de BLAST).\n\n\n\n\n\n\n\nNoteL’idée de la matrice de programmation dynamique\n\n\n\n\n\nOn place une séquence en lignes, l’autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l’alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#mafft-en-pratique",
+    "href": "alignement-phylogenie.html#mafft-en-pratique",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "4.1 MAFFT en pratique",
+    "text": "4.1 MAFFT en pratique\nMAFFT (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :\n\nFFT-NS-2 : rapide, pour de grands jeux ou un premier jet ;\nL-INS-i : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.\n\n# alignement précis d'un fichier de séquences ITS\nmafft --localpair --maxiterate 1000 sequences.fasta &gt; alignement.fasta\n# équivalent au preset L-INS-i",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#le-cas-des-régions-hypervariables",
+    "href": "alignement-phylogenie.html#le-cas-des-régions-hypervariables",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "4.2 Le cas des régions hypervariables",
+    "text": "4.2 Le cas des régions hypervariables\nChez les champignons, l’ITS contient des régions très variables, riches en indels, où l’homologie position par position devient incertaine. Deux conséquences :\n\nl’alignement automatique y est peu fiable, et une retouche manuelle dans BioEdit ou MEGA reste utile ;\non nettoie souvent l’alignement avant l’arbre, en retirant les colonnes ambiguës, avec trimAl ou Gblocks (libres).\n\nPour un gène codant, on aligne de préférence en tenant compte des codons (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#méthodes-de-distance",
+    "href": "alignement-phylogenie.html#méthodes-de-distance",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "5.1 Méthodes de distance",
+    "text": "5.1 Méthodes de distance\nOn résume d’abord chaque paire de séquences par une distance, puis on construit l’arbre à partir de la matrice de distances.\n\nUPGMA : simple, mais suppose une horloge (taux d’évolution constant), hypothèse souvent fausse.\nNeighbor-Joining (NJ) : rapide et robuste, très utilisé pour un premier arbre. Disponible dans MEGA.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#méthodes-basées-sur-les-caractères",
+    "href": "alignement-phylogenie.html#méthodes-basées-sur-les-caractères",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "5.2 Méthodes basées sur les caractères",
+    "text": "5.2 Méthodes basées sur les caractères\nElles exploitent directement chaque colonne de l’alignement.\n\nParcimonie (MP) : cherche l’arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.\nMaximum de vraisemblance (ML) : cherche l’arbre qui rend les données les plus probables sous un modèle d’évolution. C’est le standard actuel. Logiciels libres rapides : IQ-TREE, RAxML (et son successeur RAxML-NG), PhyML ; MEGA fait aussi du ML.\nInférence bayésienne (BI) : échantillonne les arbres selon leur probabilité a posteriori, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : MrBayes, BEAST et BEAST 2.\n\n\n\n\n\n\n\nNoteLe lien avec la statistique\n\n\n\nLa vraisemblance et l’approche bayésienne sont les mêmes idées qu’en statistique : un modèle, des paramètres estimés, et pour le bayésien un a priori mis à jour par les données via une chaîne MCMC. Un arbre est ici l’un des paramètres à estimer.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#les-modèles-dévolution-des-séquences",
+    "href": "alignement-phylogenie.html#les-modèles-dévolution-des-séquences",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "5.3 Les modèles d’évolution des séquences",
+    "text": "5.3 Les modèles d’évolution des séquences\nEstimer un arbre par ML ou BI suppose un modèle décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :\n\nJC69 : toutes les substitutions équiprobables ;\nK80 (Kimura) : distingue transitions et transversions ;\nHKY, GTR : fréquences de bases inégales et taux de substitution distincts ;\nextensions +G (variabilité des vitesses entre sites, loi Gamma) et +I (sites invariables).\n\nOn sélectionne le modèle le mieux adapté avec ModelTest-NG ou jModelTest, ou directement via ModelFinder intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l’estimation.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#dater-les-arbres-lhorloge-moléculaire",
+    "href": "alignement-phylogenie.html#dater-les-arbres-lhorloge-moléculaire",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "5.4 Dater les arbres : l’horloge moléculaire",
+    "text": "5.4 Dater les arbres : l’horloge moléculaire\nBEAST va plus loin que la simple topologie : sous une horloge moléculaire (stricte ou relâchée) et des points de calibration, il estime des temps de divergence et produit des chronogrammes. C’est l’outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
+    ]
+  },
+  {
+    "objectID": "alignement-phylogenie.html#panorama-des-logiciels",
+    "href": "alignement-phylogenie.html#panorama-des-logiciels",
+    "title": "Aligner des séquences et reconstruire des arbres",
+    "section": "7.1 Panorama des logiciels",
+    "text": "7.1 Panorama des logiciels\n\n\n\n\n\n\n\n\n\nLogiciel\nLibre\nRôle\nPoints forts\n\n\n\n\nMEGA\nnon (gratuit)\nédition, alignement, distances, ML\ntout-en-un, interface accessible\n\n\nBioEdit\noui\nédition, alignement manuel\nretouche fine des alignements\n\n\nMAFFT\noui\nalignement multiple\nrapide et précis, stratégies au choix\n\n\nMUSCLE\noui\nalignement multiple\nbon compromis, version 5 réécrite\n\n\nClustal Omega\noui\nalignement multiple\ngrands jeux de séquences\n\n\ntrimAl / Gblocks\noui\nnettoyage de l’alignement\nretire les colonnes ambiguës\n\n\nModelTest-NG / jModelTest\noui\nchoix du modèle\ncomparaison objective des modèles\n\n\nIQ-TREE\noui\narbre ML\nrapide, ModelFinder et bootstrap intégrés\n\n\nRAxML / RAxML-NG\noui\narbre ML\nréférence pour grands jeux\n\n\nPhyML\noui\narbre ML\nclassique, accessible\n\n\nMrBayes\noui\narbre bayésien\nstandard de l’inférence bayésienne\n\n\nBEAST / BEAST 2\noui\narbre bayésien daté\nhorloge moléculaire, datations\n\n\nTracer\noui\ndiagnostic MCMC\nvérifie la convergence de BEAST\n\n\nFigTree / iTOL\noui\nvisualisation\nmise en forme et annotation des arbres",
+    "crumbs": [
+      "Accueil",
+      "Suppléments",
+      "Alignement et phylogénies"
     ]
   },
   {
