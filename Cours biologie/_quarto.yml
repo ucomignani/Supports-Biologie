@@ -59,6 +59,8 @@ website:
         contents:
           - href: alignement-phylogenie.qmd
             text: "Alignement et phylogénies"
+          - href: ecologie-cours.qmd
+            text: "Écologie"
 
 bibliography: references.bib
 
