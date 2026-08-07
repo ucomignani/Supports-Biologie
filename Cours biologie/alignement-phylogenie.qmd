@@ -28,7 +28,7 @@ execute:
 - **Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.
 - **Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).
 - **Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.
-- **Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).
+- **Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité à postériori).
 :::
 
 # Le point de départ : des chromatogrammes aux séquences
@@ -177,7 +177,7 @@ Un arbre se lit par sa **topologie** (qui est proche de qui), ses **longueurs de
 
 ```{r}
 #| label: fig-arbre
-#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."
+#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité à postériori. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."
 #| fig-width: 7
 #| fig-height: 4
 op <- par(mar = c(2, 0.5, 1, 7), xpd = NA)
@@ -199,14 +199,14 @@ text(c(3.6, 3.4, 3.5, 3.3, 2.8), c(5, 4, 3, 2, 1),
 text(2.2, 4.5, "97 / 1.00", pos = 2, cex = 0.8, col = rouge)
 text(2.0, 2.5, "88 / 0.99", pos = 2, cex = 0.8, col = rouge)
 text(1.0, 3.5, "72 / 0.95", pos = 2, cex = 0.8, col = rouge)
-text(0.0, 5.5, "aux nœuds : bootstrap / probabilité postérieure", pos = 4, cex = 0.78, col = rouge)
+text(0.0, 5.5, "aux nœuds : bootstrap / probabilité à postériori", pos = 4, cex = 0.78, col = rouge)
 # barre d'echelle
 segments(0.0, 0.55, 0.6, 0.55, lwd = 2)
 text(0.3, 0.55, "0,02 subst./site", pos = 1, cex = 0.78)
 par(op)
 ```
 
-Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.
+Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité à postériori), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.
 
 # La chaîne complète
 
