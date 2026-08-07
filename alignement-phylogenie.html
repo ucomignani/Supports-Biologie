@@ -315,12 +315,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dater-les-arbres-lhorloge-moléculaire" id="toc-dater-les-arbres-lhorloge-moléculaire" class="nav-link" data-scroll-target="#dater-les-arbres-lhorloge-moléculaire"><span class="header-section-number">5.4</span> Dater les arbres : l’horloge moléculaire</a></li>
   </ul></li>
   <li><a href="#la-confiance-dans-larbre" id="toc-la-confiance-dans-larbre" class="nav-link" data-scroll-target="#la-confiance-dans-larbre"><span class="header-section-number">6</span> La confiance dans l’arbre</a></li>
-  <li><a href="#la-chaîne-complète" id="toc-la-chaîne-complète" class="nav-link" data-scroll-target="#la-chaîne-complète"><span class="header-section-number">7</span> La chaîne complète</a>
+  <li><a href="#lire-un-arbre-annoté" id="toc-lire-un-arbre-annoté" class="nav-link" data-scroll-target="#lire-un-arbre-annoté"><span class="header-section-number">7</span> Lire un arbre annoté</a></li>
+  <li><a href="#la-chaîne-complète" id="toc-la-chaîne-complète" class="nav-link" data-scroll-target="#la-chaîne-complète"><span class="header-section-number">8</span> La chaîne complète</a>
   <ul class="collapse">
-  <li><a href="#panorama-des-logiciels" id="toc-panorama-des-logiciels" class="nav-link" data-scroll-target="#panorama-des-logiciels"><span class="header-section-number">7.1</span> Panorama des logiciels</a></li>
+  <li><a href="#panorama-des-logiciels" id="toc-panorama-des-logiciels" class="nav-link" data-scroll-target="#panorama-des-logiciels"><span class="header-section-number">8.1</span> Panorama des logiciels</a></li>
   </ul></li>
-  <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">8</span> Bonnes pratiques</a></li>
-  <li><a href="#à-retenir" id="toc-à-retenir" class="nav-link" data-scroll-target="#à-retenir"><span class="header-section-number">9</span> À retenir</a></li>
+  <li><a href="#les-formats-de-fichiers" id="toc-les-formats-de-fichiers" class="nav-link" data-scroll-target="#les-formats-de-fichiers"><span class="header-section-number">9</span> Les formats de fichiers</a></li>
+  <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">10</span> Bonnes pratiques</a></li>
+  <li><a href="#à-retenir" id="toc-à-retenir" class="nav-link" data-scroll-target="#à-retenir"><span class="header-section-number">11</span> À retenir</a></li>
   </ul>
 </nav>
     </div>
@@ -329,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Suppléments</a></li><li class="breadcrumb-item"><a href="./alignement-phylogenie.html">Alignement et phylogénies</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Aligner des séquences et reconstruire des arbres</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Aligner des séquences et reconstruire des arbres</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Montrer tout le code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Cacher tout le code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Voir les sources</a></li></ul></div></div>
 <p class="subtitle lead">De la sortie du séquenceur à l’arbre phylogénétique, une chaîne pratique</p>
 </div>
 
@@ -341,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">6 août 2026</p>
+      <p class="date">7 août 2026</p>
     </div>
   </div>
   
@@ -529,6 +531,30 @@ Seq C   A C - T T A C G</code></pre>
 <section id="dater-les-arbres-lhorloge-moléculaire" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="dater-les-arbres-lhorloge-moléculaire"><span class="header-section-number">5.4</span> Dater les arbres : l’horloge moléculaire</h2>
 <p><strong>BEAST</strong> va plus loin que la simple topologie : sous une <strong>horloge moléculaire</strong> (stricte ou relâchée) et des points de calibration, il estime des <strong>temps de divergence</strong> et produit des <strong>chronogrammes</strong>. C’est l’outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Pas à pas : de MEGA à BEAST
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Dans <strong>MEGA</strong> : éditer les chromatogrammes, assembler les lectures forward et reverse en consensus, exporter en <strong>FASTA</strong>.</li>
+<li><strong>Aligner</strong> (MAFFT ou MEGA), <strong>nettoyer</strong> les colonnes douteuses, vérifier à l’œil.</li>
+<li>Construire un arbre exploratoire <strong>NJ</strong> ou <strong>ML</strong> dans MEGA pour repérer les erreurs : séquence aberrante, brin non retourné, contaminant.</li>
+<li>Pour l’approche bayésienne, préparer l’analyse avec <strong>BEAUti</strong> (fourni avec BEAST) : modèle de substitution, type d’<strong>horloge</strong> (stricte ou relâchée), arbre a priori, <strong>calibrations</strong>, longueur de la chaîne <strong>MCMC</strong>.</li>
+<li>Lancer <strong>BEAST</strong> : l’échantillonnage MCMC explore l’espace des arbres.</li>
+<li>Contrôler la <strong>convergence</strong> avec <strong>Tracer</strong> : taille d’échantillon efficace (<strong>ESS</strong>) supérieure à 200 pour les paramètres clés, traces bien mélangées, <strong>burn-in</strong> (début de chaîne) retiré.</li>
+<li>Résumer avec <strong>TreeAnnotator</strong> (arbre de crédibilité maximale, dit MCC) et visualiser dans <strong>FigTree</strong> les probabilités postérieures et les intervalles de temps (HPD).</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="la-confiance-dans-larbre" class="level1" data-number="6">
@@ -539,7 +565,7 @@ Seq C   A C - T T A C G</code></pre>
 <li><strong>Probabilités a posteriori</strong> (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.</li>
 </ul>
 <div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -548,15 +574,61 @@ Seq C   A C - T T A C G</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Un fort support signale une branche <strong>reproductible</strong> au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les <strong>longues branches</strong> qui s’attirent artificiellement (long-branch attraction), un <strong>échantillonnage</strong> trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="la-chaîne-complète" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> La chaîne complète</h1>
+<section id="lire-un-arbre-annoté" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Lire un arbre annoté</h1>
+<p>Un arbre se lit par sa <strong>topologie</strong> (qui est proche de qui), ses <strong>longueurs de branches</strong> (quantité de changement, ou temps), ses <strong>valeurs de support</strong> aux nœuds, et son <strong>groupe externe</strong> qui l’enracine.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">7</span>), <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5.4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">5.6</span>), <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bleu <span class="ot">&lt;-</span> <span class="st">"#123A5A"</span>; rouge <span class="ot">&lt;-</span> <span class="st">"#b52b2b"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>hb <span class="ot">&lt;-</span> <span class="cf">function</span>(x0, x1, y) <span class="fu">segments</span>(x0, y, x1, y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> bleu)  <span class="co"># branche horizontale</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>vb <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y0, y1) <span class="fu">segments</span>(x, y0, x, y1, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> bleu)  <span class="co"># connecteur vertical</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># branches vers les feuilles</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hb</span>(<span class="fl">2.2</span>, <span class="fl">3.6</span>, <span class="dv">5</span>); <span class="fu">hb</span>(<span class="fl">2.2</span>, <span class="fl">3.4</span>, <span class="dv">4</span>); <span class="fu">hb</span>(<span class="fl">2.0</span>, <span class="fl">3.5</span>, <span class="dv">3</span>); <span class="fu">hb</span>(<span class="fl">2.0</span>, <span class="fl">3.3</span>, <span class="dv">2</span>); <span class="fu">hb</span>(<span class="fl">0.0</span>, <span class="fl">2.8</span>, <span class="dv">1</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># branches internes</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hb</span>(<span class="fl">1.0</span>, <span class="fl">2.2</span>, <span class="fl">4.5</span>); <span class="fu">hb</span>(<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>); <span class="fu">hb</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">3.5</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># connecteurs verticaux</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">vb</span>(<span class="fl">2.2</span>, <span class="dv">4</span>, <span class="dv">5</span>); <span class="fu">vb</span>(<span class="fl">2.0</span>, <span class="dv">2</span>, <span class="dv">3</span>); <span class="fu">vb</span>(<span class="fl">1.0</span>, <span class="fl">2.5</span>, <span class="fl">4.5</span>); <span class="fu">vb</span>(<span class="fl">0.0</span>, <span class="dv">1</span>, <span class="fl">3.5</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># etiquettes de taxons</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="fl">3.6</span>, <span class="fl">3.4</span>, <span class="fl">3.5</span>, <span class="fl">3.3</span>, <span class="fl">2.8</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="st">"Espèce A"</span>, <span class="st">"Espèce B"</span>, <span class="st">"Espèce C"</span>, <span class="st">"Espèce D"</span>, <span class="st">"Groupe externe"</span>),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.95</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># supports aux noeuds internes</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.2</span>, <span class="fl">4.5</span>, <span class="st">"97 / 1.00"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="st">"88 / 0.99"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1.0</span>, <span class="fl">3.5</span>, <span class="st">"72 / 0.95"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité postérieure"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># barre d'echelle</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">0.0</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.55</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.3</span>, <span class="fl">0.55</span>, <span class="st">"0,02 subst./site"</span>, <span class="at">pos =</span> <span class="dv">1</span>, <span class="at">cex =</span> <span class="fl">0.78</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-arbre" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arbre-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="alignement-phylogenie_files/figure-html/fig-arbre-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arbre-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Un arbre annoté. Aux nœuds, le support s’écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l’arbre ; la barre d’échelle donne la quantité de changement.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l’est moins (72 / 0.95) : sa position mérite prudence.</p>
+</section>
+<section id="la-chaîne-complète" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> La chaîne complète</h1>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -581,8 +653,8 @@ Seq C   A C - T T A C G</code></pre>
 </div>
 </div>
 </div>
-<section id="panorama-des-logiciels" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="panorama-des-logiciels"><span class="header-section-number">7.1</span> Panorama des logiciels</h2>
+<section id="panorama-des-logiciels" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="panorama-des-logiciels"><span class="header-section-number">8.1</span> Panorama des logiciels</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -687,8 +759,61 @@ Seq C   A C - T T A C G</code></pre>
 </table>
 </section>
 </section>
-<section id="bonnes-pratiques" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Bonnes pratiques</h1>
+<section id="les-formats-de-fichiers" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Les formats de fichiers</h1>
+<p>Quatre formats reviennent tout au long de la chaîne. Les reconnaître évite bien des blocages au moment d’importer un fichier dans un logiciel.</p>
+<p>Le format <strong>FASTA</strong> porte les <strong>séquences</strong>, à l’entrée de l’alignement : une ligne d’en-tête commençant par <code>&gt;</code>, puis la séquence.</p>
+<pre><code>&gt;Espece_A
+ACGTACGTACGT
+&gt;Espece_B
+ACGTACG-ACGT</code></pre>
+<p>Les formats <strong>PHYLIP</strong> et <strong>NEXUS</strong> portent les <strong>alignements</strong>, à l’entrée des logiciels d’arbres. NEXUS ajoute des <strong>blocs de commandes</strong>, ce qui en fait le format de MrBayes et de BEAST.</p>
+<pre><code>#NEXUS
+BEGIN DATA;
+  DIMENSIONS NTAX=3 NCHAR=12;
+  FORMAT DATATYPE=DNA GAP=-;
+  MATRIX
+    Espece_A ACGTACGTACGT
+    Espece_B ACGTACG-ACGT
+    Espece_C ACGT--GTACGT
+  ;
+END;</code></pre>
+<p>Le format <strong>Newick</strong> décrit un <strong>arbre</strong> en une ligne de parenthèses imbriquées : chaque paire de parenthèses est un nœud, les nombres après les deux-points sont les longueurs de branches. C’est ce que lisent FigTree et iTOL.</p>
+<pre><code>((Espece_A:0.02,Espece_B:0.03):0.05,(Espece_C:0.01,Espece_D:0.02):0.04,Groupe_externe:0.08);</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Contenu</th>
+<th>Où on le rencontre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FASTA</td>
+<td>séquences</td>
+<td>entrée de l’alignement</td>
+</tr>
+<tr class="even">
+<td>PHYLIP</td>
+<td>alignement</td>
+<td>entrée des logiciels d’arbres</td>
+</tr>
+<tr class="odd">
+<td>NEXUS</td>
+<td>alignement et commandes</td>
+<td>MrBayes, BEAST, PAUP</td>
+</tr>
+<tr class="even">
+<td>Newick</td>
+<td>arbre</td>
+<td>sortie, lecture par FigTree, iTOL</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bonnes-pratiques" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Bonnes pratiques</h1>
 <ul>
 <li>Contrôler l’<strong>orientation des brins</strong>, la <strong>qualité</strong> des lectures et les <strong>ambiguïtés</strong> avant d’aligner.</li>
 <li>N’aligner que ce qui est <strong>alignable</strong> : traiter à part, ou retirer, les régions hypervariables douteuses.</li>
@@ -696,8 +821,8 @@ Seq C   A C - T T A C G</code></pre>
 <li>Croiser les méthodes et <strong>rapporter les paramètres</strong> : logiciels, versions, modèle, stratégie d’alignement, réglages du bootstrap ou de la MCMC. C’est la condition de la reproductibilité.</li>
 </ul>
 </section>
-<section id="à-retenir" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> À retenir</h1>
+<section id="à-retenir" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> À retenir</h1>
 <ul>
 <li>La chaîne va des chromatogrammes édités à l’arbre annoté, en passant par l’alignement, le nettoyage, le choix du modèle et la mesure du support.</li>
 <li>Aligner, c’est poser en correspondance des positions <strong>homologues</strong> ; l’alignement par paires est optimal par programmation dynamique, l’alignement multiple repose sur des heuristiques comme <strong>MAFFT</strong>.</li>
@@ -1182,223 +1307,312 @@ Seq C   A C - T T A C G</code></pre>
   <div class="nav-page nav-page-next">
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Aligner des séquences et reconstruire des arbres"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "De la sortie du séquenceur à l'arbre phylogénétique, une chaîne pratique"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "Sommaire"</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: kable</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objectif du chapitre</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>À la réception des séquences d'un laboratoire, il reste tout un travail avant d'obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l'arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vocabulaire de départ</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Marqueur** (ou code-barres) : une région d'ADN standard servant à comparer des organismes. Chez les champignons, la région **ITS** est le marqueur de référence.</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chromatogramme** : la trace du séquenceur Sanger, une suite de pics colorés d'où l'on lit les bases.</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Homologie** : ressemblance due à une origine commune. Aligner suppose que les positions comparées sont homologues.</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le point de départ : des chromatogrammes aux séquences</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>Le séquençage Sanger renvoie des **chromatogrammes**. La première étape est l'**édition** :</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>lire les pics et corriger les bases douteuses, souvent codées par les symboles d'ambiguïté (par exemple R pour A ou G, Y pour C ou T) ;</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>vérifier l'**orientation des brins** : la lecture inverse (reverse) doit être passée en complément inverse pour s'accorder à la lecture directe (forward) ;</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>combiner les lectures forward et reverse en une **séquence consensus**, plus fiable, surtout aux extrémités où la qualité chute.</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>Des logiciels d'édition courants : **MEGA** et **BioEdit** (libre), ainsi que Geneious, Chromas ou 4Peaks. On récupère ensuite des **séquences de référence** : par **BLAST** sur **GenBank** (NCBI) pour trouver les plus proches, et via **UNITE** pour les champignons. Ces bases ne sont que citées ici.</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vérifier avant d'aligner</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>Deux erreurs classiques faussent tout l'aval : un brin non retourné (la séquence semble n'aligner avec rien) et une séquence contaminée ou chimérique (mélange de deux organismes). Un coup d'œil au chromatogramme et un BLAST de contrôle évitent bien des surprises.</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu"># Qu'est-ce qu'un alignement, et pourquoi</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>Aligner, c'est disposer les séquences les unes sous les autres de sorte que chaque **colonne** rassemble des positions **homologues**. Là où une séquence a subi une insertion ou une délétion, on introduit un **gap**, noté par un tiret.</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="in">Seq A   A C G T - A C G</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="in">Seq B   A C G T T A C G</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="in">Seq C   A C - T T A C G</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>Un bon alignement révèle les positions **conservées** (les mêmes partout), les positions **variables** (qui portent le signal phylogénétique), et les **indels**. C'est la matière première de tout ce qui suit : distances, arbres, recherche de motifs.</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>On distingue l'**alignement par paires** (deux séquences) de l'**alignement multiple** (plusieurs séquences à la fois), qui est le cas utile en phylogénie.</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comment on aligne : scores et algorithmes</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le score d'un alignement</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>Un alignement est noté par un **score** : on récompense les correspondances, on pénalise les changements et les gaps. Pour l'ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des **matrices** comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d'autres.</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>Les **pénalités de gap** distinguent en général l'**ouverture** d'un gap de son **extension** : ouvrir un trou coûte cher, l'allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'alignement optimal par paires</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>Pour deux séquences, on sait trouver l'alignement de **score maximal** par **programmation dynamique** : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Needleman-Wunsch** : alignement **global**, d'un bout à l'autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Smith-Waterman** : alignement **local**, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c'est l'esprit de BLAST).</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'idée de la matrice de programmation dynamique</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>On place une séquence en lignes, l'autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l'alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># L'alignement multiple (MSA)</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>Aligner **plusieurs** séquences à la fois de façon optimale est un problème trop lourd en pratique : on recourt à des **heuristiques**.</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes progressives** : on aligne d'abord les paires les plus proches, guidé par un arbre approximatif, puis on ajoute les autres. C'est le principe de la famille **Clustal** (ClustalW, Clustal Omega).</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes itératives et à consistance**, plus précises : **MAFFT**, **MUSCLE**, **T-Coffee**, **PRANK**. Elles reviennent sur l'alignement pour l'améliorer.</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## MAFFT en pratique</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>**MAFFT** (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :</span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`FFT-NS-2`</span> : rapide, pour de grands jeux ou un premier jet ;</span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`L-INS-i`</span> : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.</span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="co"># alignement précis d'un fichier de séquences ITS</span></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="ex">mafft</span> <span class="at">--localpair</span> <span class="at">--maxiterate</span> 1000 sequences.fasta <span class="op">&gt;</span> alignement.fasta</span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="co"># équivalent au preset L-INS-i</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le cas des régions hypervariables</span></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>Chez les champignons, l'**ITS** contient des régions très variables, riches en indels, où l'homologie position par position devient incertaine. Deux conséquences :</span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>l'alignement automatique y est peu fiable, et une **retouche manuelle** dans **BioEdit** ou **MEGA** reste utile ;</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>on **nettoie** souvent l'alignement avant l'arbre, en retirant les colonnes ambiguës, avec **trimAl** ou Gblocks (libres).</span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>Pour un gène **codant**, on aligne de préférence en tenant compte des **codons** (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.</span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="fu"># De l'alignement à l'arbre</span></span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>Un alignement est une **matrice de caractères** : chaque colonne est un caractère, chaque séquence un individu. L'**arbre** résume les relations de parenté qu'on en déduit. Deux grandes familles de méthodes coexistent.</span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes de distance</span></span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>On résume d'abord chaque paire de séquences par une **distance**, puis on construit l'arbre à partir de la matrice de distances.</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**UPGMA** : simple, mais suppose une horloge (taux d'évolution constant), hypothèse souvent fausse.</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Neighbor-Joining (NJ)** : rapide et robuste, très utilisé pour un premier arbre. Disponible dans **MEGA**.</span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes basées sur les caractères</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>Elles exploitent directement chaque colonne de l'alignement.</span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parcimonie (MP)** : cherche l'arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.</span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Maximum de vraisemblance (ML)** : cherche l'arbre qui rend les données les plus probables sous un **modèle** d'évolution. C'est le standard actuel. Logiciels libres rapides : **IQ-TREE**, **RAxML** (et son successeur RAxML-NG), **PhyML** ; **MEGA** fait aussi du ML.</span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inférence bayésienne (BI)** : échantillonne les arbres selon leur **probabilité a posteriori**, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : **MrBayes**, **BEAST** et **BEAST 2**.</span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le lien avec la statistique</span></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>La vraisemblance et l'approche bayésienne sont les mêmes idées qu'en statistique : un **modèle**, des **paramètres** estimés, et pour le bayésien un **a priori** mis à jour par les données via une chaîne MCMC. Un arbre est ici l'un des paramètres à estimer.</span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Les modèles d'évolution des séquences</span></span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>Estimer un arbre par ML ou BI suppose un **modèle** décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :</span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JC69** : toutes les substitutions équiprobables ;</span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K80 (Kimura)** : distingue transitions et transversions ;</span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HKY**, **GTR** : fréquences de bases inégales et taux de substitution distincts ;</span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extensions **+G** (variabilité des vitesses entre sites, loi Gamma) et **+I** (sites invariables).</span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>On **sélectionne** le modèle le mieux adapté avec **ModelTest-NG** ou jModelTest, ou directement via **ModelFinder** intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l'estimation.</span>
-<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dater les arbres : l'horloge moléculaire</span></span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>**BEAST** va plus loin que la simple topologie : sous une **horloge moléculaire** (stricte ou relâchée) et des points de calibration, il estime des **temps de divergence** et produit des **chronogrammes**. C'est l'outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.</span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="fu"># La confiance dans l'arbre</span></span>
-<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>Un arbre n'est qu'une **estimation** : il faut mesurer la solidité de chaque branche.</span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bootstrap** (distance, MP, ML) : on **rééchantillonne** les colonnes de l'alignement avec remise, on refait un arbre à chaque fois, et le **pourcentage** de fois où une branche réapparaît mesure son support. C'est exactement le rééchantillonnage vu en statistique, appliqué aux colonnes.</span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Probabilités a posteriori** (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.</span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Support n'est pas vérité</span></span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>Un fort support signale une branche **reproductible** au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les **longues branches** qui s'attirent artificiellement (long-branch attraction), un **échantillonnage** trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.</span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="fu"># La chaîne complète</span></span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  A[<span class="ot">"</span><span class="st">Chromatogrammes&lt;br/&gt;(forward, reverse)</span><span class="ot">"</span>] --&gt; B[<span class="ot">"</span><span class="st">Édition et consensus&lt;br/&gt;MEGA, BioEdit</span><span class="ot">"</span>]</span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>  B --&gt; C[<span class="ot">"</span><span class="st">Références&lt;br/&gt;GenBank (BLAST), UNITE</span><span class="ot">"</span>]</span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>  C --&gt; D[<span class="ot">"</span><span class="st">Alignement multiple&lt;br/&gt;MAFFT, MUSCLE, MEGA</span><span class="ot">"</span>]</span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>  D --&gt; E[<span class="ot">"</span><span class="st">Nettoyage des colonnes&lt;br/&gt;trimAl, Gblocks</span><span class="ot">"</span>]</span>
-<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>  E --&gt; F[<span class="ot">"</span><span class="st">Choix du modèle&lt;br/&gt;ModelTest-NG, ModelFinder</span><span class="ot">"</span>]</span>
-<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>  F --&gt; G[<span class="ot">"</span><span class="st">Inférence de l'arbre</span><span class="ot">"</span>]</span>
-<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>  G --&gt; H[<span class="ot">"</span><span class="st">Maximum de vraisemblance&lt;br/&gt;IQ-TREE, RAxML, MEGA</span><span class="ot">"</span>]</span>
-<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>  G --&gt; I[<span class="ot">"</span><span class="st">Bayésien&lt;br/&gt;MrBayes, BEAST</span><span class="ot">"</span>]</span>
-<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>  H --&gt; J[<span class="ot">"</span><span class="st">Support : bootstrap</span><span class="ot">"</span>]</span>
-<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>  I --&gt; K[<span class="ot">"</span><span class="st">Support : prob. postérieures</span><span class="ot">"</span>]</span>
-<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>  J --&gt; L[<span class="ot">"</span><span class="st">Visualisation&lt;br/&gt;FigTree, iTOL, MEGA</span><span class="ot">"</span>]</span>
-<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>  K --&gt; L</span>
-<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Panorama des logiciels</span></span>
-<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Logiciel <span class="pp">|</span> Libre <span class="pp">|</span> Rôle <span class="pp">|</span> Points forts <span class="pp">|</span></span>
-<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
-<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MEGA <span class="pp">|</span> non (gratuit) <span class="pp">|</span> édition, alignement, distances, ML <span class="pp">|</span> tout-en-un, interface accessible <span class="pp">|</span></span>
-<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BioEdit <span class="pp">|</span> oui <span class="pp">|</span> édition, alignement manuel <span class="pp">|</span> retouche fine des alignements <span class="pp">|</span></span>
-<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MAFFT <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> rapide et précis, stratégies au choix <span class="pp">|</span></span>
-<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MUSCLE <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> bon compromis, version 5 réécrite <span class="pp">|</span></span>
-<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clustal Omega <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> grands jeux de séquences <span class="pp">|</span></span>
-<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> trimAl / Gblocks <span class="pp">|</span> oui <span class="pp">|</span> nettoyage de l'alignement <span class="pp">|</span> retire les colonnes ambiguës <span class="pp">|</span></span>
-<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ModelTest-NG / jModelTest <span class="pp">|</span> oui <span class="pp">|</span> choix du modèle <span class="pp">|</span> comparaison objective des modèles <span class="pp">|</span></span>
-<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> IQ-TREE <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> rapide, ModelFinder et bootstrap intégrés <span class="pp">|</span></span>
-<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> RAxML / RAxML-NG <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> référence pour grands jeux <span class="pp">|</span></span>
-<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PhyML <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> classique, accessible <span class="pp">|</span></span>
-<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MrBayes <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien <span class="pp">|</span> standard de l'inférence bayésienne <span class="pp">|</span></span>
-<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BEAST / BEAST 2 <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien daté <span class="pp">|</span> horloge moléculaire, datations <span class="pp">|</span></span>
-<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tracer <span class="pp">|</span> oui <span class="pp">|</span> diagnostic MCMC <span class="pp">|</span> vérifie la convergence de BEAST <span class="pp">|</span></span>
-<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FigTree / iTOL <span class="pp">|</span> oui <span class="pp">|</span> visualisation <span class="pp">|</span> mise en forme et annotation des arbres <span class="pp">|</span></span>
-<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bonnes pratiques</span></span>
-<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Contrôler l'**orientation des brins**, la **qualité** des lectures et les **ambiguïtés** avant d'aligner.</span>
-<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>N'aligner que ce qui est **alignable** : traiter à part, ou retirer, les régions hypervariables douteuses.</span>
-<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Adapter la méthode à la **question** : un Neighbor-Joining rapide suffit pour situer une récolte, une analyse ML ou bayésienne soignée s'impose pour une phylogénie publiable.</span>
-<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Croiser les méthodes et **rapporter les paramètres** : logiciels, versions, modèle, stratégie d'alignement, réglages du bootstrap ou de la MCMC. C'est la condition de la reproductibilité.</span>
-<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="fu"># À retenir</span></span>
-<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La chaîne va des chromatogrammes édités à l'arbre annoté, en passant par l'alignement, le nettoyage, le choix du modèle et la mesure du support.</span>
-<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Aligner, c'est poser en correspondance des positions **homologues** ; l'alignement par paires est optimal par programmation dynamique, l'alignement multiple repose sur des heuristiques comme **MAFFT**.</span>
-<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>L'arbre s'infère par distance (NJ), parcimonie, **maximum de vraisemblance** (IQ-TREE, RAxML, MEGA) ou **inférence bayésienne** (MrBayes, **BEAST** pour les datations), sous un **modèle** d'évolution qu'il faut sélectionner.</span>
-<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La confiance se mesure par **bootstrap** ou **probabilités a posteriori**, qui disent la reproductibilité, pas la vérité.</span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les outils libres couvrent toute la chaîne : BioEdit, MAFFT, trimAl, IQ-TREE, MrBayes, BEAST, FigTree.</span>
-<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>Pour transformer ce chapitre en support de présentation, remplacez <span class="in">`format: html`</span> par <span class="in">`format: revealjs`</span> dans l'en-tête, et scindez le contenu aux titres de premier et de deuxième niveau.</span>
-<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>:::</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Aligner des séquences et reconstruire des arbres"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "De la sortie du séquenceur à l'arbre phylogénétique, une chaîne pratique"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> fr</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "Sommaire"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: kable</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objectif du chapitre</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>À la réception des séquences d'un laboratoire, il reste tout un travail avant d'obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l'arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vocabulaire de départ</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Marqueur** (ou code-barres) : une région d'ADN standard servant à comparer des organismes. Chez les champignons, la région **ITS** est le marqueur de référence.</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chromatogramme** : la trace du séquenceur Sanger, une suite de pics colorés d'où l'on lit les bases.</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Homologie** : ressemblance due à une origine commune. Aligner suppose que les positions comparées sont homologues.</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le point de départ : des chromatogrammes aux séquences</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>Le séquençage Sanger renvoie des **chromatogrammes**. La première étape est l'**édition** :</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>lire les pics et corriger les bases douteuses, souvent codées par les symboles d'ambiguïté (par exemple R pour A ou G, Y pour C ou T) ;</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>vérifier l'**orientation des brins** : la lecture inverse (reverse) doit être passée en complément inverse pour s'accorder à la lecture directe (forward) ;</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>combiner les lectures forward et reverse en une **séquence consensus**, plus fiable, surtout aux extrémités où la qualité chute.</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>Des logiciels d'édition courants : **MEGA** et **BioEdit** (libre), ainsi que Geneious, Chromas ou 4Peaks. On récupère ensuite des **séquences de référence** : par **BLAST** sur **GenBank** (NCBI) pour trouver les plus proches, et via **UNITE** pour les champignons. Ces bases ne sont que citées ici.</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vérifier avant d'aligner</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>Deux erreurs classiques faussent tout l'aval : un brin non retourné (la séquence semble n'aligner avec rien) et une séquence contaminée ou chimérique (mélange de deux organismes). Un coup d'œil au chromatogramme et un BLAST de contrôle évitent bien des surprises.</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="fu"># Qu'est-ce qu'un alignement, et pourquoi</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>Aligner, c'est disposer les séquences les unes sous les autres de sorte que chaque **colonne** rassemble des positions **homologues**. Là où une séquence a subi une insertion ou une délétion, on introduit un **gap**, noté par un tiret.</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="in">Seq A   A C G T - A C G</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="in">Seq B   A C G T T A C G</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="in">Seq C   A C - T T A C G</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>Un bon alignement révèle les positions **conservées** (les mêmes partout), les positions **variables** (qui portent le signal phylogénétique), et les **indels**. C'est la matière première de tout ce qui suit : distances, arbres, recherche de motifs.</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>On distingue l'**alignement par paires** (deux séquences) de l'**alignement multiple** (plusieurs séquences à la fois), qui est le cas utile en phylogénie.</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comment on aligne : scores et algorithmes</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le score d'un alignement</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>Un alignement est noté par un **score** : on récompense les correspondances, on pénalise les changements et les gaps. Pour l'ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des **matrices** comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d'autres.</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>Les **pénalités de gap** distinguent en général l'**ouverture** d'un gap de son **extension** : ouvrir un trou coûte cher, l'allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'alignement optimal par paires</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>Pour deux séquences, on sait trouver l'alignement de **score maximal** par **programmation dynamique** : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Needleman-Wunsch** : alignement **global**, d'un bout à l'autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Smith-Waterman** : alignement **local**, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c'est l'esprit de BLAST).</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## L'idée de la matrice de programmation dynamique</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>On place une séquence en lignes, l'autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l'alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># L'alignement multiple (MSA)</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>Aligner **plusieurs** séquences à la fois de façon optimale est un problème trop lourd en pratique : on recourt à des **heuristiques**.</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes progressives** : on aligne d'abord les paires les plus proches, guidé par un arbre approximatif, puis on ajoute les autres. C'est le principe de la famille **Clustal** (ClustalW, Clustal Omega).</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Méthodes itératives et à consistance**, plus précises : **MAFFT**, **MUSCLE**, **T-Coffee**, **PRANK**. Elles reviennent sur l'alignement pour l'améliorer.</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## MAFFT en pratique</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>**MAFFT** (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`FFT-NS-2`</span> : rapide, pour de grands jeux ou un premier jet ;</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`L-INS-i`</span> : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="co"># alignement précis d'un fichier de séquences ITS</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="ex">mafft</span> <span class="at">--localpair</span> <span class="at">--maxiterate</span> 1000 sequences.fasta <span class="op">&gt;</span> alignement.fasta</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="co"># équivalent au preset L-INS-i</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le cas des régions hypervariables</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>Chez les champignons, l'**ITS** contient des régions très variables, riches en indels, où l'homologie position par position devient incertaine. Deux conséquences :</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>l'alignement automatique y est peu fiable, et une **retouche manuelle** dans **BioEdit** ou **MEGA** reste utile ;</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>on **nettoie** souvent l'alignement avant l'arbre, en retirant les colonnes ambiguës, avec **trimAl** ou Gblocks (libres).</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>Pour un gène **codant**, on aligne de préférence en tenant compte des **codons** (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="fu"># De l'alignement à l'arbre</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>Un alignement est une **matrice de caractères** : chaque colonne est un caractère, chaque séquence un individu. L'**arbre** résume les relations de parenté qu'on en déduit. Deux grandes familles de méthodes coexistent.</span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes de distance</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>On résume d'abord chaque paire de séquences par une **distance**, puis on construit l'arbre à partir de la matrice de distances.</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**UPGMA** : simple, mais suppose une horloge (taux d'évolution constant), hypothèse souvent fausse.</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Neighbor-Joining (NJ)** : rapide et robuste, très utilisé pour un premier arbre. Disponible dans **MEGA**.</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Méthodes basées sur les caractères</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>Elles exploitent directement chaque colonne de l'alignement.</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parcimonie (MP)** : cherche l'arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Maximum de vraisemblance (ML)** : cherche l'arbre qui rend les données les plus probables sous un **modèle** d'évolution. C'est le standard actuel. Logiciels libres rapides : **IQ-TREE**, **RAxML** (et son successeur RAxML-NG), **PhyML** ; **MEGA** fait aussi du ML.</span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inférence bayésienne (BI)** : échantillonne les arbres selon leur **probabilité a posteriori**, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : **MrBayes**, **BEAST** et **BEAST 2**.</span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le lien avec la statistique</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a>La vraisemblance et l'approche bayésienne sont les mêmes idées qu'en statistique : un **modèle**, des **paramètres** estimés, et pour le bayésien un **a priori** mis à jour par les données via une chaîne MCMC. Un arbre est ici l'un des paramètres à estimer.</span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Les modèles d'évolution des séquences</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>Estimer un arbre par ML ou BI suppose un **modèle** décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JC69** : toutes les substitutions équiprobables ;</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K80 (Kimura)** : distingue transitions et transversions ;</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HKY**, **GTR** : fréquences de bases inégales et taux de substitution distincts ;</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extensions **+G** (variabilité des vitesses entre sites, loi Gamma) et **+I** (sites invariables).</span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>On **sélectionne** le modèle le mieux adapté avec **ModelTest-NG** ou jModelTest, ou directement via **ModelFinder** intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l'estimation.</span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dater les arbres : l'horloge moléculaire</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>**BEAST** va plus loin que la simple topologie : sous une **horloge moléculaire** (stricte ou relâchée) et des points de calibration, il estime des **temps de divergence** et produit des **chronogrammes**. C'est l'outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.</span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pas à pas : de MEGA à BEAST</span></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Dans **MEGA** : éditer les chromatogrammes, assembler les lectures forward et reverse en consensus, exporter en **FASTA**.</span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Aligner** (MAFFT ou MEGA), **nettoyer** les colonnes douteuses, vérifier à l'œil.</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Construire un arbre exploratoire **NJ** ou **ML** dans MEGA pour repérer les erreurs : séquence aberrante, brin non retourné, contaminant.</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Pour l'approche bayésienne, préparer l'analyse avec **BEAUti** (fourni avec BEAST) : modèle de substitution, type d'**horloge** (stricte ou relâchée), arbre a priori, **calibrations**, longueur de la chaîne **MCMC**.</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Lancer **BEAST** : l'échantillonnage MCMC explore l'espace des arbres.</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Contrôler la **convergence** avec **Tracer** : taille d'échantillon efficace (**ESS**) supérieure à 200 pour les paramètres clés, traces bien mélangées, **burn-in** (début de chaîne) retiré.</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Résumer avec **TreeAnnotator** (arbre de crédibilité maximale, dit MCC) et visualiser dans **FigTree** les probabilités postérieures et les intervalles de temps (HPD).</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a><span class="fu"># La confiance dans l'arbre</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>Un arbre n'est qu'une **estimation** : il faut mesurer la solidité de chaque branche.</span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bootstrap** (distance, MP, ML) : on **rééchantillonne** les colonnes de l'alignement avec remise, on refait un arbre à chaque fois, et le **pourcentage** de fois où une branche réapparaît mesure son support. C'est exactement le rééchantillonnage vu en statistique, appliqué aux colonnes.</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Probabilités a posteriori** (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.</span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse="true"}</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Support n'est pas vérité</span></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>Un fort support signale une branche **reproductible** au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les **longues branches** qui s'attirent artificiellement (long-branch attraction), un **échantillonnage** trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="fu"># Lire un arbre annoté</span></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>Un arbre se lit par sa **topologie** (qui est proche de qui), ses **longueurs de branches** (quantité de changement, ou temps), ses **valeurs de support** aux nœuds, et son **groupe externe** qui l'enracine.</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-arbre</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">7</span>), <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5.4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">5.6</span>), <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>bleu <span class="ot">&lt;-</span> <span class="st">"#123A5A"</span>; rouge <span class="ot">&lt;-</span> <span class="st">"#b52b2b"</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>hb <span class="ot">&lt;-</span> <span class="cf">function</span>(x0, x1, y) <span class="fu">segments</span>(x0, y, x1, y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> bleu)  <span class="co"># branche horizontale</span></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>vb <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y0, y1) <span class="fu">segments</span>(x, y0, x, y1, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> bleu)  <span class="co"># connecteur vertical</span></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="co"># branches vers les feuilles</span></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="fu">hb</span>(<span class="fl">2.2</span>, <span class="fl">3.6</span>, <span class="dv">5</span>); <span class="fu">hb</span>(<span class="fl">2.2</span>, <span class="fl">3.4</span>, <span class="dv">4</span>); <span class="fu">hb</span>(<span class="fl">2.0</span>, <span class="fl">3.5</span>, <span class="dv">3</span>); <span class="fu">hb</span>(<span class="fl">2.0</span>, <span class="fl">3.3</span>, <span class="dv">2</span>); <span class="fu">hb</span>(<span class="fl">0.0</span>, <span class="fl">2.8</span>, <span class="dv">1</span>)</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="co"># branches internes</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="fu">hb</span>(<span class="fl">1.0</span>, <span class="fl">2.2</span>, <span class="fl">4.5</span>); <span class="fu">hb</span>(<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>); <span class="fu">hb</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">3.5</span>)</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="co"># connecteurs verticaux</span></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="fu">vb</span>(<span class="fl">2.2</span>, <span class="dv">4</span>, <span class="dv">5</span>); <span class="fu">vb</span>(<span class="fl">2.0</span>, <span class="dv">2</span>, <span class="dv">3</span>); <span class="fu">vb</span>(<span class="fl">1.0</span>, <span class="fl">2.5</span>, <span class="fl">4.5</span>); <span class="fu">vb</span>(<span class="fl">0.0</span>, <span class="dv">1</span>, <span class="fl">3.5</span>)</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="co"># etiquettes de taxons</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="fl">3.6</span>, <span class="fl">3.4</span>, <span class="fl">3.5</span>, <span class="fl">3.3</span>, <span class="fl">2.8</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="st">"Espèce A"</span>, <span class="st">"Espèce B"</span>, <span class="st">"Espèce C"</span>, <span class="st">"Espèce D"</span>, <span class="st">"Groupe externe"</span>),</span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.95</span>)</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a><span class="co"># supports aux noeuds internes</span></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.2</span>, <span class="fl">4.5</span>, <span class="st">"97 / 1.00"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="st">"88 / 0.99"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1.0</span>, <span class="fl">3.5</span>, <span class="st">"72 / 0.95"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité postérieure"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="co"># barre d'echelle</span></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">0.0</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.55</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.3</span>, <span class="fl">0.55</span>, <span class="st">"0,02 subst./site"</span>, <span class="at">pos =</span> <span class="dv">1</span>, <span class="at">cex =</span> <span class="fl">0.78</span>)</span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="fu"># La chaîne complète</span></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>  A[<span class="ot">"</span><span class="st">Chromatogrammes&lt;br/&gt;(forward, reverse)</span><span class="ot">"</span>] --&gt; B[<span class="ot">"</span><span class="st">Édition et consensus&lt;br/&gt;MEGA, BioEdit</span><span class="ot">"</span>]</span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>  B --&gt; C[<span class="ot">"</span><span class="st">Références&lt;br/&gt;GenBank (BLAST), UNITE</span><span class="ot">"</span>]</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>  C --&gt; D[<span class="ot">"</span><span class="st">Alignement multiple&lt;br/&gt;MAFFT, MUSCLE, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>  D --&gt; E[<span class="ot">"</span><span class="st">Nettoyage des colonnes&lt;br/&gt;trimAl, Gblocks</span><span class="ot">"</span>]</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>  E --&gt; F[<span class="ot">"</span><span class="st">Choix du modèle&lt;br/&gt;ModelTest-NG, ModelFinder</span><span class="ot">"</span>]</span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>  F --&gt; G[<span class="ot">"</span><span class="st">Inférence de l'arbre</span><span class="ot">"</span>]</span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>  G --&gt; H[<span class="ot">"</span><span class="st">Maximum de vraisemblance&lt;br/&gt;IQ-TREE, RAxML, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>  G --&gt; I[<span class="ot">"</span><span class="st">Bayésien&lt;br/&gt;MrBayes, BEAST</span><span class="ot">"</span>]</span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>  H --&gt; J[<span class="ot">"</span><span class="st">Support : bootstrap</span><span class="ot">"</span>]</span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>  I --&gt; K[<span class="ot">"</span><span class="st">Support : prob. postérieures</span><span class="ot">"</span>]</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>  J --&gt; L[<span class="ot">"</span><span class="st">Visualisation&lt;br/&gt;FigTree, iTOL, MEGA</span><span class="ot">"</span>]</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>  K --&gt; L</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a><span class="fu">## Panorama des logiciels</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Logiciel <span class="pp">|</span> Libre <span class="pp">|</span> Rôle <span class="pp">|</span> Points forts <span class="pp">|</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MEGA <span class="pp">|</span> non (gratuit) <span class="pp">|</span> édition, alignement, distances, ML <span class="pp">|</span> tout-en-un, interface accessible <span class="pp">|</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BioEdit <span class="pp">|</span> oui <span class="pp">|</span> édition, alignement manuel <span class="pp">|</span> retouche fine des alignements <span class="pp">|</span></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MAFFT <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> rapide et précis, stratégies au choix <span class="pp">|</span></span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MUSCLE <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> bon compromis, version 5 réécrite <span class="pp">|</span></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clustal Omega <span class="pp">|</span> oui <span class="pp">|</span> alignement multiple <span class="pp">|</span> grands jeux de séquences <span class="pp">|</span></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> trimAl / Gblocks <span class="pp">|</span> oui <span class="pp">|</span> nettoyage de l'alignement <span class="pp">|</span> retire les colonnes ambiguës <span class="pp">|</span></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ModelTest-NG / jModelTest <span class="pp">|</span> oui <span class="pp">|</span> choix du modèle <span class="pp">|</span> comparaison objective des modèles <span class="pp">|</span></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> IQ-TREE <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> rapide, ModelFinder et bootstrap intégrés <span class="pp">|</span></span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> RAxML / RAxML-NG <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> référence pour grands jeux <span class="pp">|</span></span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PhyML <span class="pp">|</span> oui <span class="pp">|</span> arbre ML <span class="pp">|</span> classique, accessible <span class="pp">|</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MrBayes <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien <span class="pp">|</span> standard de l'inférence bayésienne <span class="pp">|</span></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> BEAST / BEAST 2 <span class="pp">|</span> oui <span class="pp">|</span> arbre bayésien daté <span class="pp">|</span> horloge moléculaire, datations <span class="pp">|</span></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tracer <span class="pp">|</span> oui <span class="pp">|</span> diagnostic MCMC <span class="pp">|</span> vérifie la convergence de BEAST <span class="pp">|</span></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FigTree / iTOL <span class="pp">|</span> oui <span class="pp">|</span> visualisation <span class="pp">|</span> mise en forme et annotation des arbres <span class="pp">|</span></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="fu"># Les formats de fichiers</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>Quatre formats reviennent tout au long de la chaîne. Les reconnaître évite bien des blocages au moment d'importer un fichier dans un logiciel.</span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>Le format **FASTA** porte les **séquences**, à l'entrée de l'alignement : une ligne d'en-tête commençant par <span class="in">`&gt;`</span>, puis la séquence.</span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Espece_A</span></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="in">ACGTACGTACGT</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Espece_B</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a><span class="in">ACGTACG-ACGT</span></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>Les formats **PHYLIP** et **NEXUS** portent les **alignements**, à l'entrée des logiciels d'arbres. NEXUS ajoute des **blocs de commandes**, ce qui en fait le format de MrBayes et de BEAST.</span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="in">#NEXUS</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="in">BEGIN DATA;</span></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a><span class="in">  DIMENSIONS NTAX=3 NCHAR=12;</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="in">  FORMAT DATATYPE=DNA GAP=-;</span></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a><span class="in">  MATRIX</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a><span class="in">    Espece_A ACGTACGTACGT</span></span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="in">    Espece_B ACGTACG-ACGT</span></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="in">    Espece_C ACGT--GTACGT</span></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="in">  ;</span></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="in">END;</span></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>Le format **Newick** décrit un **arbre** en une ligne de parenthèses imbriquées : chaque paire de parenthèses est un nœud, les nombres après les deux-points sont les longueurs de branches. C'est ce que lisent FigTree et iTOL.</span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="in">((Espece_A:0.02,Espece_B:0.03):0.05,(Espece_C:0.01,Espece_D:0.02):0.04,Groupe_externe:0.08);</span></span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Format <span class="pp">|</span> Contenu <span class="pp">|</span> Où on le rencontre <span class="pp">|</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FASTA <span class="pp">|</span> séquences <span class="pp">|</span> entrée de l'alignement <span class="pp">|</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PHYLIP <span class="pp">|</span> alignement <span class="pp">|</span> entrée des logiciels d'arbres <span class="pp">|</span></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> NEXUS <span class="pp">|</span> alignement et commandes <span class="pp">|</span> MrBayes, BEAST, PAUP <span class="pp">|</span></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Newick <span class="pp">|</span> arbre <span class="pp">|</span> sortie, lecture par FigTree, iTOL <span class="pp">|</span></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bonnes pratiques</span></span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Contrôler l'**orientation des brins**, la **qualité** des lectures et les **ambiguïtés** avant d'aligner.</span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>N'aligner que ce qui est **alignable** : traiter à part, ou retirer, les régions hypervariables douteuses.</span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Adapter la méthode à la **question** : un Neighbor-Joining rapide suffit pour situer une récolte, une analyse ML ou bayésienne soignée s'impose pour une phylogénie publiable.</span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Croiser les méthodes et **rapporter les paramètres** : logiciels, versions, modèle, stratégie d'alignement, réglages du bootstrap ou de la MCMC. C'est la condition de la reproductibilité.</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="fu"># À retenir</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La chaîne va des chromatogrammes édités à l'arbre annoté, en passant par l'alignement, le nettoyage, le choix du modèle et la mesure du support.</span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Aligner, c'est poser en correspondance des positions **homologues** ; l'alignement par paires est optimal par programmation dynamique, l'alignement multiple repose sur des heuristiques comme **MAFFT**.</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>L'arbre s'infère par distance (NJ), parcimonie, **maximum de vraisemblance** (IQ-TREE, RAxML, MEGA) ou **inférence bayésienne** (MrBayes, **BEAST** pour les datations), sous un **modèle** d'évolution qu'il faut sélectionner.</span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La confiance se mesure par **bootstrap** ou **probabilités a posteriori**, qui disent la reproductibilité, pas la vérité.</span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les outils libres couvrent toute la chaîne : BioEdit, MAFFT, trimAl, IQ-TREE, MrBayes, BEAST, FigTree.</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a>Pour transformer ce chapitre en support de présentation, remplacez <span class="in">`format: html`</span> par <span class="in">`format: revealjs`</span> dans l'en-tête, et scindez le contenu aux titres de premier et de deuxième niveau.</span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
