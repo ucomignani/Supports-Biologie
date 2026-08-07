@@ -68,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./ecologie-cours.html" rel="next">
 <link href="./bibliographie.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -283,6 +284,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Alignement et phylogénies</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ecologie-cours.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Écologie</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -385,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Alignement</strong> : mise en correspondance, colonne par colonne, de positions homologues, en insérant des <strong>trous (gaps)</strong> pour les insertions et délétions.</li>
 <li><strong>Matrice de substitution</strong> : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</li>
 <li><strong>Modèle d’évolution</strong> : une description probabiliste de la façon dont les séquences changent au cours du temps.</li>
-<li><strong>Support</strong> : une mesure de confiance dans une branche de l’arbre (bootstrap, probabilité postérieure).</li>
+<li><strong>Support</strong> : une mesure de confiance dans une branche de l’arbre (bootstrap, probabilité à postériori).</li>
 </ul>
 </div>
 </div>
@@ -606,7 +613,7 @@ Seq C   A C - T T A C G</code></pre>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.2</span>, <span class="fl">4.5</span>, <span class="st">"97 / 1.00"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="st">"88 / 0.99"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1.0</span>, <span class="fl">3.5</span>, <span class="st">"72 / 0.95"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité postérieure"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité à postériori"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># barre d'echelle</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">0.0</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.55</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.3</span>, <span class="fl">0.55</span>, <span class="st">"0,02 subst./site"</span>, <span class="at">pos =</span> <span class="dv">1</span>, <span class="at">cex =</span> <span class="fl">0.78</span>)</span>
@@ -619,13 +626,13 @@ Seq C   A C - T T A C G</code></pre>
 <img src="alignement-phylogenie_files/figure-html/fig-arbre-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arbre-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Un arbre annoté. Aux nœuds, le support s’écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l’arbre ; la barre d’échelle donne la quantité de changement.
+Figure&nbsp;1: Un arbre annoté. Aux nœuds, le support s’écrit ici bootstrap / probabilité à postériori. Le groupe externe enracine l’arbre ; la barre d’échelle donne la quantité de changement.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l’est moins (72 / 0.95) : sa position mérite prudence.</p>
+<p>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité à postériori), tandis que le nœud le plus profond l’est moins (72 / 0.95) : sa position mérite prudence.</p>
 </section>
 <section id="la-chaîne-complète" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> La chaîne complète</h1>
@@ -1305,6 +1312,9 @@ END;</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./ecologie-cours.html" class="pagination-link" aria-label="Écologie">
+        <span class="nav-page-text">Écologie</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -1337,7 +1347,7 @@ END;</code></pre>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).</span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité à postériori).</span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Le point de départ : des chromatogrammes aux séquences</span></span>
@@ -1486,7 +1496,7 @@ END;</code></pre>
 <span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-arbre</span></span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité à postériori. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."</span></span>
 <span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
 <span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
 <span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">7</span>), <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
@@ -1508,14 +1518,14 @@ END;</code></pre>
 <span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.2</span>, <span class="fl">4.5</span>, <span class="st">"97 / 1.00"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="st">"88 / 0.99"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1.0</span>, <span class="fl">3.5</span>, <span class="st">"72 / 0.95"</span>, <span class="at">pos =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> rouge)</span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité postérieure"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.0</span>, <span class="fl">5.5</span>, <span class="st">"aux nœuds : bootstrap / probabilité à postériori"</span>, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.78</span>, <span class="at">col =</span> rouge)</span>
 <span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="co"># barre d'echelle</span></span>
 <span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">0.0</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.55</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.3</span>, <span class="fl">0.55</span>, <span class="st">"0,02 subst./site"</span>, <span class="at">pos =</span> <span class="dv">1</span>, <span class="at">cex =</span> <span class="fl">0.78</span>)</span>
 <span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
 <span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité à postériori), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.</span>
 <span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="fu"># La chaîne complète</span></span>
 <span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a></span>
