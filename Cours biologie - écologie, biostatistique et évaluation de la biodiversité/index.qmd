@@ -40,6 +40,10 @@ Quatre simulateurs en Python permettent d'explorer les concepts en manipulant le
 
 La [bibliographie](bibliographie.qmd) rassemble les textes fondateurs et les manuels, organises par theme.
 
+## Suppléments
+
+[Alignement et phylogénies](alignement-phylogenie.qmd) rassemble les textes fondateurs et les manuels, organises par theme.
+
 ::: {.callout-note appearance="minimal"}
 Les chapitres se lisent dans l'ordre propose, les fondements d'abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.
 :::

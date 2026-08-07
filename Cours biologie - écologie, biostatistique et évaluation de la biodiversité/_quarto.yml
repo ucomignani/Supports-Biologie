@@ -55,6 +55,10 @@ website:
             text: "Simulateurs Python"
           - href: bibliographie.qmd
             text: "Bibliographie"
+      - section: "Suppléments"
+        contents:
+          - href: alignement-phylogenie.qmd
+            text: "Alignement et phylogénies"
 
 bibliography: references.bib
 
