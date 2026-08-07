@@ -1,0 +1,306 @@
+---
+title: "Aligner des séquences et reconstruire des arbres"
+subtitle: "De la sortie du séquenceur à l'arbre phylogénétique, une chaîne pratique"
+lang: fr
+date: today
+format:
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    number-sections: true
+    theme: cosmo
+    df-print: kable
+execute:
+  warning: false
+  message: false
+---
+
+::: {.callout-note}
+## Objectif du chapitre
+À la réception des séquences d'un laboratoire, il reste tout un travail avant d'obtenir un arbre exploitable : nettoyer les chromatogrammes, récupérer des références, aligner, choisir un modèle, inférer l'arbre, et en mesurer la confiance. Ce chapitre décrit cette chaîne, ses principes et les logiciels courants, avec une préférence pour les outils libres. Il ne détaille pas les bases de données spécialisées, qui sont seulement citées.
+:::
+
+::: {.callout-tip}
+## Vocabulaire de départ
+- **Marqueur** (ou code-barres) : une région d'ADN standard servant à comparer des organismes. Chez les champignons, la région **ITS** est le marqueur de référence.
+- **Chromatogramme** : la trace du séquenceur Sanger, une suite de pics colorés d'où l'on lit les bases.
+- **Homologie** : ressemblance due à une origine commune. Aligner suppose que les positions comparées sont homologues.
+- **Alignement** : mise en correspondance, colonne par colonne, de positions homologues, en insérant des **trous (gaps)** pour les insertions et délétions.
+- **Matrice de substitution** : le barème qui note une correspondance ou un changement entre deux bases (ou acides aminés).
+- **Modèle d'évolution** : une description probabiliste de la façon dont les séquences changent au cours du temps.
+- **Support** : une mesure de confiance dans une branche de l'arbre (bootstrap, probabilité postérieure).
+:::
+
+# Le point de départ : des chromatogrammes aux séquences
+
+Le séquençage Sanger renvoie des **chromatogrammes**. La première étape est l'**édition** :
+
+- lire les pics et corriger les bases douteuses, souvent codées par les symboles d'ambiguïté (par exemple R pour A ou G, Y pour C ou T) ;
+- vérifier l'**orientation des brins** : la lecture inverse (reverse) doit être passée en complément inverse pour s'accorder à la lecture directe (forward) ;
+- combiner les lectures forward et reverse en une **séquence consensus**, plus fiable, surtout aux extrémités où la qualité chute.
+
+Des logiciels d'édition courants : **MEGA** et **BioEdit** (libre), ainsi que Geneious, Chromas ou 4Peaks. On récupère ensuite des **séquences de référence** : par **BLAST** sur **GenBank** (NCBI) pour trouver les plus proches, et via **UNITE** pour les champignons. Ces bases ne sont que citées ici.
+
+::: {.callout-important collapse="true"}
+## Vérifier avant d'aligner
+Deux erreurs classiques faussent tout l'aval : un brin non retourné (la séquence semble n'aligner avec rien) et une séquence contaminée ou chimérique (mélange de deux organismes). Un coup d'œil au chromatogramme et un BLAST de contrôle évitent bien des surprises.
+:::
+
+# Qu'est-ce qu'un alignement, et pourquoi
+
+Aligner, c'est disposer les séquences les unes sous les autres de sorte que chaque **colonne** rassemble des positions **homologues**. Là où une séquence a subi une insertion ou une délétion, on introduit un **gap**, noté par un tiret.
+
+```
+Seq A   A C G T - A C G
+Seq B   A C G T T A C G
+Seq C   A C - T T A C G
+```
+
+Un bon alignement révèle les positions **conservées** (les mêmes partout), les positions **variables** (qui portent le signal phylogénétique), et les **indels**. C'est la matière première de tout ce qui suit : distances, arbres, recherche de motifs.
+
+On distingue l'**alignement par paires** (deux séquences) de l'**alignement multiple** (plusieurs séquences à la fois), qui est le cas utile en phylogénie.
+
+# Comment on aligne : scores et algorithmes
+
+## Le score d'un alignement
+
+Un alignement est noté par un **score** : on récompense les correspondances, on pénalise les changements et les gaps. Pour l'ADN, on utilise souvent un simple barème correspondance / non-correspondance ; pour les protéines, des **matrices** comme PAM ou BLOSUM (citées) tiennent compte du fait que certains acides aminés se remplacent plus facilement que d'autres.
+
+Les **pénalités de gap** distinguent en général l'**ouverture** d'un gap de son **extension** : ouvrir un trou coûte cher, l'allonger coûte moins. Cela reflète la biologie, où une insertion de plusieurs bases est un seul événement, pas plusieurs.
+
+## L'alignement optimal par paires
+
+Pour deux séquences, on sait trouver l'alignement de **score maximal** par **programmation dynamique** : on remplit une matrice où chaque case combine les scores des cases voisines, puis on remonte le meilleur chemin.
+
+- **Needleman-Wunsch** : alignement **global**, d'un bout à l'autre des deux séquences. Adapté à des séquences de longueur et de nature comparables (deux ITS complets).
+- **Smith-Waterman** : alignement **local**, qui ne retient que la meilleure région commune. Adapté quand on cherche un sous-fragment partagé (c'est l'esprit de BLAST).
+
+::: {.callout-note collapse="true"}
+## L'idée de la matrice de programmation dynamique
+On place une séquence en lignes, l'autre en colonnes. Chaque case reçoit le meilleur des trois choix : venir de la diagonale (correspondance ou changement), du haut ou de la gauche (un gap). Le score final se lit dans un coin, et le chemin qui y mène donne l'alignement. Le coût de calcul croît comme le produit des longueurs, ce qui reste faisable pour deux séquences mais explose pour beaucoup de séquences à la fois.
+:::
+
+# L'alignement multiple (MSA)
+
+Aligner **plusieurs** séquences à la fois de façon optimale est un problème trop lourd en pratique : on recourt à des **heuristiques**.
+
+- **Méthodes progressives** : on aligne d'abord les paires les plus proches, guidé par un arbre approximatif, puis on ajoute les autres. C'est le principe de la famille **Clustal** (ClustalW, Clustal Omega).
+- **Méthodes itératives et à consistance**, plus précises : **MAFFT**, **MUSCLE**, **T-Coffee**, **PRANK**. Elles reviennent sur l'alignement pour l'améliorer.
+
+## MAFFT en pratique
+
+**MAFFT** (libre) est un bon choix par défaut. Il propose plusieurs stratégies, du plus rapide au plus précis :
+
+- `FFT-NS-2` : rapide, pour de grands jeux ou un premier jet ;
+- `L-INS-i` : lent mais précis, recommandé pour un nombre modéré de séquences comme en phylogénie fine.
+
+```bash
+# alignement précis d'un fichier de séquences ITS
+mafft --localpair --maxiterate 1000 sequences.fasta > alignement.fasta
+# équivalent au preset L-INS-i
+```
+
+## Le cas des régions hypervariables
+
+Chez les champignons, l'**ITS** contient des régions très variables, riches en indels, où l'homologie position par position devient incertaine. Deux conséquences :
+
+- l'alignement automatique y est peu fiable, et une **retouche manuelle** dans **BioEdit** ou **MEGA** reste utile ;
+- on **nettoie** souvent l'alignement avant l'arbre, en retirant les colonnes ambiguës, avec **trimAl** ou Gblocks (libres).
+
+Pour un gène **codant**, on aligne de préférence en tenant compte des **codons** (alignement guidé par la traduction), ce qui évite de décaler le cadre de lecture.
+
+# De l'alignement à l'arbre
+
+Un alignement est une **matrice de caractères** : chaque colonne est un caractère, chaque séquence un individu. L'**arbre** résume les relations de parenté qu'on en déduit. Deux grandes familles de méthodes coexistent.
+
+## Méthodes de distance
+
+On résume d'abord chaque paire de séquences par une **distance**, puis on construit l'arbre à partir de la matrice de distances.
+
+- **UPGMA** : simple, mais suppose une horloge (taux d'évolution constant), hypothèse souvent fausse.
+- **Neighbor-Joining (NJ)** : rapide et robuste, très utilisé pour un premier arbre. Disponible dans **MEGA**.
+
+## Méthodes basées sur les caractères
+
+Elles exploitent directement chaque colonne de l'alignement.
+
+- **Parcimonie (MP)** : cherche l'arbre exigeant le moins de changements. Intuitive, mais sensible à certains artefacts.
+- **Maximum de vraisemblance (ML)** : cherche l'arbre qui rend les données les plus probables sous un **modèle** d'évolution. C'est le standard actuel. Logiciels libres rapides : **IQ-TREE**, **RAxML** (et son successeur RAxML-NG), **PhyML** ; **MEGA** fait aussi du ML.
+- **Inférence bayésienne (BI)** : échantillonne les arbres selon leur **probabilité a posteriori**, par une chaîne de Markov Monte-Carlo (MCMC). Logiciels : **MrBayes**, **BEAST** et **BEAST 2**.
+
+::: {.callout-note}
+## Le lien avec la statistique
+La vraisemblance et l'approche bayésienne sont les mêmes idées qu'en statistique : un **modèle**, des **paramètres** estimés, et pour le bayésien un **a priori** mis à jour par les données via une chaîne MCMC. Un arbre est ici l'un des paramètres à estimer.
+:::
+
+## Les modèles d'évolution des séquences
+
+Estimer un arbre par ML ou BI suppose un **modèle** décrivant les probabilités de substitution entre bases. Du plus simple au plus riche :
+
+- **JC69** : toutes les substitutions équiprobables ;
+- **K80 (Kimura)** : distingue transitions et transversions ;
+- **HKY**, **GTR** : fréquences de bases inégales et taux de substitution distincts ;
+- extensions **+G** (variabilité des vitesses entre sites, loi Gamma) et **+I** (sites invariables).
+
+On **sélectionne** le modèle le mieux adapté avec **ModelTest-NG** ou jModelTest, ou directement via **ModelFinder** intégré à IQ-TREE. Choisir un modèle trop simple ou trop riche dégrade l'estimation.
+
+## Dater les arbres : l'horloge moléculaire
+
+**BEAST** va plus loin que la simple topologie : sous une **horloge moléculaire** (stricte ou relâchée) et des points de calibration, il estime des **temps de divergence** et produit des **chronogrammes**. C'est l'outil de choix pour les questions temporelles, là où MEGA se limite aux approches non bayésiennes.
+
+::: {.callout-tip collapse="true"}
+## Pas à pas : de MEGA à BEAST
+1. Dans **MEGA** : éditer les chromatogrammes, assembler les lectures forward et reverse en consensus, exporter en **FASTA**.
+2. **Aligner** (MAFFT ou MEGA), **nettoyer** les colonnes douteuses, vérifier à l'œil.
+3. Construire un arbre exploratoire **NJ** ou **ML** dans MEGA pour repérer les erreurs : séquence aberrante, brin non retourné, contaminant.
+4. Pour l'approche bayésienne, préparer l'analyse avec **BEAUti** (fourni avec BEAST) : modèle de substitution, type d'**horloge** (stricte ou relâchée), arbre a priori, **calibrations**, longueur de la chaîne **MCMC**.
+5. Lancer **BEAST** : l'échantillonnage MCMC explore l'espace des arbres.
+6. Contrôler la **convergence** avec **Tracer** : taille d'échantillon efficace (**ESS**) supérieure à 200 pour les paramètres clés, traces bien mélangées, **burn-in** (début de chaîne) retiré.
+7. Résumer avec **TreeAnnotator** (arbre de crédibilité maximale, dit MCC) et visualiser dans **FigTree** les probabilités postérieures et les intervalles de temps (HPD).
+:::
+
+# La confiance dans l'arbre
+
+Un arbre n'est qu'une **estimation** : il faut mesurer la solidité de chaque branche.
+
+- **Bootstrap** (distance, MP, ML) : on **rééchantillonne** les colonnes de l'alignement avec remise, on refait un arbre à chaque fois, et le **pourcentage** de fois où une branche réapparaît mesure son support. C'est exactement le rééchantillonnage vu en statistique, appliqué aux colonnes.
+- **Probabilités a posteriori** (bayésien) : la fraction des arbres échantillonnés portant la branche. Elles se lisent différemment du bootstrap et sont en général plus élevées.
+
+::: {.callout-important collapse="true"}
+## Support n'est pas vérité
+Un fort support signale une branche **reproductible** au vu de ces données et de ce modèle, pas une branche forcément vraie. Méfiance devant les **longues branches** qui s'attirent artificiellement (long-branch attraction), un **échantillonnage** trop pauvre en taxons, ou un modèle mal choisi. Un arbre publiable croise en général plusieurs méthodes.
+:::
+
+# Lire un arbre annoté
+
+Un arbre se lit par sa **topologie** (qui est proche de qui), ses **longueurs de branches** (quantité de changement, ou temps), ses **valeurs de support** aux nœuds, et son **groupe externe** qui l'enracine.
+
+```{r}
+#| label: fig-arbre
+#| fig-cap: "Un arbre annoté. Aux nœuds, le support s'écrit ici bootstrap / probabilité postérieure. Le groupe externe enracine l'arbre ; la barre d'échelle donne la quantité de changement."
+#| fig-width: 7
+#| fig-height: 4
+op <- par(mar = c(2, 0.5, 1, 7), xpd = NA)
+plot(NULL, xlim = c(0, 5.4), ylim = c(0.3, 5.6), axes = FALSE, xlab = "", ylab = "")
+bleu <- "#123A5A"; rouge <- "#b52b2b"
+hb <- function(x0, x1, y) segments(x0, y, x1, y, lwd = 2, col = bleu)  # branche horizontale
+vb <- function(x, y0, y1) segments(x, y0, x, y1, lwd = 2, col = bleu)  # connecteur vertical
+# branches vers les feuilles
+hb(2.2, 3.6, 5); hb(2.2, 3.4, 4); hb(2.0, 3.5, 3); hb(2.0, 3.3, 2); hb(0.0, 2.8, 1)
+# branches internes
+hb(1.0, 2.2, 4.5); hb(1.0, 2.0, 2.5); hb(0.0, 1.0, 3.5)
+# connecteurs verticaux
+vb(2.2, 4, 5); vb(2.0, 2, 3); vb(1.0, 2.5, 4.5); vb(0.0, 1, 3.5)
+# etiquettes de taxons
+text(c(3.6, 3.4, 3.5, 3.3, 2.8), c(5, 4, 3, 2, 1),
+     c("Espèce A", "Espèce B", "Espèce C", "Espèce D", "Groupe externe"),
+     pos = 4, font = 3, cex = 0.95)
+# supports aux noeuds internes
+text(2.2, 4.5, "97 / 1.00", pos = 2, cex = 0.8, col = rouge)
+text(2.0, 2.5, "88 / 0.99", pos = 2, cex = 0.8, col = rouge)
+text(1.0, 3.5, "72 / 0.95", pos = 2, cex = 0.8, col = rouge)
+text(0.0, 5.5, "aux nœuds : bootstrap / probabilité postérieure", pos = 4, cex = 0.78, col = rouge)
+# barre d'echelle
+segments(0.0, 0.55, 0.6, 0.55, lwd = 2)
+text(0.3, 0.55, "0,02 subst./site", pos = 1, cex = 0.78)
+par(op)
+```
+
+Ici, le clade (Espèce A, Espèce B) est fortement soutenu (97 de bootstrap, 1.00 de probabilité postérieure), tandis que le nœud le plus profond l'est moins (72 / 0.95) : sa position mérite prudence.
+
+# La chaîne complète
+
+```{mermaid}
+flowchart TD
+  A["Chromatogrammes<br/>(forward, reverse)"] --> B["Édition et consensus<br/>MEGA, BioEdit"]
+  B --> C["Références<br/>GenBank (BLAST), UNITE"]
+  C --> D["Alignement multiple<br/>MAFFT, MUSCLE, MEGA"]
+  D --> E["Nettoyage des colonnes<br/>trimAl, Gblocks"]
+  E --> F["Choix du modèle<br/>ModelTest-NG, ModelFinder"]
+  F --> G["Inférence de l'arbre"]
+  G --> H["Maximum de vraisemblance<br/>IQ-TREE, RAxML, MEGA"]
+  G --> I["Bayésien<br/>MrBayes, BEAST"]
+  H --> J["Support : bootstrap"]
+  I --> K["Support : prob. postérieures"]
+  J --> L["Visualisation<br/>FigTree, iTOL, MEGA"]
+  K --> L
+```
+
+## Panorama des logiciels
+
+| Logiciel | Libre | Rôle | Points forts |
+|---|---|---|---|
+| MEGA | non (gratuit) | édition, alignement, distances, ML | tout-en-un, interface accessible |
+| BioEdit | oui | édition, alignement manuel | retouche fine des alignements |
+| MAFFT | oui | alignement multiple | rapide et précis, stratégies au choix |
+| MUSCLE | oui | alignement multiple | bon compromis, version 5 réécrite |
+| Clustal Omega | oui | alignement multiple | grands jeux de séquences |
+| trimAl / Gblocks | oui | nettoyage de l'alignement | retire les colonnes ambiguës |
+| ModelTest-NG / jModelTest | oui | choix du modèle | comparaison objective des modèles |
+| IQ-TREE | oui | arbre ML | rapide, ModelFinder et bootstrap intégrés |
+| RAxML / RAxML-NG | oui | arbre ML | référence pour grands jeux |
+| PhyML | oui | arbre ML | classique, accessible |
+| MrBayes | oui | arbre bayésien | standard de l'inférence bayésienne |
+| BEAST / BEAST 2 | oui | arbre bayésien daté | horloge moléculaire, datations |
+| Tracer | oui | diagnostic MCMC | vérifie la convergence de BEAST |
+| FigTree / iTOL | oui | visualisation | mise en forme et annotation des arbres |
+
+# Les formats de fichiers
+
+Quatre formats reviennent tout au long de la chaîne. Les reconnaître évite bien des blocages au moment d'importer un fichier dans un logiciel.
+
+Le format **FASTA** porte les **séquences**, à l'entrée de l'alignement : une ligne d'en-tête commençant par `>`, puis la séquence.
+
+```
+>Espece_A
+ACGTACGTACGT
+>Espece_B
+ACGTACG-ACGT
+```
+
+Les formats **PHYLIP** et **NEXUS** portent les **alignements**, à l'entrée des logiciels d'arbres. NEXUS ajoute des **blocs de commandes**, ce qui en fait le format de MrBayes et de BEAST.
+
+```
+#NEXUS
+BEGIN DATA;
+  DIMENSIONS NTAX=3 NCHAR=12;
+  FORMAT DATATYPE=DNA GAP=-;
+  MATRIX
+    Espece_A ACGTACGTACGT
+    Espece_B ACGTACG-ACGT
+    Espece_C ACGT--GTACGT
+  ;
+END;
+```
+
+Le format **Newick** décrit un **arbre** en une ligne de parenthèses imbriquées : chaque paire de parenthèses est un nœud, les nombres après les deux-points sont les longueurs de branches. C'est ce que lisent FigTree et iTOL.
+
+```
+((Espece_A:0.02,Espece_B:0.03):0.05,(Espece_C:0.01,Espece_D:0.02):0.04,Groupe_externe:0.08);
+```
+
+| Format | Contenu | Où on le rencontre |
+|---|---|---|
+| FASTA | séquences | entrée de l'alignement |
+| PHYLIP | alignement | entrée des logiciels d'arbres |
+| NEXUS | alignement et commandes | MrBayes, BEAST, PAUP |
+| Newick | arbre | sortie, lecture par FigTree, iTOL |
+
+# Bonnes pratiques
+
+- Contrôler l'**orientation des brins**, la **qualité** des lectures et les **ambiguïtés** avant d'aligner.
+- N'aligner que ce qui est **alignable** : traiter à part, ou retirer, les régions hypervariables douteuses.
+- Adapter la méthode à la **question** : un Neighbor-Joining rapide suffit pour situer une récolte, une analyse ML ou bayésienne soignée s'impose pour une phylogénie publiable.
+- Croiser les méthodes et **rapporter les paramètres** : logiciels, versions, modèle, stratégie d'alignement, réglages du bootstrap ou de la MCMC. C'est la condition de la reproductibilité.
+
+# À retenir
+
+- La chaîne va des chromatogrammes édités à l'arbre annoté, en passant par l'alignement, le nettoyage, le choix du modèle et la mesure du support.
+- Aligner, c'est poser en correspondance des positions **homologues** ; l'alignement par paires est optimal par programmation dynamique, l'alignement multiple repose sur des heuristiques comme **MAFFT**.
+- L'arbre s'infère par distance (NJ), parcimonie, **maximum de vraisemblance** (IQ-TREE, RAxML, MEGA) ou **inférence bayésienne** (MrBayes, **BEAST** pour les datations), sous un **modèle** d'évolution qu'il faut sélectionner.
+- La confiance se mesure par **bootstrap** ou **probabilités a posteriori**, qui disent la reproductibilité, pas la vérité.
+- Les outils libres couvrent toute la chaîne : BioEdit, MAFFT, trimAl, IQ-TREE, MrBayes, BEAST, FigTree.
+
+::: {.callout-note appearance="minimal"}
+Pour transformer ce chapitre en support de présentation, remplacez `format: html` par `format: revealjs` dans l'en-tête, et scindez le contenu aux titres de premier et de deuxième niveau.
+:::

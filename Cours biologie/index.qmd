@@ -1,0 +1,49 @@
+---
+title: "Biostatistique pour l'evaluation de la biodiversite"
+lang: fr
+toc: false
+---
+
+Ce cours presente les outils statistiques de l'evaluation de la biodiversite, des fondements de l'estimation et des tests jusqu'aux methodes de terrain et moleculaires. Chaque chapitre est un document reproductible : les raisonnements sont accompagnes de simulations en R, que l'on peut executer et modifier. Quatre simulateurs interactifs en Python completent l'ensemble.
+
+## Deux fils conducteurs
+
+Deux idees traversent tout le cours et relient des chapitres en apparence eloignes.
+
+Les **degres de liberte** reviennent partout : dans la division par $n - 1$ de la variance, dans la loi de Student des intervalles de confiance, dans le test du khi-deux, dans le test de conformite de Hardy-Weinberg et dans le test de dispersion des quadrats. Le principe est toujours le meme : on retranche un degre de liberte par contrainte et par parametre estime sur les donnees.
+
+Les **modeles de reference** structurent les methodes d'evaluation. Plusieurs chapitres opposent des donnees a un modele idealise : la repartition de Poisson pour les quadrats, l'equilibre de Hardy-Weinberg pour les genotypes, le cas ideal de la capture-recapture. L'ecart au modele n'est pas un defaut, c'est l'information que l'on cherche.
+
+## Fondements statistiques
+
+| Chapitre | Ce que l'on y apprend |
+|---|---|
+| [Estimateur biaise ou non : le n - 1](estimateur-biais-n-1.qmd) | Ce que signifie un estimateur biaise, et pourquoi la variance se divise par $n - 1$. |
+| [Les intervalles de confiance](intervalles-de-confiance.qmd) | Construire et interpreter un intervalle de confiance, et ce dont depend sa validite. |
+| [Le test du khi-deux](khi-deux.qmd) | Comparer des effectifs a une hypothese : conformite, independance, degres de liberte. |
+
+## Methodes d'evaluation de la biodiversite
+
+| Chapitre | Ce que l'on y apprend |
+|---|---|
+| [Capture-marquage-recapture](cmr-hypotheses.qmd) | Estimer un effectif de population, et diagnostiquer les biais des estimateurs. |
+| [L'equilibre de Hardy-Weinberg](hardy-weinberg.qmd) | Les proportions genotypiques d'une population ideale, et leur test de conformite. |
+| [La methode des quadrats](methode-des-quadrats.qmd) | Estimer densite, distribution spatiale et richesse par echantillonnage d'une surface. |
+| [Statistique du metabarcoding](metabarcoding-statistique.qmd) | Analyser une table d'OTU : profondeur, raréfaction, donnees compositionnelles. |
+| [Le pipeline metabarcoding](metabarcoding-pipeline.qmd) | La chaine d'analyse, du prelevement a la table d'OTU (presentation). |
+
+## Simulateurs interactifs
+
+Quatre simulateurs en Python permettent d'explorer les concepts en manipulant leurs parametres. Ils sont decrits, avec leurs instructions de lancement, sur la page [Simulateurs](simulateurs.qmd).
+
+## Ressources
+
+La [bibliographie](bibliographie.qmd) rassemble les textes fondateurs et les manuels, organises par theme.
+
+## Suppléments
+
+[Alignement et phylogénies](alignement-phylogenie.qmd) rassemble les textes fondateurs et les manuels, organises par theme.
+
+::: {.callout-note appearance="minimal"}
+Les chapitres se lisent dans l'ordre propose, les fondements d'abord, mais chacun est autonome. Le code R de chaque chapitre est replie par defaut et peut etre deplie pour etre lu ou execute.
+:::

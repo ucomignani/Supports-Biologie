@@ -1,0 +1,28 @@
+---
+title: "Bibliographie"
+lang: fr
+toc: false
+nocite: |
+  @*
+---
+
+Cette bibliographie rassemble les references du cours, des textes fondateurs aux manuels et articles de synthese. Elle est organisee ci-dessous par theme ; la liste complete, au format standard, suit.
+
+## Reperes par theme
+
+- **Manuels de biostatistique** : @scherrer2008 (ouvrage de reference du cours), @sokal1995, @zar2010.
+- **Degres de liberte** : @walker1940.
+- **Intervalles de confiance** : @neyman1937 (fondateur), @cumming2012 (interpretation).
+- **Test du khi-deux** : @pearson1900 (origine du test).
+- **Capture-marquage-recapture** : @petersen1896 et @lincoln1930 (estimateur de base), @chapman1951 (correction), @schnabel1938 (occasions multiples), @jolly1965 (population ouverte), @seber1982 (synthese).
+- **Hardy-Weinberg et genetique des populations** : @hardy1908 et @weinberg1908 (fondateurs), @hartl2007 (manuel).
+- **Quadrats et echantillonnage spatial** : @greigsmith1983, @elliott1977, @krebs1999.
+- **Richesse, diversite, rarefaction** : @hurlbert1971 (rarefaction), @chao1984 (estimateur de richesse), @colwell1994, @gotelli2001, @magurran2004.
+- **Metabarcoding et ADN environnemental** : @taberlet2012, @deiner2017, @taberlet2018, @callahan2017 (OTU contre ASV).
+- **Donnees compositionnelles** : @aitchison1986 (fondateur), @gloor2017, @mcmurdie2014 (debat sur la rarefaction).
+- **Outils** : @rcore2024, @vegan2022.
+
+## Liste complete
+
+::: {#refs}
+:::

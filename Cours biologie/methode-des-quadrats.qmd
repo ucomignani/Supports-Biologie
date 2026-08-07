@@ -1,0 +1,258 @@
+---
+title: "La methode des quadrats : estimer densite, distribution spatiale et richesse"
+subtitle: "Echantillonner la biodiversite sur une surface"
+lang: fr
+date: today
+format:
+  # pdf: default
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    code-link: true
+    theme: cosmo
+    fig-width: 8
+    fig-height: 4.5
+    df-print: kable
+execute:
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: "png"
+    fig.align: "center"
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+theme_set(theme_minimal(base_size = 12))
+set.seed(2026)
+```
+
+::: {.callout-note}
+## Objectif du chapitre
+Pour evaluer la biodiversite d'un milieu, on ne peut pas recenser tous les individus d'une grande surface. On en echantillonne une partie a l'aide de quadrats, de petits cadres de surface connue, et l'on extrapole. Ce chapitre montre comment estimer une densite a partir de comptages dans des quadrats, comment mesurer la precision de cette estimation, comment la distribution spatiale des individus s'y invite, et pourquoi le nombre d'especes observees sous-estime le nombre reel.
+:::
+
+::: {.callout-tip}
+## Vocabulaire de depart
+- **Quadrat** : un cadre de surface connue, pose sur le terrain, dans lequel on denombre ou on identifie les individus presents.
+- **Densite** : le nombre d'individus par unite de surface. C'est la quantite que l'on cherche le plus souvent a estimer.
+- **Abondance** : le nombre total d'individus sur toute la zone d'etude.
+- **Richesse specifique** : le nombre d'especes differentes presentes.
+- **Effort d'echantillonnage** : la quantite de terrain effectivement echantillonnee, ici le nombre de quadrats et leur surface.
+- **Distribution spatiale** : la facon dont les individus sont repartis dans l'espace, aleatoire, agregee (en amas) ou reguliere (espaces les uns des autres).
+:::
+
+# Le principe : de comptages a une densite
+
+On place $n$ quadrats sur la zone d'etude et l'on compte, dans chacun, le nombre d'individus. Le nombre moyen d'individus par quadrat, note $\bar x$, estime le nombre moyen que contiendrait un quadrat quelconque. En le divisant par la surface d'un quadrat, on obtient une estimation de la **densite** :
+
+$$
+\hat D = \frac{\bar x}{\text{surface d'un quadrat}} .
+$$
+
+En multipliant cette densite par la surface totale de la zone, on estime l'**abondance**, c'est-a-dire l'effectif total. La moyenne $\bar x$ joue ici le role d'estimateur, exactement comme dans le chapitre sur les estimateurs : elle vise juste en moyenne a condition que les quadrats soient places **au hasard**, sans que l'operateur privilegie les zones denses ou les zones vides. Un placement non aleatoire introduirait un biais systematique.
+
+Simulons une zone ou la densite reelle est de 4 individus par metre carre, echantillonnee par 30 quadrats de 1 metre carre.
+
+```{r}
+#| label: densite
+aire_quadrat <- 1        # surface d'un quadrat, en metres carres
+D_vrai       <- 4        # densite reelle, en individus par metre carre
+n            <- 30       # nombre de quadrats
+
+comptages <- rpois(n, D_vrai * aire_quadrat)   # nombre d'individus dans chaque quadrat
+
+xbar <- mean(comptages)
+se   <- sd(comptages) / sqrt(n)                # erreur-type de la moyenne
+D_est <- xbar / aire_quadrat
+ic    <- (xbar + c(-1, 1) * qt(0.975, df = n - 1) * se) / aire_quadrat
+
+c(`densite estimee (ind./m2)` = round(D_est, 2),
+  `IC 95 % bas`               = round(ic[1], 2),
+  `IC 95 % haut`              = round(ic[2], 2))
+```
+
+L'estimation s'accompagne d'un **intervalle de confiance**, construit comme au chapitre correspondant : la demi-largeur vaut la valeur critique de la loi de Student multipliee par l'erreur-type $s / \sqrt{n}$, ou $n$ est le nombre de quadrats.
+
+# La precision depend de l'effort
+
+La largeur de l'intervalle diminue comme l'inverse de la racine carree du nombre de quadrats. Multiplier l'effort par quatre ne divise la marge d'incertitude que par deux, ce qui fixe le rendement de l'echantillonnage.
+
+```{r}
+#| label: effort
+demi_largeur <- function(n) {
+  mean(replicate(1000, {
+    x <- rpois(n, D_vrai)
+    qt(0.975, df = n - 1) * sd(x) / sqrt(n)
+  }))
+}
+tibble(`nombre de quadrats` = c(10, 20, 40, 80, 160)) |>
+  mutate(`demi-largeur de l'IC (ind./m2)` = round(sapply(`nombre de quadrats`, demi_largeur), 2))
+```
+
+Le choix du nombre de quadrats est donc un compromis entre precision et effort de terrain, a fixer selon la marge d'incertitude que l'on juge acceptable.
+
+# La distribution spatiale : le rapport variance sur moyenne
+
+Jusqu'ici, les comptages ont ete simules par une loi de Poisson, qui decrit une repartition **aleatoire** des individus dans l'espace : chaque point de la zone a la meme chance d'accueillir un individu, independamment des autres. Cette loi possede une propriete remarquable : sa variance est egale a sa moyenne. Le **rapport variance sur moyenne** vaut alors 1.
+
+Ce rapport est un indicateur du patron spatial. Quand les individus se regroupent en amas, comme une plante qui se propage par rejets, certains quadrats en contiennent beaucoup et d'autres aucun : la variance des comptages depasse la moyenne, et le rapport est superieur a 1. On parle de distribution **agregee**. Quand au contraire les individus se repoussent et s'espacent regulierement, comme des arbres en competition, les comptages sont anormalement homogenes : la variance est inferieure a la moyenne, et le rapport est inferieur a 1. On parle de distribution **reguliere**.
+
+Simulons les trois patrons avec la meme moyenne de 4 individus par quadrat.
+
+```{r}
+#| label: patrons
+n <- 200
+patrons <- tibble(
+  regulier  = rbinom(n, size = 8, prob = 0.5),      # variance < moyenne
+  aleatoire = rpois(n, lambda = 4),                 # variance = moyenne
+  agrege    = rnbinom(n, mu = 4, size = 0.8)        # variance > moyenne
+)
+
+patrons |>
+  pivot_longer(everything(), names_to = "patron", values_to = "comptage") |>
+  group_by(patron) |>
+  summarise(moyenne = round(mean(comptage), 2),
+            variance = round(var(comptage), 2),
+            `rapport variance / moyenne` = round(var(comptage) / mean(comptage), 2),
+            .groups = "drop")
+```
+
+```{r}
+#| label: fig-patrons
+#| fig-cap: "Distribution des comptages par quadrat pour les trois patrons spatiaux, a moyenne egale. Le patron agrege etale les comptages (beaucoup de quadrats vides et quelques quadrats tres remplis) ; le patron regulier les resserre."
+patrons |>
+  pivot_longer(everything(), names_to = "patron", values_to = "comptage") |>
+  mutate(patron = factor(patron, levels = c("regulier", "aleatoire", "agrege"))) |>
+  ggplot(aes(comptage)) +
+  geom_histogram(binwidth = 1, fill = "#4682b4", colour = "white") +
+  facet_wrap(~patron) +
+  labs(x = "nombre d'individus par quadrat", y = "nombre de quadrats")
+```
+
+# Tester le caractere aleatoire : l'indice de dispersion
+
+La loi de Poisson joue ici le meme role que l'equilibre de Hardy-Weinberg au chapitre precedent : celui d'un **modele de reference**. Une repartition aleatoire est l'hypothese nulle, et l'on cherche a savoir si les donnees s'en ecartent. L'outil est l'**indice de dispersion**,
+
+$$
+I = (n - 1) \, \frac{s^2}{\bar x},
+$$
+
+ou $s^2$ est la variance des comptages, $\bar x$ leur moyenne et $n$ le nombre de quadrats. Sous l'hypothese d'une repartition aleatoire, cet indice suit une loi du khi-deux a $n - 1$ degres de liberte. On retrouve le meme decompte que dans les chapitres precedents : $n$ quadrats, moins une unite pour la moyenne estimee sur les donnees.
+
+```{r}
+#| label: dispersion
+indice_dispersion <- function(x) (length(x) - 1) * var(x) / mean(x)
+
+n    <- 30
+stat <- replicate(5000, indice_dispersion(rpois(n, 4)))   # repartition aleatoire
+
+c(`moyenne de l'indice` = round(mean(stat), 1))            # n - 1 = 29
+```
+
+```{r}
+#| label: fig-dispersion
+#| fig-cap: "Indice de dispersion sur 5000 echantillons a repartition aleatoire (30 quadrats). Il suit la loi du khi-deux a 29 degres de liberte (courbe rouge). Les tirets marquent les bornes du test au seuil de 5 %."
+bornes <- qchisq(c(0.025, 0.975), df = n - 1)
+tibble(stat = stat) |>
+  ggplot(aes(stat)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 50,
+                 fill = "#4682b4", colour = "white", alpha = 0.65) +
+  stat_function(fun = dchisq, args = list(df = n - 1), colour = "firebrick", linewidth = 1) +
+  geom_vline(xintercept = bornes, colour = "#555555", linetype = 2) +
+  labs(x = "indice de dispersion I", y = "densite")
+```
+
+Le test est bilateral, car un ecart au hasard peut se faire dans deux directions : un indice trop grand signale une agregation, un indice trop petit une distribution reguliere. On rejette l'hypothese d'une repartition aleatoire si l'indice sort de l'intervalle delimite par les bornes. Verifions que le test detecte bien une agregation.
+
+```{r}
+#| label: detection
+seuil_haut <- qchisq(0.975, df = n - 1)
+agrege     <- replicate(5000, indice_dispersion(rnbinom(n, mu = 4, size = 0.8)))
+
+c(`agregation detectee` = mean(agrege > seuil_haut))
+```
+
+# L'agregation degrade la precision
+
+Le patron spatial n'est pas qu'une curiosite descriptive : il retentit sur la precision de l'estimation de densite. A densite moyenne egale, une population agregee produit des comptages beaucoup plus variables, donc une erreur-type plus grande et un intervalle de confiance plus large. Comparons la demi-largeur de l'intervalle pour une meme densite et un meme nombre de quadrats.
+
+```{r}
+#| label: precision-patron
+demi_ic <- function(x) qt(0.975, df = length(x) - 1) * sd(x) / sqrt(length(x))
+
+c(`repartition aleatoire` = round(mean(replicate(2000, demi_ic(rpois(30, 4)))), 2),
+  `repartition agregee`   = round(mean(replicate(2000, demi_ic(rnbinom(30, mu = 4, size = 0.8)))), 2))
+```
+
+L'intervalle est nettement plus large quand la population est agregee. Autrement dit, estimer la densite d'une espece en amas avec la meme precision qu'une espece dispersee demande davantage de quadrats. La distribution spatiale gouverne donc l'effort d'echantillonnage necessaire.
+
+# La richesse specifique : un comptage biaise vers le bas
+
+Compter les especes, et non plus les individus, souleve une difficulte particuliere. Le nombre d'especes observees depend de l'effort : plus on echantillonne de quadrats, plus on rencontre d'especes rares, et la **richesse observee** augmente sans jamais tout a fait atteindre la richesse reelle. La richesse observee est donc un estimateur **biaise vers le bas** de la richesse reelle, un cas particulier de la notion de biais rencontree au chapitre sur l'estimation de la variance.
+
+Simulons une communaute de 60 especes aux abondances inegales et suivons la richesse observee a mesure que les quadrats s'accumulent.
+
+```{r}
+#| label: accumulation
+S_vrai <- 60
+abond  <- exp(rnorm(S_vrai, 0, 1.2)); abond <- abond / sum(abond)   # abondances inegales
+
+accumulation <- function(n_quad, ind = 20, perms = 50) {
+  richesse <- numeric(n_quad)
+  for (p in seq_len(perms)) {
+    vues <- logical(S_vrai)
+    for (k in seq_len(n_quad)) {
+      ech <- sample(S_vrai, ind, replace = TRUE, prob = abond)  # individus du quadrat k
+      vues[ech] <- TRUE
+      richesse[k] <- richesse[k] + sum(vues)
+    }
+  }
+  richesse / perms
+}
+
+acc <- accumulation(40)
+c(`especes vues apres 5 quadrats`  = round(acc[5]),
+  `apres 20 quadrats`              = round(acc[20]),
+  `apres 40 quadrats`              = round(acc[40]),
+  `richesse reelle`                = S_vrai)
+```
+
+```{r}
+#| label: fig-accumulation
+#| fig-cap: "Courbe d'accumulation des especes : la richesse observee croit avec le nombre de quadrats mais reste sous la richesse reelle (ligne rouge). Sa pente decroissante permet de juger si l'echantillonnage est suffisant."
+tibble(quadrats = seq_along(acc), richesse = acc) |>
+  ggplot(aes(quadrats, richesse)) +
+  geom_hline(yintercept = S_vrai, colour = "firebrick", linetype = 2) +
+  geom_line(colour = "#4682b4", linewidth = 1) +
+  geom_point(colour = "#4682b4", size = 1.5) +
+  labs(x = "nombre de quadrats", y = "nombre d'especes observees")
+```
+
+La forme de la courbe est instructive. Tant qu'elle monte franchement, des especes restent a decouvrir et l'echantillonnage est insuffisant. Quand elle s'aplatit, on approche de la richesse reelle. Cette lecture guide la decision d'arreter ou de poursuivre le releve.
+
+::: {.callout-note collapse="true"}
+## Corriger le biais : les estimateurs de richesse
+Plusieurs methodes corrigent la sous-estimation en s'appuyant sur les especes rares. L'estimateur de Chao repose sur le nombre d'especes vues une seule fois et deux seules fois : beaucoup d'especes vues une seule fois indique qu'il en reste d'invisibles. La logique rejoint celle du chapitre sur le $n - 1$ : on ne se contente pas du comptage brut, on ajoute une correction pour viser la vraie valeur plutot que celle, forcement plus basse, que l'echantillon donne directement.
+:::
+
+# A retenir
+
+- La methode des quadrats estime une densite par le nombre moyen d'individus par quadrat rapporte a la surface, a condition que les quadrats soient places au hasard.
+- L'estimation s'accompagne d'un intervalle de confiance dont la largeur diminue comme l'inverse de la racine du nombre de quadrats : quadrupler l'effort ne fait que doubler la precision.
+- Le rapport variance sur moyenne des comptages revele le patron spatial : proche de 1 pour une repartition aleatoire, superieur a 1 pour une agregation, inferieur a 1 pour une repartition reguliere.
+- L'ecart au hasard se teste par l'indice de dispersion $(n - 1) s^2 / \bar x$, compare a une loi du khi-deux a $n - 1$ degres de liberte.
+- Une population agregee produit des comptages plus variables, donc une estimation moins precise : elle demande plus de quadrats.
+- La richesse observee sous-estime la richesse reelle et croit avec l'effort ; la courbe d'accumulation indique si l'echantillonnage est suffisant.
+
+::: {.callout-note appearance="minimal"}
+Pour transformer ce chapitre en support de presentation, remplacez `format: html` par `format: revealjs` dans l'en-tete, et scindez le contenu aux titres de premier et de deuxieme niveau. Les blocs de code restent identiques.
+:::

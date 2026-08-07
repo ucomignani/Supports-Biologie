@@ -1,0 +1,56 @@
+---
+title: "Simulateurs interactifs (Python)"
+lang: fr
+toc: true
+---
+
+Ces quatre simulateurs sont des programmes Python autonomes.
+Chacun ouvre une fenetre munie de curseurs (sliders) qui recalculent l'affichage en direct.
+
+## Capture-marquage-recapture
+
+[Simulation CMR](Simulation_CMR.html)
+
+[Telecharger Simulation_CMR.py](Simulation_CMR.py)
+
+Le simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur de Lincoln-Petersen (cf. défaut de cet estimateur dans le chapitre correspondant section 1, note de fin). Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.
+
+
+[Simulation CMR avec Schnabel](Simulation_CMR_Schnabel.html)
+
+[Telecharger Simulation_CMR_Schnabel.py](Simulation_CMR_Schnabel.py)
+
+Dans le même état d'esprit, ce deuxième simulateur montre la distribution d'echantillonnage de l'estimateur d'effectif de Chapman et, en parallele, l'estimateur multi-occasions de Schnabel. Les curseurs reglent l'effectif reel, la probabilite de capture, l'heterogeneite de capturabilite, la reponse au piege, la perte de marque, la survie des marques, le nombre d'occasions et le niveau de confiance. Un second panneau affiche des intervalles de confiance individuels, colores selon qu'ils contiennent ou non la vraie valeur, ce qui illustre la notion de couverture.
+
+
+Chapitre associe : [Capture-marquage-recapture](cmr-hypotheses.qmd).
+
+## Hardy-Weinberg
+
+[Simulation HW](Simulation_HW.html)
+
+[Telecharger Simulation_HW.py](Simulation_HW.py)
+
+Deux panneaux separent les deux notions cles. En haut, la structure genotypique a une frequence allelique donnee, avec l'effet de la consanguinite et le test du khi-deux en direct. En bas, la dynamique de la frequence allelique au fil des generations sous l'effet de la selection et de la derive genetique, avec plusieurs trajectoires pour donner a voir le hasard de la derive.
+
+Chapitre associe : [L'equilibre de Hardy-Weinberg](hardy-weinberg.qmd).
+
+## Methode des quadrats
+
+[Simulation quadrats](Simulation_quadrats.html)
+
+[Telecharger Simulation_quadrats.py](Simulation_quadrats.py)
+
+Une carte du terrain rend le patron spatial directement visible : les individus sont places selon un curseur qui va du regulier a l'agrege en passant par l'aleatoire, et les quadrats sont tires au hasard par-dessus. Un second panneau donne la distribution des comptages, comparee a la loi de Poisson, le rapport variance sur moyenne, le test de dispersion et l'estimation de densite avec son intervalle de confiance.
+
+Chapitre associe : [La methode des quadrats](methode-des-quadrats.qmd).
+
+## Metabarcoding
+
+[Simulation metabarcoding](Simulation_metabarcoding.html)
+
+[Telecharger Simulation_metabarcoding.py](Simulation_metabarcoding.py)
+
+Le simulateur illustre la profondeur de sequencage comme effort d'echantillonnage. La courbe de raréfaction montre la richesse detectee en fonction du nombre de lectures, avec un repere a la profondeur choisie. Un second panneau compare la composition reelle a la composition observee, pour rendre visible la deformation introduite par le biais d'amplification.
+
+Chapitre associe : [Statistique du metabarcoding](metabarcoding-statistique.qmd).
